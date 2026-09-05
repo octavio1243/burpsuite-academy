@@ -1,0 +1,50 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Entornos virtuales
+venv/
+.venv/
+env/
+ENV/
+
+# ===== Herramientas descargadas (re-descargables, pesadas) =====
+exiftool-13.59_64/
+exiftool-13.59_64.zip
+jwt-attacks/hashcat-7.1.2/
+insecure_deserialization/PHP/phpggc/
+
+# ===== Salidas / resultados generados =====
+template/responses/
+resultados_usuarios/
+resultados_passwords/
+
+# ===== Archivos pesados / binarios comunes =====
+*.zip
+*.7z
+*.tar.gz
+*.rar
+*.exe
+*.dll
+*.bin
+*.iso
+*.dmg
+
+# ===== Sistema / editor =====
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/
+
+# ===== Secretos (por si acaso) =====
+*.pem
+*.key
+.env

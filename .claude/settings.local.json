@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__burp__get_proxy_http_history_regex",
+      "mcp__burp__send_http1_request",
+      "mcp__burp__create_repeater_tab",
+      "mcp__burp__get_active_editor_contents",
+      "mcp__burp__output_project_options",
+      "Bash(git clone *)",
+      "Bash(where php *)",
+      "Read(//c/xampp/php/**)",
+      "Bash(docker --version)",
+      "Bash(where python *)",
+      "Bash(mkdir -p PHP)",
+      "Bash(mv gen-payload.ps1 sign-cookie.ps1 phpggc PHP/)",
+      "PowerShell($src = \"C:\\\\Users\\\\XPATHER\\\\Desktop\\\\BurpSuite Academy\\\\insecure_deserialization\\\\phpggc\"; $dst = \"C:\\\\Users\\\\XPATHER\\\\Desktop\\\\BurpSuite Academy\\\\insecure_deserialization\\\\PHP\\\\phpggc\"; try { Move-Item -Path $src -Destination $dst -Force -ErrorAction Stop; Write-Host \"[+] phpggc movido OK\" } catch { Write-Host \"[X] $\\($_.Exception.Message\\)\" })",
+      "PowerShell(& \"C:\\\\Users\\\\XPATHER\\\\Desktop\\\\BurpSuite Academy\\\\insecure_deserialization\\\\PHP\\\\gen-payload.ps1\")"
+    ]
+  }
+}
