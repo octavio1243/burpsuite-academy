@@ -70,6 +70,9 @@ def h2_request(host, port, method, path, extra_headers=None, body=None,
 
     config = h2.config.H2Configuration(
         client_side=True,
+        header_encoding="utf-8",        # <-- SIN esto las cabeceras llegan como
+                                        # bytes y ':status'/'set-cookie' nunca
+                                        # coinciden -> status siempre None.
         validate_outbound_headers=False,
         normalize_outbound_headers=False,
         validate_inbound_headers=False,
