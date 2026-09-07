@@ -163,12 +163,12 @@
               "title": "Esquema"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -181,7 +181,7 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "ab80d4bd0ca9f346",
+  "active": "0545240ffe479efe",
   "lastOpenFiles": [
     "file-upload-vulnerabilities/polyglot-web-shell-rce/exploit.php_exiftool_tmp",
     "file-upload-vulnerabilities/polyglot-web-shell-rce/exploit.php",
