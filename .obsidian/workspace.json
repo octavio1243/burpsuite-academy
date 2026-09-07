@@ -1,0 +1,202 @@
+{
+  "main": {
+    "id": "8fbde5dd8129149f",
+    "type": "split",
+    "children": [
+      {
+        "id": "b65e2f68b9e4a23a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ab80d4bd0ca9f346",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Nueva pestaña"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "2e067411b33da935",
+    "type": "split",
+    "children": [
+      {
+        "id": "3416dac7b434f527",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "86fe36b081bc28dc",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "16665fd7154a446f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "ccf50aa874ff6d71",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "864674b63a34bca2",
+    "type": "split",
+    "children": [
+      {
+        "id": "7e18652d13f303cf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9e57d97c13949b4d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes"
+            }
+          },
+          {
+            "id": "9f41164a5872e4fe",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes"
+            }
+          },
+          {
+            "id": "b7ae20c7901c15b9",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "0545240ffe479efe",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "9f71dd41fee3951d",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false
+    }
+  },
+  "active": "ab80d4bd0ca9f346",
+  "lastOpenFiles": [
+    "exploit.php_exiftool_tmp",
+    "exploit.php",
+    "base.jpg",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/XSLoader.pm",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/Win32API",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/Win32.pm",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/warnings.pm",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/Win32",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/warnings",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/utf8.pm",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/vars.pm",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/Tie",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
+    "exiftool-13.59_64/mantenimiento.jpg",
+    "exiftool-13.59_64/mantenimiento - copia.jpg"
+  ]
+}
