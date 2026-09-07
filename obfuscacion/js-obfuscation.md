@@ -1,3 +1,12 @@
+---
+tags:
+  - obfuscation
+  - javascript
+  - xss
+  - filter-bypass
+  - waf-bypass
+---
+
 # JavaScript - Ofuscación y ejecución con filtros
 
 El caso central: tienes un punto de inyección JS donde controlas un texto que
@@ -16,6 +25,24 @@ Regla mental: el filtro bloquea **caracteres/strings literales**. Tú expresas l
 mismo con **otra representación** que el intérprete JS acaba resolviendo al mismo
 valor. Tres palancas: **(A) llamar sin los caracteres prohibidos**,
 **(B) construir el string en runtime**, **(C) codificarlo**.
+
+---
+
+## 🔎 Índice de bypasses
+
+| Te filtran… | Técnicas (bypass) | Ir a |
+|-------------|-------------------|------|
+| **nada** (PoC) | `alert(1)` | [[#0. El baseline: `alert(1)`\|§0]] |
+| **`()`** paréntesis | throw+onerror · throw+onerror=eval · backticks `` fn`` · `location=javascript:` · event handlers | [[#1. Te filtran los PARÉNTESIS `()`\|§1]] |
+| **comillas** `'` `"` | backticks · `String.fromCharCode` · `/regex/.source` · escapes `\xNN`/`\uNNNN` | [[#2. Te filtran las COMILLAS `'` `"`\|§2]] |
+| **keywords** (`eval`,`alert`…) | corchetes+troceo `['al'+'ert']` · `Function`/`constructor` · `atob(base64)` · combinado | [[#3. Te filtran PALABRAS CLAVE (`eval`, `alert`, `cookie`, `Function`...)\|§3]] |
+| **sink** `` eval(`${x}`) `` | variantes según lo permitido | [[#4. El caso ``eval(`${textoModificable}`)`` — variantes según lo permitido\|§4]] |
+| — | exfiltración (cookie) | [[#5. Payloads finales (exfiltración)\|§5]] |
+| — | tabla de escapes `\xNN`/`\uNNNN`/HTML/URL | [[#6. Tabla de escapes (string -> representación)\|§6]] |
+| — | generar escapes (JS/bash/PS) · **o** `obfuscate.py` | [[#7. Generar los escapes (herramientas)\|§7]] |
+| — | chuleta de decisión rápida | [[#8. Chuleta de decisión\|§8]] |
+
+> Ver también: [[encodings]] (encoding por objetivo) · [[xss-obfuscation]] · [[html-obfuscation]].
 
 ---
 

@@ -1,9 +1,34 @@
+---
+tags:
+  - obfuscation
+  - xss
+  - html
+  - mxss
+  - filter-bypass
+---
+
 # HTML - Ofuscación de tags/atributos y mXSS
 
 Notas para cuando un sanitizador HTML bloquea tags, atributos o `javascript:`, o
 cuando quieres que el **parser del navegador reescriba tu input** a algo peligroso
 (mutation XSS). Complementa a [xss-obfuscation.md](xss-obfuscation.md) y
 [js-obfuscation.md](js-obfuscation.md).
+
+---
+
+## 🔎 Índice de bypasses
+
+| Te bloquean… | Técnicas | Ir a |
+|--------------|----------|------|
+| filtran `javascript:`/`:`/`(` en atributo | **entidades HTML** (`&#58;`,`&#x3a;`,`&colon;`,ceros) | [[#1. ENTIDADES HTML (el gran comodín)\|§1]] |
+| comparan strings exactos | case `ScRiPt` · separadores raros `/`,`\t`,`\n` | [[#2. Caso / mayúsculas y espacios raros\|§2]] |
+| bloquean `<script>` | tags con handler: `onerror`,`onload`,`autofocus`,`ontoggle`… | [[#3. Tags y atributos alternativos (si bloquean `<script>`)\|§3]] |
+| sanitizador (DOMPurify) | **mXSS** (mutation) | [[#4. mXSS (Mutation XSS)\|§4]] |
+| filtran `javascript:` en `href`/`src` | entidades + whitespace + case | [[#5. Ofuscar `javascript:` en `href`/`src`\|§5]] |
+| contexto que carga URIs | **data: URIs** (texto/base64) | [[#6. Data URIs (ejecución en contextos que las cargan)\|§6]] |
+| cómo abordarlo | metodología | [[#7. Metodología\|§7]] |
+
+> Ejecución JS con filtros: [[js-obfuscation]] · encoding por objetivo: [[encodings]].
 
 ---
 

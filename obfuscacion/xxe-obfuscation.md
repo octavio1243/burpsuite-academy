@@ -1,8 +1,31 @@
+---
+tags:
+  - obfuscation
+  - xxe
+  - xml
+  - filter-bypass
+---
+
 # XXE / XML - Ofuscación y bypass de filtros
 
 Notas para cuando un filtro bloquea `<!DOCTYPE`, `<!ENTITY`, `SYSTEM`, o hay
 sanitización parcial en una inyección XXE. Idea: expresar la entidad/DTD con una
 representación que el parser XML resuelve pero el filtro no reconoce.
+
+---
+
+## 🔎 Índice de bypasses
+
+| Te filtran… | Técnicas | Ir a |
+|-------------|----------|------|
+| `<!ENTITY`/`SYSTEM` en ASCII | cambiar **charset** del doc (UTF-16/UTF-7/EBCDIC) | [[#1. Bypass por ENCODING del propio XML\|§1]] |
+| entidades generales `&x;` | **parameter entities** `%x;` + DTD externo (OOB) | [[#2. PARAMETER ENTITIES (bypass de filtros de entidad general)\|§2]] |
+| el contenido rompe el XML | wrappers: `php://filter` base64, `data://`, `jar:` | [[#3. Wrappers / esquemas de URL (ofuscar la ruta y evitar errores)\|§3]] |
+| `SYSTEM`/`<!DOCTYPE`/`http://` | `PUBLIC` · encoding · IP dec/hex · otros esquemas | [[#4. Ofuscar keywords / estructura\|§4]] |
+| **no** controlás el DOCTYPE | **XInclude** | [[#5. XInclude (cuando NO controlas el DOCTYPE)\|§5]] |
+| cómo abordarlo | metodología | [[#6. Metodología\|§6]] |
+
+> Encoding por objetivo: [[encodings]] (XML entities `&#xNN;`).
 
 ---
 
