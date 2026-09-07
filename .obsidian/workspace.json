@@ -183,6 +183,10 @@
   },
   "active": "ab80d4bd0ca9f346",
   "lastOpenFiles": [
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/exploit.php_exiftool_tmp",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/exploit.php",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
+    "file-upload-vulnerabilities/polyglot-web-shell-rce/build_polyglot.py.tmp.65400.144b6ecf6101",
     "exploit.php_exiftool_tmp",
     "exploit.php",
     "base.jpg",
@@ -192,10 +196,6 @@
     "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/warnings.pm",
     "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/Win32",
     "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/warnings",
-    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/utf8.pm",
-    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/vars.pm",
-    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/Tie",
-    "file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "exiftool-13.59_64/mantenimiento.jpg",
     "exiftool-13.59_64/mantenimiento - copia.jpg"
   ]
