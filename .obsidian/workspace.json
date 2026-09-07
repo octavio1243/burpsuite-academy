@@ -11,10 +11,14 @@
             "id": "ab80d4bd0ca9f346",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "obfuscacion/xxe-obfuscation.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nueva pestaña"
+              "title": "xxe-obfuscation"
             }
           }
         ]
@@ -95,6 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "obfuscacion/xxe-obfuscation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,6 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "obfuscacion/xxe-obfuscation.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -155,6 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "obfuscacion/xxe-obfuscation.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -181,8 +188,19 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "0545240ffe479efe",
+  "active": "ab80d4bd0ca9f346",
   "lastOpenFiles": [
+    "obfuscacion/xss-obfuscation.md",
+    "obfuscacion/sql-obfuscation.md",
+    "obfuscacion/README.md",
+    "obfuscacion/js-obfuscation.md",
+    "obfuscacion/html-obfuscation.md.tmp.124176.c2ecc0a3e13b",
+    "obfuscacion/encodings.md",
+    "obfuscacion/html-obfuscation.md",
+    "file-upload-vulnerabilities/file-upload-vulnerabilities.md",
+    "obfuscacion/obfuscate.py.tmp.124176.9484e9af3981",
+    "obfuscacion/obfuscate.py",
+    "obfuscacion/obfuscate.py.tmp.124176.e51cf6143958",
     "file-upload-vulnerabilities/polyglot-web-shell-rce/exploit.php_exiftool_tmp",
     "file-upload-vulnerabilities/polyglot-web-shell-rce/exploit.php",
     "file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
@@ -191,11 +209,6 @@
     "exploit.php",
     "base.jpg",
     "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/XSLoader.pm",
-    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/Win32API",
-    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/Win32.pm",
-    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/warnings.pm",
-    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/Win32",
-    "file-upload-vulnerabilities/polyglot-web-shell-rce/_exiftool_files_bak/lib/warnings",
     "exiftool-13.59_64/mantenimiento.jpg",
     "exiftool-13.59_64/mantenimiento - copia.jpg"
   ]

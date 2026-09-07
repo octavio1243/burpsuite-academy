@@ -1,3 +1,11 @@
+---
+tags:
+  - obfuscation
+  - xss
+  - javascript
+  - filter-bypass
+---
+
 # XSS - Bypass de `()` filtrados y encoding
 
 Notas para cuando los **paréntesis `()` se sanitizan** en un contexto de inyección JS
@@ -7,6 +15,19 @@ y cómo convertir tu payload a escapes hexadecimales `\xNN`.
 > Para el detalle profundo de ejecución JS con toda clase de filtros (comillas,
 > keywords, `eval(`${x}`)`, alfanumérico puro) mira **[js-obfuscation.md](js-obfuscation.md)**.
 > Este archivo se centra en el contexto **XSS/HTML** y el encoding.
+
+---
+
+## 🔎 Índice
+
+| Objetivo | Técnicas | Ir a |
+|----------|----------|------|
+| Ejecutar **sin `()`** | throw+onerror · throw+onerror=eval · backticks · `location=javascript:` · event handlers | [[#1. Ejecutar sin paréntesis\|§1]] |
+| Payload **ofuscado** | `setTimeout`+`eval`+`atob` (base64) · exfiltrar cookie | [[#2. `eval` + decode (payload complejo / ofuscado)\|§2]] |
+| Convertir a **`\xNN`** | tabla hex · generar (JS/bash/PS) · otros formatos | [[#3. Convertir string -> escapes `\xNN` (hex)\|§3]] |
+| Decidir rápido | chuleta situación → payload | [[#4. Chuleta de decisión rápida\|§4]] |
+
+> Detalle profundo de ejecución JS: [[js-obfuscation]]. Encoding por objetivo: [[encodings]].
 
 ---
 

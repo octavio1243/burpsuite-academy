@@ -1,3 +1,11 @@
+---
+tags:
+  - obfuscation
+  - sqli
+  - filter-bypass
+  - waf-bypass
+---
+
 # SQL Injection - Ofuscación y bypass de filtros / WAF
 
 Notas para cuando un filtro o WAF bloquea keywords (`UNION`, `SELECT`, `OR`),
@@ -5,6 +13,22 @@ espacios, comillas o comentarios en una inyección SQL. Idea: expresar la misma
 consulta con una **representación que el motor SQL entiende pero el filtro no**.
 
 > Ajusta la sintaxis al motor: MySQL, PostgreSQL, MSSQL y Oracle difieren.
+
+---
+
+## 🔎 Índice de bypasses
+
+| Te filtran… | Técnicas | Ir a |
+|-------------|----------|------|
+| **espacios** | `/**/` · `%09`/`%0a` · `()` · `/*!...*/` | [[#1. Bypass de ESPACIOS filtrados\|§1]] |
+| **keywords** (`UNION`,`SELECT`,`OR`) | case `UnIoN` · doble keyword · `/*!...*/` · operadores `\|\|`/`&&` | [[#2. Bypass de KEYWORDS bloqueadas\|§2]] |
+| **comillas** `'` `"` | hex `0x...` · `CHAR()`/`CHR()` · concatenación | [[#3. Bypass de COMILLAS filtradas\|§3]] |
+| **comentario** final | `-- -` · `#` · `/*` · `;%00` | [[#4. Bypass de COMENTARIOS finales\|§4]] |
+| **WAF** delante | URL · doble URL · `%uXXXX` · hex | [[#5. Encoding para atravesar el filtro\|§5]] |
+| combinar todo | payloads de ejemplo | [[#6. Payloads de ejemplo (combinando técnicas)\|§6]] |
+| cómo abordarlo | metodología | [[#7. Metodología\|§7]] |
+
+> Encoding por objetivo: [[encodings]] · script: [[obfuscate.py]] (`sql-char`, `hex`, `url`).
 
 ---
 
