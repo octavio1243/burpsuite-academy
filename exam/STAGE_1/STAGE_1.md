@@ -1,69 +1,154 @@
 # STAGE 1 — FOOTHOLD
 
-> **Objetivo:** acceder a una cuenta de usuario con **bajos privilegios**.
-> Solo pueden aparecer las vulns de esta lista. Metodología = qué probar, en orden.
+> **Objetivo único:** entrar en la cuenta de un **usuario víctima que está logueado y
+> navegando** la web. Cada vulnerabilidad es *un camino distinto* para lograr lo mismo.
+> Independientemente de las variantes, el fin es uno: **acceder a su cuenta**.
+
+## 🧰 Herramientas que tengo para atacar
+
+- 📧 **Bandeja de correo** (`carlos@carlos-montoya.net` / la mía) → recibir links de reset, confirmaciones.
+- 🌐 **Exploit server** → alojar y **entregar el exploit** a la víctima (HTML/JS malicioso, CSRF PoC, iframe, JS cacheado…).
+- La víctima **visita** lo que le sirvo → dispara el ataque en su sesión.
+
+## 🎯 Qué busco (lo que me da la cuenta)
+
+1. **Sus cookies de sesión** → las pego y ya estoy dentro.
+2. **Sus datos en `/my-account`** → `email`, `apiKey`, `password`.
+3. **Cambiar sus credenciales** (email/password) y **recuperarlas por mi bandeja**.
 
 ## 🚦 Arranque (siempre)
 
-- [ ] **Burp Scan** → *full domain* (dejar corriendo de fondo).
-- [ ] Navegar toda la app logueado/deslogueado → poblar el *site map* + Proxy history.
-- [ ] Extensiones activas: **Param Miner**, **HTTP Request Smuggler**, **InQL**.
-- [ ] Mirar JS del cliente buscando *sinks*: `location`, `eval`, `replace`, `addEventListener`, `postMessage`, `ng-app`.
-- [ ] Registrar/loguear si se puede → ver rol y qué endpoints toca.
+- [ ] **Burp Scan** → *full domain* de fondo.
+- [ ] Navegar toda la app (log/deslogueado) → poblar site map + Proxy history.
+- [ ] Extensiones: **Param Miner**, **HTTP Request Smuggler**, **InQL**.
+- [ ] JS del cliente → sinks: `location`, `eval`, `replace`, `addEventListener`, `postMessage`, `ng-app`.
 
 ---
 
-## ✅ Checklist de vulnerabilidades (Stage 1)
+## ✅ Vulnerabilidades (Stage 1)
 
-### 1. Content Discovery
-- [ ] Burp *Discover content* (engine) sobre la raíz.
-- [ ] `robots.txt`, `sitemap.xml`, `/.git`, comentarios HTML, backups (`.bak`, `~`, `.old`).
-- [ ] Endpoints/rutas de admin o API expuestos.
-- 📁 `information-disclousure/`
+### Cross-Site Scripting (XSS)
+> [!danger] 🚩 ¿Está o no está?
+> Se **importan archivos `.js`** en la página (posible punto de inyección/robo).
 
-### 2. DOM-XSS
-- [ ] Rastrear *source → sink* en el JS: `location.hash/search`, `document.referrer`, `postMessage`.
-- [ ] Sinks: `innerHTML`, `eval`, `document.write`, `location`, `setTimeout`, jQuery `$()`, `ng-app` (AngularJS sandbox escape).
-- [ ] Probar por `#`/query params. Ofuscar si hay filtro.
+> A priori se busca **obtener sus cookies**.
+- [ ] Buscador con XSS → exfiltrar cookies al exploit server.
+- [ ] XSS **almacenado** en un comentario → se dispara cuando la víctima lo ve.
+- [ ] Prototype pollution puede ser (correr extensión / DOM Invader).
+- [ ] *(extra)* Si la cookie es `HttpOnly` y no la podés robar → usar el XSS para **actuar en su sesión**: leer el CSRF token + hacer `fetch` a `/my-account` o cambiar email/password en su nombre.
+- [ ] *(extra)* Exfiltrar `apiKey`/datos de `/my-account` con `fetch` same-origin desde el XSS.
 - 📁 `xss/` · ofuscación en `obfuscacion/`
 
-### 3. XSS (reflejado / almacenado)
-- [ ] Inyectar marcador único en cada input reflejado y buscarlo en la respuesta.
-- [ ] Identificar **contexto** (HTML, atributo, script, URL) → payload acorde.
-- [ ] Robo de sesión / forzar acción → escalar a otra cuenta.
-- 📁 `xss/`
+### Cross-Site Request Forgery (CSRF)
+> [!danger] 🚩 ¿Está o no está?
+> **No existe token CSRF** en el form (o no se valida). Buen inicio que no lo tenga.
 
-### 4. Web Cache Poisoning
-- [ ] Detectar caché: `X-Cache: hit/miss`, `Age`, `Cache-Control`.
-- [ ] **Param Miner** → *Guess headers* (unkeyed inputs).
-- [ ] Envenenar con header no-keyed (`X-Forwarded-Host`, `X-Host`…) → XSS/redirect servido a otros.
-- 📁 (crear) — ver `host-header-injection/`
+- [ ] *(por completar)* Endpoint que cambia **email/password sin token CSRF** (o token no validado) → PoC en exploit server → la víctima lo visita → cambio su email a uno mío → recupero contraseña por correo.
+- [ ] *(por validar)* ¿SameSite de la cookie? `Lax`/`None` habilita variantes.
+- 📁 `csrf/`
 
-### 5. Host Header Injection
-- [ ] Cambiar `Host` → ¿se refleja? ¿password reset apunta ahí?
-- [ ] `X-Forwarded-Host`, doble `Host`, `Host: localhost` → acceso interno / bypass.
-- [ ] Combinar con reset de contraseña (link envenenado).
-- 📁 `host-header-injection/`
+### Clickjacking
+> [!danger] 🚩 ¿Está o no está?
+> **No tiene** cabecera `X-Frame-Options` ni CSP `frame-ancestors` → se puede enmarcar.
 
-### 6. HTTP Request Smuggling
-- [ ] **HTTP Request Smuggler** → *Launch smuggle probe*.
-- [ ] Probar **CL.TE** y **TE.CL** manualmente si el probe marca algo.
-- [ ] Capturar request de otro usuario / bypass de front-end controls.
+- [ ] Iframe transparente sobre botones → hacerle **cambiar la contraseña o el email** a ciegas; luego recupero la contraseña y **llega a mi bandeja**.
+- [ ] *(extra)* Prellenar el form vía parámetros en la URL del iframe (labs de "change email"). Requiere que falte `X-Frame-Options` / `frame-ancestors`.
+- 📁 `clickjacking/`
+
+### DOM-Based Vulnerabilities (DOM)
+> [!danger] 🚩 ¿Está o no está?
+> Hay `.js` con **sinks peligrosos**: `innerHTML`, `document.write`, `location`,
+> `eval`, `postMessage`, `addEventListener` / listeners, `setTimeout`, jQuery `$()`.
+
+- [ ] *(por completar)* DOM-XSS: rastrear **source → sink** (`location.hash/search`, `document.referrer`, `postMessage`) → mismo fin que XSS (cookies/acciones).
+- [ ] *(por validar)* `postMessage` sin chequeo de `origin` → inyectar. DOM open-redirect para robar token en flujos OAuth.
+- 📁 `xss/` (DOM)
+
+### Cross-Origin Resource Sharing (CORS)
+> [!danger] 🚩 ¿Está o no está?
+> Refleja **`Origin` arbitrario** en `Access-Control-Allow-Origin` **+
+> `Allow-Credentials: true`** (o acepta `Origin: null`). *A verificar en la respuesta.*
+
+- [ ] `fetch` a `/my-account` buscando datos del usuario (`email`, `apiKey`, `password`).
+- [ ] *(extra)* Servir el `fetch` **con credenciales desde el exploit server**: si refleja `Origin` arbitrario + `Allow-Credentials: true` (o `Origin: null`) → exfiltro la respuesta.
+- 📁 `cors/`
+
+### HTTP Request Smuggling (HRS)
+> [!danger] 🚩 ¿Está o no está?
+> **Correr scripts de detección** (HTTP Request Smuggler → *smuggle probe*) →
+> confirma CL.TE / TE.CL.
+
+- [ ] Emitir otra petición que haga `GET /my-account` → robar `email`/`apiKey`/`password`.
+- [ ] Emitir petición que fuerce un `Set-Cookie` **que refleje las cookies** → obtener las suyas.
+- [ ] **Robar su petición** por desfase de colas (capturar su request completa).
+- [ ] *(por validar)* HTTP Request Smuggler → *smuggle probe*; probar **CL.TE** / **TE.CL**.
 - 📁 `http_smuggling/`
 
-### 7. Brute Force
-- [ ] Enumerar usuarios: diferencias en mensaje/tiempo ("Invalid username or password").
-- [ ] Password spray sobre user válido. Ojo con **rate limit** (X-Forwarded-For para resetear contador).
-- [ ] Scripts listos en `brute-force/` (enum + spray).
+### Access Control Vulnerabilities (IDOR / Broken Access Control)
+> [!danger] 🚩 ¿Está o no está?
+> No hay una señal única (va más por probar). Pista: **peticiones que llevan el
+> nombre de usuario / `id` / GUID** manipulable (IDOR).
+
+- [ ] `/my-account?username=carlos` (sin loguear) → ver si devuelve sus datos → `email`, `apiKey`, `password`.
+- [ ] *(extra)* Cambiar `id`/GUID en URL/params/cookies → recurso ajeno. Forzar `/admin` o rutas ocultas.
+- 📁 *(crear `access-control/`)*
+
+### Authentication (Auth)
+> [!danger] 🚩 ¿Está o no está?
+> **Rate limit en el login** (si lo hay, es la pista: no te lo dejan tan fácil →
+> dificultad mínima esperada).
+
+- [ ] **Fuerza bruta** con las listas (~11000 peticiones) → usar scripts de `brute-force/`.
+- [ ] *(extra)* Enumeración de usuario (mensaje/tiempo distinto), bypass de 2FA / brute del código, reset poisoning, credenciales por defecto.
+- [ ] *(por validar)* Rate limit → resetear contador con `X-Forwarded-For`.
 - 📁 `brute-force/`
 
-### 8. Authentication
-- [ ] Lógica rota: 2FA saltable, "remember me" con token predecible, verificación de paso omitible.
-- [ ] Fuerza bruta de código 2FA (`brute-force/script.py`).
-- [ ] Truncamiento de contraseña, credenciales por defecto.
-- 📁 `brute-force/` (2FA) · (crear `authentication/`)
+### Web Cache Poisoning (WCP)
+> [!danger] 🚩 ¿Está o no está?
+> **Sí o sí** cabeceras **`X-Cache`** (`hit`/`miss`) **+ `Age`** en la respuesta de
+> un `.js` → hay caché que envenenar.
+
+- [ ] Cachear un **JavaScript falso mío** que envíe las cookies a mi exploit server.
+- [ ] *(extra)* Detectar caché (`X-Cache`, `Age`) + **Param Miner → Guess headers** para hallar el input no-keyed que envenena.
+- 📁 *(crear)* · ver `host-header-injection/`
+
+### HTTP Host Header Attacks (Host)
+> [!danger] 🚩 ¿Está o no está?
+> *(por definir señal)* — de momento: probar en **recuperar contraseña** si el `Host`
+> manipulado termina en el link del correo.
+
+- [ ] En **recuperar contraseña**, cambiar el `Host` → ver si el link de reset apunta a **oastify/Collaborator** (envenenamiento del reset).
+- [ ] *(extra)* `X-Forwarded-Host`, doble `Host`, `Host: localhost` → bypass / acceso interno.
+- 📁 `host-header-injection/`
+
+### OAuth Authentication (OAuth)
+> [!danger] 🚩 ¿Está o no está?
+> **Requisito necesario:** el login debe ser **por OAuth** sí o sí (si no, no aplica).
+
+- [ ] *(por completar)* Manipular `redirect_uri` → desviar el **authorization code** a mi exploit server → robar su sesión.
+- [ ] *(por validar)* Falta de `state` → CSRF de login / account linking. Robo de `code` por `Referer`.
+- 📁 *(crear `oauth/`)*
+
+### JSON Web Tokens (JWT)
+> [!danger] 🚩 ¿Está o no está?
+> **Requisito necesario:** el login usa **JWT** (no una session cookie simple).
+
+- [ ] *(por completar)* Forjar token de la víctima: `alg:none`, firma no verificada, clave HS256 débil (crackear), inyección `kid`/`jwk`/`jku`.
+- 📁 `jwt-attacks/`
+
+---
+
+## 🔎 Extras que ya teníamos (útiles)
+
+### Content Discovery
+- [ ] Burp *Discover content*, `robots.txt`, `sitemap.xml`, `/.git`, comentarios HTML, backups (`.bak`, `~`, `.old`), endpoints/API ocultos.
+- 📁 `information-disclousure/`
 
 ---
 
 > [!success] Salida del Stage 1
-> Sesión/credenciales de un usuario normal → guardar cookie/token para el **Stage 2**.
+> Cookie/sesión **o** credenciales del usuario → guardar para el **Stage 2**.
+
+> [!todo] Pendiente de completar
+> Los marcados **`?` / (por completar)** los llenamos en la próxima iteración
+> (CSRF, DOM, OAuth, JWT sobre todo).
