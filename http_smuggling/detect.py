@@ -35,7 +35,7 @@ import socket
 import ssl
 import time
 
-HOST = "TU-LAB-ID.web-security-academy.net"  # <-- cambia por tu lab
+HOST = "0acc007203f821b2800003f900e8003e.web-security-academy.net"  # <-- cambia por tu lab
 PORT = 443
 USE_TLS = True          # True para HTTPS, False para HTTP
 
