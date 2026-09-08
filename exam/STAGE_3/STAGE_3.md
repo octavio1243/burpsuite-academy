@@ -8,7 +8,7 @@
 
 - 👑 Ya soy **admin** → tengo acceso a features "de servidor" que el user normal no ve.
 - 🌐 **Collaborator / oastify** → confirmar callbacks ciegos (XXE ciego, SSRF, OAST en command injection/SSTI).
-- 🐚 **Web shells listos** en `file-upload-vulnerabilities/` → subir y pedir por GET.
+- 🐚 **Web shells listos** en `vulnerabilities/file-upload-vulnerabilities/` → subir y pedir por GET.
 - El objetivo **no visita** nada: yo disparo todo directo contra el server.
 
 ## 🎯 Qué busco (todo apunta a `/home/carlos/secret`)
@@ -36,7 +36,7 @@
 - [ ] **PostgreSQL**: `COPY (...) TO/FROM`, `pg_read_file('/home/carlos/secret')`.
 - [ ] **Stacked queries** → si el motor permite `;`, encadenar lectura/escritura.
 - [ ] Si no hay lectura de fichero → **UNION/blind** para sacar datos que abran otra vía.
-- 📁 `sql-injection/` · ofuscación en `obfuscacion/`
+- 📁 `vulnerabilities/sql-injection/` · ofuscación en `vulnerabilities/obfuscacion/`
 
 ### XML External Entity (XXE)
 > [!danger] 🚩 ¿Está o no está?
@@ -47,7 +47,7 @@
 - [ ] Si no refleja → **XXE ciego** vía OAST (Collaborator) o *error-based*.
 - [ ] Vía `SVG` / `.docx` / `Content-Type: application/xml`.
 - [ ] *(escalada)* Usar el XXE como **SSRF** → con **path traversal** llegar al fichero.
-- 📁 `xxe/`
+- 📁 `vulnerabilities/xxe/`
 
 ### Server-Side Request Forgery (SSRF)
 > [!danger] 🚩 ¿Está o no está?
@@ -57,7 +57,7 @@
 - [ ] `file:///home/carlos/secret` si el fetcher acepta esquemas.
 - [ ] *(idea propia)* **Path traversal** en la URL interna hasta caer en el fichero.
 - [ ] Bypass de filtros: IP encoding, redirect, `@`, `#`, DNS rebinding.
-- 📁 `ssrf/`
+- 📁 `vulnerabilities/ssrf/`
 
 ### OS Command Injection (OSCi)
 > [!danger] 🚩 ¿Está o no está?
@@ -66,7 +66,7 @@
 - [ ] Inyectar `;`, `|`, `&&`, `$(...)`, backticks, `%0a` en cada parámetro.
 - [ ] **Ciego** → confirmar con OAST/DNS a Collaborator, o time delay (`sleep 10`).
 - [ ] `; cat /home/carlos/secret` (o exfil del contenido a Collaborator si es ciego).
-- 📁 *(crear `os-command-injection/`)*
+- 📁 *(crear `vulnerabilities/os-command-injection/`)*
 
 ### Server-Side Template Injection (SSTI)
 > [!danger] 🚩 ¿Está o no está?
@@ -75,7 +75,7 @@
 - [ ] Fuzz `${{7*7}}`, `{{7*7}}`, `<%= 7*7 %>` → detectar motor por la respuesta.
 - [ ] Confirmar por OAST si es ciego (callback desde el render).
 - [ ] Payload de **RCE** del motor → `cat /home/carlos/secret`.
-- 📁 `server-side-template-injection/`
+- 📁 `vulnerabilities/server-side-template-injection/`
 
 ### Directory Traversal / LFI (Path Traversal)
 > [!danger] 🚩 ¿Está o no está?
@@ -83,7 +83,7 @@
 
 - [ ] `../../../../home/carlos/secret` en el parámetro de fichero.
 - [ ] Bypass: `....//`, encoding (`%2e`, doble `%252e`), null byte, prefijo/sufijo forzado.
-- 📁 `path-transversal/` · ofuscación en `obfuscacion/`
+- 📁 `vulnerabilities/path-transversal/` · ofuscación en `vulnerabilities/obfuscacion/`
 
 ### Insecure Deserialization (Deser)
 > [!danger] 🚩 ¿Está o no está?
@@ -92,7 +92,7 @@
 - [ ] Identificar el formato del objeto serializado.
 - [ ] **Probar variantes de ysoserial** (Java) / **phpggc** (PHP) → gadget chain → RCE.
 - [ ] RCE → `cat /home/carlos/secret`.
-- 📁 `insecure_deserialization/`
+- 📁 `vulnerabilities/insecure_deserialization/`
 
 ### File Upload → RCE  ⭐ (el secreto a mano)
 > [!danger] 🚩 ¿Está o no está?
@@ -103,7 +103,7 @@
   - `example_best.php?command=cat%20/home/carlos/secret` (system, salida limpia)
   - `exploit.php` (file_get_contents, **sin parámetro**)
 - [ ] Bypass extensión / `Content-Type` / magic bytes / polyglot si filtran.
-- 📁 **`file-upload-vulnerabilities/`** → shells listos + cheat-sheet de invocación.
+- 📁 **`vulnerabilities/file-upload-vulnerabilities/`** → shells listos + cheat-sheet de invocación.
 
 ---
 
@@ -112,7 +112,7 @@
 ### Server-Side Prototype Pollution (SSPP)
 - [ ] JSON con `__proto__` → detectar cambio de comportamiento server-side.
 - [ ] Escalar a RCE (gadget en el runtime, p.ej. `child_process`) → leer el secreto.
-- 📁 `prototype-pollution/`
+- 📁 `vulnerabilities/prototype-pollution/`
 
 ---
 
@@ -120,4 +120,4 @@
 > Contenido de `/home/carlos/secret` → **Submit solution**. Examen aprobado. 🎉
 
 > [!todo] Pendiente de completar
-> Crear `os-command-injection/`. Afinar payloads "a mano" por motor (SSTI, XXE file-read, LFI).
+> Crear `vulnerabilities/os-command-injection/`. Afinar payloads "a mano" por motor (SSTI, XXE file-read, LFI).
