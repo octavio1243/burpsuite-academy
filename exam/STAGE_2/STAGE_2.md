@@ -68,10 +68,22 @@
 
 ### Cross-Site Request Forgery (CSRF)
 > [!danger] 🚩 ¿Está o no está?
-> **La FLAG es que haya una acción relevante del admin que forjar** (cambiar su email/password). Si la hay → evaluá la defensa. Sin token es el caso fácil; con token, casi siempre hay bypass.
+> **La FLAG es que exista una acción relevante del admin que forjar.** Acá **sí** estás logueado (usuario normal) y el objetivo es **comprometer al admin** → CSRF es un vector de primera. Si hay acción relevante → evaluá la defensa; sin token es fácil, con token casi siempre hay bypass.
 
-> **Cambio de correo/contraseña** del admin vía `<form>` malicioso.
-- [ ] Generar PoC (Burp → *Generate CSRF PoC*) → entregar al admin por exploit server.
+> [!tip] ✅ Confirmá que hay una víctima que visita tus entregas (Access log)
+> Antes de invertir en un CSRF/XSS **entregado por exploit server**: entregá algo trivial y mirá el **Access log** del exploit server.
+> - Aparece una **IP distinta a la tuya** → hay un **victim simulado** que visita tus entregas → el ataque *delivered* (CSRF/XSS al admin) **es viable**.
+> - **Solo tu IP** → nadie consume las entregas → CSRF por exploit server **no aplica** → el admin solo **revisa contenido in-app** (⇒ **stored XSS** en un campo que ve en `/admin`), o el camino es **auto-escalada de privilegios** (sin víctima: mass-assignment `roleid`, IDOR, JWT…).
+> ⚠️ Que hayas usado (o no) el exploit server en STAGE 1 **no** es la señal — es **reutilizable**. La señal es **quién aparece en el log**.
+
+**Acciones del admin a probar (¿alguna es CSRF-able?):**
+- [ ] **Cambiar email** → cambiárselo a uno mío → **reset de password** por correo → login como admin.
+- [ ] **Cambiar contraseña** → sobre todo si el form **NO pide la contraseña actual** → CSRF directo.
+- [ ] **Flujo de recuperación de cuenta** (forgot/reset password) → ¿puedo forjar el disparo del reset, o cómo se setea/valida el token de reset?
+- [ ] Cualquier **otra acción con estado** del admin (cambiar rol, 2FA, borrar usuario, etc.).
+
+**Cómo explotarla una vez encontrada:**
+- [ ] Generar PoC (Burp → *Generate CSRF PoC*) → entregar al admin por exploit server → el admin la visita → se ejecuta en su sesión.
 - [ ] Le cambio el email a uno mío → **recupero la contraseña** por correo → login como admin.
 - [ ] **Si hay token CSRF** → probá los **puntos flojos** antes de descartar: ¿solo en POST? ¿solo si está presente? ¿no atado a la sesión? ¿atado a una cookie que puedo setear (CRLF)? ¿duplicado en cookie+body? → [[vulnerabilities/003-csrf/csrf#🔎 Puntos flojos a verificar (bypass de token)|puntos flojos]].
 - [ ] *(por validar)* **SameSite** de la cookie (enruta el vector, **no** descarta): `None`/ausente → todos los vectores; `Lax` → solo GET top-level + `_method=POST`; `Strict` → redirect client-side / subdominio hermano.

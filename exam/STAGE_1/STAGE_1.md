@@ -66,14 +66,10 @@
 
 ### Cross-Site Request Forgery (CSRF)
 > [!danger] 🚩 ¿Está o no está?
-> **La FLAG es que haya una acción relevante que forjar** (cambiar email/password sobre todo). Si la hay → evaluá la defensa. Que **no tenga token** es el caso fácil; con token, casi siempre hay bypass.
+> **La FLAG es que exista una acción relevante *autenticada* que forjar** (cambiar email/password…). **En STAGE 1 arrancás sin cuenta → esa sección no existe para vos**, y el CSRF **por sí solo no te da acceso** a ninguna cuenta: actúa *dentro* de una sesión ya logueada, no te loguea a vos. → Su lugar natural es **[[exam/STAGE_2/STAGE_2#Cross-Site Request Forgery (CSRF)|STAGE 2]]** (contra el admin). STAGE 1 se resuelve con vías que **sí** te metan en una cuenta (XSS que roba sesión, SQLi que saca credenciales, etc.).
 
-- [ ] *(por completar)* Endpoint que cambia **email/password** → PoC en exploit server → la víctima lo visita → cambio su email a uno mío → recupero contraseña por correo.
-- [ ] **Si hay token CSRF** → probá los **puntos flojos** antes de descartar: ¿valida solo en POST? ¿solo si está presente? ¿no atado a la sesión? ¿atado a una cookie que puedo setear (CRLF)? ¿duplicado en cookie+body? → [[vulnerabilities/003-csrf/csrf#🔎 Puntos flojos a verificar (bypass de token)|puntos flojos]].
-- [ ] *(por validar)* **SameSite** de la cookie (enruta el vector, **no** descarta): `None`/ausente → todos los vectores; `Lax` → solo GET top-level + `_method=POST`; `Strict` → redirect client-side / subdominio hermano.
-- [ ] *(por validar)* **¿API REST (JSON)?** No es descarte → probá **convertir el body JSON a `x-www-form-urlencoded`** (o `text/plain`): si el server igual lo parsea, el CSRF sigue vivo (esos content-types no disparan preflight CORS).
-- [ ] **Si el token está bien atado y no hay bypass** → buscá un **XSS** que lea el token y forje la request, o **dangling markup** para exfiltrarlo. Ver [[vulnerabilities/002-xss/README#🎯 Qué hacer con un XSS (objetivos de explotación)|XSS → bypass CSRF / dangling markup]].
-- 📁 **Cómo explotar:** [[vulnerabilities/003-csrf/csrf|CSRF]] · labs: [[vulnerabilities/003-csrf/labs/README|labs]]
+- [ ] *(raro en STAGE 1)* Solo tendría sentido si **(a)** podés **registrar tu propia cuenta** para mapear el endpoint **y (b)** hay una **víctima logueada** cuyo email cambiar → reset de password → su cuenta. Si no se dan las dos → **saltá CSRF en este stage**.
+- 📁 **Técnica (aplica sobre todo en STAGE 2):** [[vulnerabilities/003-csrf/csrf|CSRF]] · labs: [[vulnerabilities/003-csrf/labs/README|labs]]
 
 ### Clickjacking
 > [!danger] 🚩 ¿Está o no está?
