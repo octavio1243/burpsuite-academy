@@ -1,3 +1,14 @@
+---
+aliases:
+  - SQLi labs
+  - SQL Injection labs
+  - sqli-labs
+tags:
+  - vuln/sql-injection
+  - labs
+  - portswigger
+---
+
 # SQL Injection — Labs de PortSwigger
 
 Tabla resumen de los 18 labs de SQL injection, en el **mismo orden** que aparecen en la [Web Security Academy](https://portswigger.net/web-security/all-labs#sql-injection).

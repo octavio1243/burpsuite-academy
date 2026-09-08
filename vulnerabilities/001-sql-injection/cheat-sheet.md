@@ -1,3 +1,14 @@
+---
+aliases:
+  - SQLi cheat sheet
+  - SQL cheat sheet
+  - sqli-cheatsheet
+tags:
+  - vuln/sql-injection
+  - cheatsheet
+  - reference
+---
+
 # SQL Injection — Cheat Sheet
 
 > Copia fiel de la cheat sheet oficial de PortSwigger para estudio offline.
