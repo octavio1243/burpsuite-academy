@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "vulnerabilities/001-sql-injection/README.md",
+                "file": "exam/STAGE_2/STAGE_2.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "STAGE_2"
             }
           }
         ]
@@ -187,11 +187,12 @@
   },
   "active": "dec879f4c6109902",
   "lastOpenFiles": [
-    "vulnerabilities/001-sql-injection/cheat-sheet.md",
+    "graphify-out/cache/stat-index.u61npc60.tmp",
+    "exam/STAGE_1/STAGE_1.md",
     "vulnerabilities/001-sql-injection/README.md",
+    "vulnerabilities/001-sql-injection/cheat-sheet.md",
     "graphify-out/cache/stat-index.au7ksdow.tmp",
     "graphify-out/cache/stat-index.2ypftvqr.tmp",
-    "exam/STAGE_1/STAGE_1.md",
     "graphify-out/cache/stat-index.2be8kjeh.tmp",
     "exam/STAGE_1/STAGE_1.md.tmp.92100.2d8230d757ea",
     "vulnerabilities/001-sql-injection/cheat-sheet.md.tmp.92100.dfea34ce8dee",

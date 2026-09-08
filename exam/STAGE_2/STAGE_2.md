@@ -38,7 +38,8 @@
 - [ ] **UNION** → extraer credenciales del admin de la tabla de usuarios.
 - [ ] Blind → condicional / time-based si no refleja.
 - [ ] Bypass filtros/WAF con ofuscación.
-- 📁 `vulnerabilities/sql-injection/` · ofuscación en `vulnerabilities/obfuscacion/`
+- [ ] *(menos común)* **Escritura para escalar:** si la SQLi es un `UPDATE`/`INSERT` o permite stacked queries (`; UPDATE…`) → **subir tu propio rol** (`roleId` / `role` / `isAdmin`) en vez de robarle al admin. Ver callout *"vector de escritura"* en el entry point.
+- 📁 **Cómo explotar:** [[vulnerabilities/001-sql-injection/README|SQL Injection]] · [[vulnerabilities/001-sql-injection/labs/README|labs]] · [[vulnerabilities/001-sql-injection/cheat-sheet|cheat sheet]]
 
 ### Cross-Site Scripting (XSS)
 > [!danger] 🚩 ¿Está o no está?
