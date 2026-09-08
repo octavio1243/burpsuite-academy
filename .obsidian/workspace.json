@@ -8,17 +8,31 @@
         "type": "tabs",
         "children": [
           {
-            "id": "bfcd9e13b15546e5",
+            "id": "2002cc5228ced8e1",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
+                "file": "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "002-xxe-a-ssrf-metadata-cloud"
+              "title": "008-xxe-ciego-reutilizar-dtd-local"
+            }
+          },
+          {
+            "id": "e46ae849e046ef6e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/STAGE_3/STAGE_3.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "STAGE_3"
             }
           }
         ]
@@ -185,18 +199,20 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "bfcd9e13b15546e5",
+  "active": "2002cc5228ced8e1",
   "lastOpenFiles": [
-    "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
-    "vulnerabilities/006-xxe/xxe.md",
-    "vulnerabilities/006-xxe/xxe.md.tmp.92100.3f79c1125a8f",
-    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
     "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
     "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
     "vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob.md",
     "vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg.md",
     "vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml.md",
     "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
+    "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
+    "vulnerabilities/006-xxe/xxe.md",
+    "exam/STAGE_3/STAGE_3.md",
+    "exam/STAGE_3/STAGE_3.md.tmp.92100.5bd6a1b9600f",
+    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
+    "vulnerabilities/006-xxe/xxe.md.tmp.92100.3f79c1125a8f",
     "vulnerabilities/006-xxe/scripts/README.md",
     "vulnerabilities/006-xxe/scripts/gen_svg_xxe.py",
     "vulnerabilities/006-xxe/examples/leer-archivo-in-band.md",
@@ -214,7 +230,6 @@
     "vulnerabilities/006-xxe/xxe.md.tmp.92100.67735e72035a",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/006-xxe/labs/README.md.tmp.92100.5d029a3c4163",
-    "exam/STAGE_3/STAGE_3.md",
     "vulnerabilities/006-xxe/labs/README.md",
     "vulnerabilities/006-xxe/labs",
     "exam/STAGE_2/STAGE_2.md",
@@ -222,7 +237,6 @@
     "exam/STAGE_1/STAGE_1.md",
     "vulnerabilities/005-cors/cors.md",
     "vulnerabilities/005-cors/examples/robar-apikey-origin-reflejado.md",
-    "vulnerabilities/005-cors/examples/bypass-origin-null.md.tmp.92100.3be2ef2b095c",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/xxe/bitso.0whvrzxl.oti8.svg",

