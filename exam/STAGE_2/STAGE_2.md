@@ -132,14 +132,18 @@
 - 📁 **Cómo explotar:** [[vulnerabilities/025-dom-based/dom-based|DOM-based]] · sinks: [[vulnerabilities/025-dom-based/sinks|sinks & sources]] · labs: [[vulnerabilities/025-dom-based/labs/README|labs]] · DOM-XSS clásico: [[vulnerabilities/002-xss/README#🌳 DOM XSS — source → sink|XSS→DOM]]
 
 ### Cross-Origin Resource Sharing (CORS)
-> [!danger] 🚩 ¿Está o no está?
-> **Permite leer datos cross-site** con los headers habilitantes
-> (`Access-Control-Allow-Origin` refleja `Origin` + `Allow-Credentials: true`).
+> [!danger] 🚩 FLAG — se tiene que cumplir esto (en la respuesta del endpoint de datos)
+> **Las dos juntas** para leer los datos del **admin**:
+> 1. **`Access-Control-Allow-Origin` refleja tu `Origin` arbitrario** (probalo en Repeater con `Origin: https://evil.com`) — o acepta **`Origin: null`** — o **confía en subdominios** (ahí necesitás un **XSS en un subdominio** como trampolín).
+> 2. **`Access-Control-Allow-Credentials: true`** (necesario para que viajen las cookies del admin).
+>
+> ⚠️ **`ACAO: *` NO sirve** para robar la sesión del admin (`*` no convive con credenciales). Buscás **reflejo** / **`null`** / **subdominio confiable**.
 
-> **Leer el `my-account`** del admin. *(pregunta: cómo entregarle el fetch al administrator?)*
-- [ ] Servir desde el exploit server un `fetch` **con credenciales** a `/my-account`.
-- [ ] Si refleja `Origin` arbitrario / `Origin: null` + `Allow-Credentials: true` → exfiltro su respuesta.
-- 📁 `vulnerabilities/cors/`
+> **Objetivo:** leer el `/my-account` (o `/accountDetails`) del **admin** → robar su `apiKey`/datos → escalar.
+- [ ] En Repeater, agregar `Origin: https://evil.com` a la request de datos → confirmar reflejo + `Allow-Credentials: true`.
+- [ ] **Entrega (respuesta a tu duda "cómo se lo doy al admin"):** subís al **exploit server** un `<script>`/`<iframe>` con `fetch(endpoint,{credentials:'include'})`, exfiltrás a `…/log?key=`, y usás **"Deliver exploit to victim"** → el bot admin lo visita con **sus** cookies. Confirmás en el **Access log**.
+- [ ] Si confía en subdominios/HTTP → el trampolín es un **XSS en subdominio** (ver lab Practitioner).
+- 📁 **Cómo explotar:** [[vulnerabilities/005-cors/cors|CORS]] · labs: [[vulnerabilities/005-cors/labs/README|labs]]
 
 ### HTTP Request Smuggling (HRS)
 > [!danger] 🚩 ¿Está o no está?

