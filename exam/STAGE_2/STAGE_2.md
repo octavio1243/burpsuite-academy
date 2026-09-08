@@ -117,14 +117,19 @@
 - 📁 **Cómo explotar:** [[vulnerabilities/004-clickjacking/clickjacking|Clickjacking]] · labs: [[vulnerabilities/004-clickjacking/labs/README|labs]]
 
 ### DOM-Based Vulnerabilities (DOM)
-> [!danger] 🚩 ¿Está o no está?
-> **`.js` nuevos que hacen cosas raras** (`innerHTML`, `location`, `document.write`,
-> `postMessage`, listeners…) especialmente en **`my-account`**.
+> [!danger] 🚩 ¿Está o no está? — **grepeá el JS (sobre todo el nuevo)**
+> **`.js` nuevos que aparecen contra el admin** (checkout, `my-account`, home). Buscá (Ctrl+F): **`addEventListener("message"` / `postMessage(` / `eval(`** → **altamente probable** que haya vuln DOM-based (prioridad alta). Otros sinks: `innerHTML`, `document.write`, `location`/`location.href`, `document.cookie`, `setTimeout(str)`, jQuery `$()`. Sources: `location.search/hash`, `document.referrer`, `document.cookie`, `window.name`, web messages. Lista → [[vulnerabilities/025-dom-based/sinks|sinks & sources]].
 
-- [ ] Rastrear **source → sink** (`location.hash/search`, `document.referrer`, `postMessage`).
-- [ ] DOM-XSS → mismo fin que XSS: robar sesión / actuar como el admin.
-- [ ] *(por validar)* `postMessage` sin chequeo de `origin`.
-- 📁 **Cómo explotar:** [[vulnerabilities/002-xss/README#🌳 DOM XSS — source → sink|DOM XSS]] · labs: [[vulnerabilities/002-xss/labs/README|labs]]
+> [!note] 🎯 Objetivo y entrega (leé esto antes de la checklist)
+> **Objetivo:** ejecutar JS en la sesión del **admin** → **robar su cookie** (si no es `HttpOnly`) o **actuar como él** (leer su CSRF token y cambiarle email/password, o disparar la acción de admin). Mismo fin que un XSS.
+> **¿Requiere exploit server? SÍ.** Estos DOM-based **no persisten** en el target (el bug vive en el JS del cliente) → tenés que **entregar** un `<iframe>`/URL por el **exploit server** y que el **admin lo visite**. Única excepción: **open redirect**, que puede ser una URL directa (para robar el `code` en OAuth).
+> **Tu duda ("¿sirve en Stage 2? depende del exploit server"):** sí, **depende de que el admin visite** tu exploit — y eso es exactamente lo que hace el **bot víctima** del examen. Es la vía clásica para escalar a admin cuando su cookie se puede robar o podés actuar en su sesión. **Confirmá la visita en el Access log** (IP distinta).
+
+- [ ] **Grepeá los sinks** en cada `.js` → rastreá source→sink (**DOM Invader**). Un `postMessage`/`addEventListener('message')`/`eval` es la señal fuerte.
+- [ ] **Web message** (`postMessage` sin chequeo de `origin`) → `<iframe>` al target que dispara `postMessage` en `onload`; se lo hacés llegar al **admin** por el exploit server → XSS en su sesión.
+- [ ] **DOM-XSS** → mismo fin que XSS contra el admin: robar sesión / actuar como él (leer su CSRF token, cambiar email/password).
+- [ ] **DOM open-redirect** → robar **token/`code`** del admin en OAuth. **Cookie manipulation** / **DOM clobbering** (si hay DOMPurify + `id`/`name` permitidos).
+- 📁 **Cómo explotar:** [[vulnerabilities/025-dom-based/dom-based|DOM-based]] · sinks: [[vulnerabilities/025-dom-based/sinks|sinks & sources]] · labs: [[vulnerabilities/025-dom-based/labs/README|labs]] · DOM-XSS clásico: [[vulnerabilities/002-xss/README#🌳 DOM XSS — source → sink|XSS→DOM]]
 
 ### Cross-Origin Resource Sharing (CORS)
 > [!danger] 🚩 ¿Está o no está?
@@ -186,7 +191,7 @@
 
 - [ ] Manipular `redirect_uri` → desviar el **authorization code** del admin a mi exploit server.
 - [ ] Falta de `state` → CSRF de login / account linking. Robo de `code` por `Referer`.
-- 📁 *(crear `vulnerabilities/oauth/`)*
+- 📁 **Cómo explotar:** [[vulnerabilities/026-oauth/oauth|OAuth]] *(entry point incompleto)*
 
 ### JSON Web Tokens (JWT)
 > [!danger] 🚩 ¿Está o no está?
