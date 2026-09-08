@@ -31,6 +31,9 @@
 > [!danger] 🚩 ¿Está o no está?
 > ¿El admin tiene acceso a **algo que permita hacer un search** (o cualquier consulta a BD)?
 
+> [!tip] 📍 Si hay SQLi acá, el objetivo casi seguro es `localhost:6566`
+> El servicio de interés vive en **`http://localhost:6566/`**. Una SQLi en Stage 3 lo más probable es que sea el camino para **leer el secreto** (lectura de fichero por motor) o para **pegarle a ese servicio interno** (SSRF-in-SQL / exfil OOB). Priorizá eso: fingerprint del motor → lectura de fichero o callback. Ver [[vulnerabilities/007-ssrf/ssrf|SSRF]].
+
 > *(idea propia: no es obvio leer un fichero con SQL)* → sí se puede en algunos motores.
 - [ ] **MySQL**: `LOAD_FILE('/home/carlos/secret')` (requiere `secure_file_priv` permisivo).
 - [ ] **PostgreSQL**: `COPY (...) TO/FROM`, `pg_read_file('/home/carlos/secret')`.
@@ -70,11 +73,18 @@
 > [!danger] 🚩 ¿Está o no está?
 > Un **Host header injection** deja pegarle a un **oastify**, o **`localhost:6566` responde**.
 
-- [ ] Parámetro que hace fetch server-side → `http://localhost:6566/` e interno.
+> [!tip] 📍 El servicio de interés está en `localhost:6566`
+> **Primer objetivo a probar:** ¿existe / es alcanzable **`http://localhost:6566/`** desde el server? Ese es el servicio interno que buscamos. Confirmá que responde y navegá desde ahí (admin, endpoints internos, o `file://` al secreto).
+- [ ] Parámetro que hace fetch server-side → `http://localhost:6566/` (¡el objetivo!) y otros internos.
 - [ ] `file:///home/carlos/secret` si el fetcher acepta esquemas.
+- [ ] **Probar el `Referer`** → puede haber un **analytics** que visite la URL de ese header (SSRF ciego, no refleja nada). Meté tu Collaborator y **Poll now**; si hay callback → seguí por [[vulnerabilities/007-ssrf/examples/006-ssrf-ciego-deteccion-oob|006 · detección OOB]].
 - [ ] *(idea propia)* **Path traversal** en la URL interna hasta caer en el fichero.
-- [ ] Bypass de filtros: IP encoding, redirect, `@`, `#`, DNS rebinding.
-- 📁 `vulnerabilities/ssrf/`
+- [ ] Bypass de filtros: IP encoding, redirect, `@`, `#`, DNS rebinding → detalle en [[vulnerabilities/007-ssrf/ssrf|entry point SSRF]].
+- [ ] **Si el filtro no cede → buscá un open redirect** y encadenalo (la whitelist ve una URL propia, el `302` te lleva al interno). **Mirá en especial una funcionalidad de "siguiente" (next post / next product)** cuyo parámetro (`path`, `url`, `next`, `returnUrl`) termine en un `Location:` → apuntalo a `http://localhost:6566/`. Cómo detectarlo → [[vulnerabilities/open-redirect/README|Open Redirect]] · uso → [[vulnerabilities/007-ssrf/examples/005-bypass-open-redirect|ejemplo 005]].
+
+> [!note] 🔗 Muy relacionado con **Host Header injection**
+> Si `localhost:6566` no sale por un parámetro-URL, probá **inyectar el `Host`** (o `X-Forwarded-Host`) para que el server se pegue solo a su servicio interno / a un oastify. Sin entrar en detalle acá → se ve en `vulnerabilities/016-host-header-injection/`.
+- 📁 `vulnerabilities/007-ssrf/` → [[vulnerabilities/007-ssrf/ssrf|entry point]] · [[vulnerabilities/007-ssrf/labs/README|labs]]
 
 ### OS Command Injection (OSCi)
 > [!danger] 🚩 ¿Está o no está?

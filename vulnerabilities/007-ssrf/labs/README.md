@@ -110,4 +110,4 @@ stockApi=http://localhost:80%2523@stock.weliketoshop.net/admin/delete?username=c
 > [!note] Ver también
 > - **Entry point** (detección, árbol de decisión, plantillas) → [[vulnerabilities/007-ssrf/ssrf|ssrf]]
 > - **XXE → SSRF** (la entidad apunta a una URL interna / metadata) → [[vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud|XXE ejemplo 002]]
-> - **Open redirection** — el pivote del lab 5 (feature de redirect abierta como escalón)
+> - **Open redirection** — el pivote del lab 5 → [[vulnerabilities/open-redirect/README|Open Redirect]] (qué es, cómo detectarlo) · uso → [[vulnerabilities/007-ssrf/examples/005-bypass-open-redirect|ejemplo 005]]
