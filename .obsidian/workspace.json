@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "vulnerabilities/001-sql-injection/cheat-sheet.md",
+                "file": "vulnerabilities/001-sql-injection/README.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "cheat-sheet"
+              "title": "README"
             }
           }
         ]
@@ -187,10 +187,10 @@
   },
   "active": "dec879f4c6109902",
   "lastOpenFiles": [
+    "vulnerabilities/001-sql-injection/cheat-sheet.md",
+    "vulnerabilities/001-sql-injection/README.md",
     "graphify-out/cache/stat-index.au7ksdow.tmp",
     "graphify-out/cache/stat-index.2ypftvqr.tmp",
-    "vulnerabilities/001-sql-injection/README.md",
-    "vulnerabilities/001-sql-injection/cheat-sheet.md",
     "exam/STAGE_1/STAGE_1.md",
     "graphify-out/cache/stat-index.2be8kjeh.tmp",
     "exam/STAGE_1/STAGE_1.md.tmp.92100.2d8230d757ea",
@@ -201,7 +201,6 @@
     "vulnerabilities/024-llm-attacks/exploting-ai-agents-to-trigger-secondary-vulnerabilities",
     "vulnerabilities/024-llm-attacks",
     "vulnerabilities/023-nosql-injection/operation-injection-extract-unkown-fields.py",
-    "vulnerabilities/023-nosql-injection/guess-password.py",
     "vulnerabilities/022-race-conditions/race-conditions.md",
     "vulnerabilities/021-graphql/graphql.md",
     "vulnerabilities/020-prototype-pollution/prototype-pollution.md",
