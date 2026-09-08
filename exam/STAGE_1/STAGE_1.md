@@ -36,8 +36,7 @@
 - [ ] **Login** (`username`) → `administrator'--` (bypass, comenta el password).
 - [ ] **Cookie `TrackingId`** → **blind** (⚠️). Si hay tracking, hay SQLi.
 - [ ] **Stock check** → body XML → **filter bypass** si hay WAF.
-- [ ] *(pruebas)* Si es blind, orden: **error → time → OAST**. XML con WAF → **ofuscar** (entidades/Hackvertor).
-- 📁 **Entry point:** [[vulnerabilities/001-sql-injection/README|SQL Injection]] · labs: [[vulnerabilities/001-sql-injection/labs/README|labs]] · cheat sheet: [[vulnerabilities/001-sql-injection/cheat-sheet|cheat sheet]]
+- 📁 **Cómo explotar:** [[vulnerabilities/001-sql-injection/README|SQL Injection]] · labs: [[vulnerabilities/001-sql-injection/labs/README|labs]] · cheat sheet: [[vulnerabilities/001-sql-injection/cheat-sheet|cheat sheet]]
 
 ### Cross-Site Scripting (XSS)
 > [!danger] 🚩 ¿Está o no está?
