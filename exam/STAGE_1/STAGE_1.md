@@ -72,12 +72,14 @@
 - 📁 **Técnica (aplica sobre todo en STAGE 2):** [[vulnerabilities/003-csrf/csrf|CSRF]] · labs: [[vulnerabilities/003-csrf/labs/README|labs]]
 
 ### Clickjacking
-> [!danger] 🚩 ¿Está o no está?
-> **No tiene** cabecera `X-Frame-Options` ni CSP `frame-ancestors` → se puede enmarcar.
+> [!danger] 🚩 ¿Está o no está? (las 3 juntas)
+> 1. **Acción relevante y clickeable** (un botón con estado: cambiar email/password, borrar cuenta…).
+> 2. **La página se deja enmarcar** → **faltan** `X-Frame-Options` **y** CSP `frame-ancestors` en la response.
+> 3. Hay una **víctima logueada** cuyo clic robás (su sesión ejecuta la acción).
+> Si falta cualquiera → descartá. **En STAGE 1 casi nunca aplica:** arrancás **sin cuenta** y no hay una sesión ajena que hijackear para *obtener* una cuenta → su lugar natural es **STAGE 2** (contra el admin). Ver [[exam/STAGE_2/STAGE_2#Clickjacking|STAGE 2]].
 
-- [ ] Iframe transparente sobre botones → hacerle **cambiar la contraseña o el email** a ciegas; luego recupero la contraseña y **llega a mi bandeja**.
-- [ ] *(extra)* Prellenar el form vía parámetros en la URL del iframe (labs de "change email"). Requiere que falte `X-Frame-Options` / `frame-ancestors`.
-- 📁 [[vulnerabilities/004-clickjacking/clickjacking|Clickjacking]]
+- [ ] *(raro en STAGE 1)* Solo tendría sentido si hay una **víctima ya logueada** cuyo clic robar. Si no la hay → **saltá clickjacking en este stage**.
+- 📁 **Técnica (aplica sobre todo en STAGE 2):** [[vulnerabilities/004-clickjacking/clickjacking|Clickjacking]] · labs: [[vulnerabilities/004-clickjacking/labs/README|labs]]
 
 ### DOM-Based Vulnerabilities (DOM)
 > [!danger] 🚩 ¿Está o no está?
