@@ -53,6 +53,30 @@ En `docbookx.dtd` existe la entidad de parámetro `ISOamso`. La **redefinís**:
 <stockCheck><productId>1</productId><storeId>1</storeId></stockCheck>
 ```
 
+## Cómo fluye (diagrama)
+```mermaid
+sequenceDiagram
+    autonumber
+    participant A as Atacante
+    participant P as XML Parser
+    participant F as Filesystem
+    participant App as Aplicación
+    A->>P: XML con DOCTYPE que carga el DTD local
+    P->>F: Leer docbookx.dtd (DTD local del server)
+    F-->>P: Contenido del DTD
+    rect rgb(60, 60, 70)
+        Note over P: ISOamso existe en docbookx.dtd<br/>Mi DOCTYPE la redefine con el ataque
+    end
+    P->>F: Leer /etc/passwd
+    F-->>P: Contenido del archivo
+    P->>F: Abrir file:///nonexistent/CONTENIDO
+    F-->>P: File not found
+    rect rgb(70, 60, 60)
+        P-->>A: XML parsing error CON el contenido de /etc/passwd
+    end
+    P--xApp: La aplicación nunca procesa el XML (falló el parseo)
+```
+
 ## Verificación
 La respuesta trae el `FileNotFoundException` con `/etc/passwd` embebido (como [[vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo|007]], pero **sin server externo**).
 

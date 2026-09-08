@@ -49,14 +49,22 @@
 
 ### XML External Entity (XXE)
 > [!danger] 🚩 ¿Está o no está?
-> **Se envía un XML**, o hay un **servicio SOAP** detrás, o carga de imágenes **SVG / DOCX**.
+> **Algo parsea XML.** Buscá: envío de **XML** directo (stock check), **SOAP** detrás de un endpoint, o carga de **imágenes SVG / documentos DOCX/XLSX**.
 
-> **Hay que intentar leer el fichero sí o sí.**
-- [ ] Entidad externa → `file:///home/carlos/secret` reflejada en la respuesta.
-- [ ] Si no refleja → **XXE ciego** vía OAST (Collaborator) o *error-based*.
-- [ ] Vía `SVG` / `.docx` / `Content-Type: application/xml`.
-- [ ] *(escalada)* Usar el XXE como **SSRF** → con **path traversal** llegar al fichero.
-- 📁 `vulnerabilities/xxe/`
+> [!tip] 📍 Dónde probar / cómo detectar (mi mejor pista hoy)
+> - [ ] **Subir imagen / avatar** → SVG con entidad. Generalo con [[vulnerabilities/006-xxe/scripts/README|gen_svg_xxe.py]] `-r file:///home/carlos/secret` → el secreto **se renderiza dentro de la imagen**. El más jugoso ahora que soy **admin**.
+> - [ ] **Stock check / cualquier form**: ¿el body es XML? Si no, probá **cambiar `Content-Type` a `application/xml`** y mandar XML; o si mi valor entra a un XML del server, **XInclude**.
+> - [ ] **Panel de admin / features habilitadas al admin**: import/export XML, acciones masivas, config que acepte archivos.
+> - [ ] **Delete user → el `username`** podría terminar dentro de un XML/SOAP del backend (raro, pero no imposible) → probar entidad/XInclude ahí.
+> - [ ] **Detección ciega:** meté una entidad de parámetro a Collaborator y **Poll now**; si hay callback DNS/HTTP → hay XXE aunque no refleje.
+
+> **Objetivo: leer `/home/carlos/secret`.** Camino según qué devuelva:
+- [ ] **Refleja** → entidad externa in-band `file:///home/carlos/secret` → [[vulnerabilities/006-xxe/examples/001-leer-archivo-in-band|001]].
+- [ ] **No refleja (ciego)** → confirmar OOB ([[vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob|005]]) → exfiltrar con **DTD externo** ([[vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo|006]]).
+- [ ] **El contenido rompe la exfil HTTP** → **error-based** ([[vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo|007]]); **server sin salida a internet** → **DTD local** ([[vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local|008]]).
+- [ ] **No controlás el XML** (solo un valor) → **XInclude** ([[vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml|003]]).
+- [ ] *(escalada)* XXE como **SSRF** → `http://localhost:6566/` o path traversal al fichero ([[vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud|002]]).
+- 📁 `vulnerabilities/006-xxe/` → [[vulnerabilities/006-xxe/xxe|entry point]] · [[vulnerabilities/006-xxe/labs/README|labs]] · ejemplos 001–008 · scripts.
 
 ### Server-Side Request Forgery (SSRF)
 > [!danger] 🚩 ¿Está o no está?

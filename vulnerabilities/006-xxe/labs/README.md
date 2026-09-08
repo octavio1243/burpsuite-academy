@@ -141,6 +141,6 @@ Labs de la categoría **[XML external entity (XXE) injection](https://portswigge
 > [!note] Ver también
 > - **Entry point** (detección, árbol de decisión, plantillas) → [[vulnerabilities/006-xxe/xxe|xxe]]
 > - **Fundamentos** (qué es XML/DTD/entidades) → [[how-to-work/xml|how-to-work/xml]]
-> - **Escalera del XXE ciego** (exfil/error/DTD externa/local + diagrama) → [[vulnerabilities/006-xxe/xxe#🪜 Escalera del XXE ciego (blind)|entry point]]
+> - **Escalera del XXE ciego** (exfil/error/DTD externa/local) → ejemplos [[vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob|005]]→[[vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local|008]]
 > - **Ejemplos / PoCs completas** `001`→`008` (del más simple al más rebuscado, cada uno con su "por qué") → empezá por [[vulnerabilities/006-xxe/examples/001-leer-archivo-in-band|001]]
 > - **Scripts** (generadores en Python) → [[vulnerabilities/006-xxe/scripts/README|scripts/]]
