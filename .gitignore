@@ -24,6 +24,9 @@ template/responses/
 resultados_usuarios/
 resultados_passwords/
 
+# ===== graphify (grafo de conocimiento, artefacto local regenerable) =====
+graphify-out/
+
 # ===== Archivos pesados / binarios comunes =====
 *.zip
 *.7z
