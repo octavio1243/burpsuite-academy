@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "exam/STAGE_1/STAGE_1.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -187,6 +187,7 @@
   },
   "active": "dec879f4c6109902",
   "lastOpenFiles": [
+    "exam/STAGE_1/STAGE_1.md.tmp.92100.2d8230d757ea",
     "vulnerabilities/001-sql-injection/README.md",
     "vulnerabilities/001-sql-injection/cheat-sheet.md",
     "vulnerabilities/001-sql-injection/cheat-sheet.md.tmp.92100.dfea34ce8dee",
@@ -222,7 +223,6 @@
     "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/hashcat-python-plugin-quickstart.md",
     "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/hashcat-plugin-development-guide.md",
     "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/hashcat-help.md",
-    "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/hashcat-example-hashes.md",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
