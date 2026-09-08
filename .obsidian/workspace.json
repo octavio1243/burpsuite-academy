@@ -13,30 +13,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "exam/STAGE_1/STAGE_1.md",
+                "file": "exam/STAGE_2/STAGE_2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "STAGE_1"
-            }
-          },
-          {
-            "id": "7e825ee42c31f3ee",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "exam/STAGE_1/STAGE_1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "STAGE_1"
+              "title": "STAGE_2"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -200,10 +185,23 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "7e825ee42c31f3ee",
+  "active": "af0ab9c4e6f925ec",
   "lastOpenFiles": [
-    "exam/STAGE_2/STAGE_2.md",
     "exam/STAGE_1/STAGE_1.md",
+    "vulnerabilities/005-cors/cors.md",
+    "vulnerabilities/005-cors/examples/robar-apikey-origin-reflejado.md",
+    "vulnerabilities/005-cors/examples/pivot-subdominio-http-via-xss.md",
+    "vulnerabilities/005-cors/examples/bypass-origin-null.md",
+    "vulnerabilities/005-cors/examples/bypass-origin-null.md.tmp.92100.3be2ef2b095c",
+    "vulnerabilities/005-cors/examples/trusted-subdomain-xss.md",
+    "vulnerabilities/005-cors/examples/origin-reflection.md",
+    "vulnerabilities/005-cors/examples/force-null-origin.md",
+    "vulnerabilities/005-cors/examples",
+    "exam/STAGE_1/STAGE_1.md.tmp.92100.4d1b650943a8",
+    "vulnerabilities/005-cors/labs/README.md",
+    "vulnerabilities/005-cors/labs",
+    "graphify-out/cache/stat-index.2wr_u401.tmp",
+    "exam/STAGE_2/STAGE_2.md",
     "vulnerabilities/026-oauth/oauth.md",
     "vulnerabilities/026-oauth",
     "vulnerabilities/025-dom-based/labs/README.md",
@@ -214,14 +212,9 @@
     "vulnerabilities/025-dom-based/dom-based.md",
     "vulnerabilities/025-dom-based",
     "vulnerabilities/004-clickjacking/examples/multistep-delete-account.md",
-    "vulnerabilities/004-clickjacking/clickjacking.md.tmp.92100.90a61879e4c7",
     "vulnerabilities/004-clickjacking/examples/prefill-email-grid-overlay.md",
-    "vulnerabilities/004-clickjacking/examples/multistep-delete-account.md.tmp.92100.b5612ece629c",
     "vulnerabilities/004-clickjacking/labs/README.md",
-    "vulnerabilities/004-clickjacking/examples",
-    "exam/STAGE_2/STAGE_2.md.tmp.92100.79afb072804c",
     "vulnerabilities/004-clickjacking/clickjacking.md",
-    "vulnerabilities/004-clickjacking/labs",
     "vulnerabilities/003-csrf/labs/README.md",
     "vulnerabilities/003-csrf/csrf.md",
     "vulnerabilities/002-xss/README.md",
@@ -230,14 +223,6 @@
     "vulnerabilities/002-xss/labs/README.md",
     "vulnerabilities/001-sql-injection/README.md",
     "vulnerabilities/001-sql-injection/cheat-sheet.md",
-    "vulnerabilities/001-sql-injection/labs/README.md",
-    "vulnerabilities/022-race-conditions/race-conditions.md",
-    "vulnerabilities/021-graphql/graphql.md",
-    "vulnerabilities/020-prototype-pollution/prototype-pollution.md",
-    "vulnerabilities/019-obfuscacion/xxe-obfuscation.md",
-    "vulnerabilities/019-obfuscacion/xss-obfuscation.md",
-    "vulnerabilities/019-obfuscacion/sql-obfuscation.md",
-    "vulnerabilities/019-obfuscacion/README.md",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
