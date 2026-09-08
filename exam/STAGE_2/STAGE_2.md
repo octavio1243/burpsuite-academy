@@ -92,13 +92,29 @@
 - 📁 **Cómo explotar:** [[vulnerabilities/003-csrf/csrf|CSRF]] · labs: [[vulnerabilities/003-csrf/labs/README|labs]]
 
 ### Clickjacking
-> [!danger] 🚩 ¿Está o no está?
-> **Permite iframear** (faltan `X-Frame-Options` / CSP `frame-ancestors`).
+> [!danger] 🚩 ¿Está o no está? (las 3 juntas)
+> 1. **Acción relevante y clickeable** del admin (cambiar su email, borrar/aprobar algo, submit que dispara XSS…).
+> 2. **La página del admin se deja enmarcar** → **faltan** `X-Frame-Options` **y** CSP `frame-ancestors` en la response.
+> 3. Hay una **víctima admin** que visita tu entrega y **hace clic** → confirmalo con el **Access log** del exploit server (IP distinta a la tuya, igual que con CSRF/XSS entregados).
+> Si la página **no** se enmarca → descartá clickjacking (pivoteá a CSRF/XSS). **Sirve aunque el form tenga token CSRF** (la víctima manda su form real).
 
-> **Iframe que le cambie el email** al admin; **autocompletar el email por query params**.
-- [ ] Iframe transparente sobre el form de "change email" con el campo prellenado en la URL.
-- [ ] Le hago clic a ciegas → cambia email → recupero contraseña → **llega a mi bandeja**.
-- 📁 `vulnerabilities/clickjacking/`
+**Acciones del admin a probar (¿alguna es clickeable a ciegas?):**
+- [ ] **Cambiar email** del admin → el campo se puede **prellenar por query param** en el `src` del iframe → clic ciego → reset de password → **llega a tu bandeja**.
+- [ ] **Borrar/aprobar** algo con estado (incluso **multistep** con confirmación → varios señuelos).
+- [ ] **Submit** que dispara un **DOM XSS** → el clic ciego ejecuta el payload (prellenado por URL).
+
+> [!tip] 🏷️ Nombres de botones/señuelos (no se adivinan, se leen)
+> El **texto del señuelo** lo elegís vos (los labs usan **`Test me`**, o **`Click me first`** / **`Click me next`** en multistep). El **botón real** del admin lo **reconocés registrando tu propia cuenta** y navegando el target (ahí ves el label exacto y si hay confirmación). Candidatos vistos en los labs para buscar/alinear en el target:
+> - **`Delete account`** (+ confirmación **`Yes`**) → suele ser **multistep**.
+> - **`Update email`** → change-email (prellenable por URL).
+> - **`Submit feedback`** → si dispara DOM XSS.
+> Orden multistep típico: **botón de acción → `Yes`**.
+
+**Cómo explotarla:**
+- [ ] Iframe del target casi transparente (`opacity` baja) + `<div>` señuelo sobre el botón; alineá con `opacity:0.1` y entregá con `~0.0001`.
+- [ ] **¿No sabés la resolución del admin?** Mandá un **beacon** (`<img>`) con `screen.width/height` + `innerWidth/Height` + `dpr` al **Collaborator** o al **Access log** del exploit server → recalculá los `top`/`left` (o posicioná el señuelo por proporción de `innerWidth`). Ver [[vulnerabilities/004-clickjacking/clickjacking#6) Beacon de resolución/layout (para alinear a ciegas)|PoC beacon]].
+- [ ] **Prellená** los inputs por query params; si hay **frame buster** → `sandbox="allow-forms"`.
+- 📁 **Cómo explotar:** [[vulnerabilities/004-clickjacking/clickjacking|Clickjacking]] · labs: [[vulnerabilities/004-clickjacking/labs/README|labs]]
 
 ### DOM-Based Vulnerabilities (DOM)
 > [!danger] 🚩 ¿Está o no está?
