@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "6e11aed5b440cb80",
+        "id": "354a39135f8ee55d",
         "type": "tabs",
         "children": [
           {
-            "id": "af0ab9c4e6f925ec",
+            "id": "d55235bc6541488f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "exam/STAGE_2/STAGE_2.md",
+                "file": "vulnerabilities/006-xxe/examples/leer-archivo-in-band.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "STAGE_2"
+              "title": "leer-archivo-in-band"
             }
           }
         ]
@@ -185,8 +185,28 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "af0ab9c4e6f925ec",
+  "active": "d55235bc6541488f",
   "lastOpenFiles": [
+    "vulnerabilities/006-xxe/examples/xxe-ciego-reutilizar-dtd-local.md",
+    "vulnerabilities/006-xxe/examples/xxe-ciego-error-based-con-dtd-externo.md",
+    "vulnerabilities/006-xxe/examples/xxe-ciego-exfiltrar-con-dtd-externo.md",
+    "vulnerabilities/006-xxe/examples/xxe-ciego-exfiltrar-con-dtd-externo.md.tmp.92100.51107373dacb",
+    "vulnerabilities/006-xxe/xxe.md",
+    "vulnerabilities/006-xxe/examples/xxe-ciego-callback-oob.md",
+    "vulnerabilities/006-xxe/examples/xxe-por-subida-de-svg.md",
+    "vulnerabilities/006-xxe/examples/xinclude-sin-controlar-el-xml.md",
+    "vulnerabilities/006-xxe/examples/xxe-a-ssrf-metadata-cloud.md",
+    "vulnerabilities/006-xxe/examples/leer-archivo-in-band.md",
+    "vulnerabilities/006-xxe/examples",
+    "how-to-work/xml.md",
+    "vulnerabilities/006-xxe/xxe.md.tmp.92100.67735e72035a",
+    "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
+    "vulnerabilities/006-xxe/labs/README.md.tmp.92100.5d029a3c4163",
+    "exam/STAGE_3/STAGE_3.md",
+    "vulnerabilities/006-xxe/labs/README.md",
+    "vulnerabilities/006-xxe/labs",
+    "exam/STAGE_2/STAGE_2.md",
+    "graphify-out/cache/stat-index.etd5rzu0.tmp",
     "exam/STAGE_1/STAGE_1.md",
     "vulnerabilities/005-cors/cors.md",
     "vulnerabilities/005-cors/examples/robar-apikey-origin-reflejado.md",
@@ -200,31 +220,11 @@
     "exam/STAGE_1/STAGE_1.md.tmp.92100.4d1b650943a8",
     "vulnerabilities/005-cors/labs/README.md",
     "vulnerabilities/005-cors/labs",
-    "graphify-out/cache/stat-index.2wr_u401.tmp",
-    "exam/STAGE_2/STAGE_2.md",
     "vulnerabilities/026-oauth/oauth.md",
-    "vulnerabilities/026-oauth",
     "vulnerabilities/025-dom-based/labs/README.md",
     "vulnerabilities/025-dom-based/sinks.md",
-    "exam/STAGE_1/STAGE_1.md.tmp.92100.3997ba0cd5fd",
-    "vulnerabilities/025-dom-based/labs/README.md.tmp.92100.c6c0b699f0b0",
-    "vulnerabilities/025-dom-based/labs",
     "vulnerabilities/025-dom-based/dom-based.md",
-    "vulnerabilities/025-dom-based",
-    "vulnerabilities/004-clickjacking/examples/multistep-delete-account.md",
-    "vulnerabilities/004-clickjacking/examples/prefill-email-grid-overlay.md",
-    "vulnerabilities/004-clickjacking/labs/README.md",
-    "vulnerabilities/004-clickjacking/clickjacking.md",
-    "vulnerabilities/003-csrf/labs/README.md",
-    "vulnerabilities/003-csrf/csrf.md",
-    "vulnerabilities/002-xss/README.md",
-    "exam/STAGE_3/STAGE_3.md",
-    "vulnerabilities/002-xss/cheat-sheet.md",
-    "vulnerabilities/002-xss/labs/README.md",
-    "vulnerabilities/001-sql-injection/README.md",
-    "vulnerabilities/001-sql-injection/cheat-sheet.md",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
-    "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/xxe/bitso.0whvrzxl.oti8.svg",
     "file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",

