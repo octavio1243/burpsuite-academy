@@ -45,21 +45,39 @@
 > [!danger] 🚩 ¿Está o no está?
 > **¿Aparecen archivos `.js` nuevos** cuando estás logueado? Zonas que ve el admin.
 
+> [!note] 🍪 `HttpOnly` — bifurca el camino, NO descarta el XSS
+> **Mirá el flag `HttpOnly` de la cookie del admin antes** de apostar todo a robarla:
+> - `HttpOnly: false` → **robo directo** de su cookie → sesión de admin.
+> - `HttpOnly: true` → no la leés, pero el XSS **sigue sirviendo contra el admin**: `fetch` a `/my-account` para sacar `email`/`apiKey`, **leer su CSRF token y cambiarle email/password**, o reenviar el body como él. Más complejo, pero es la vía cuando la cookie está blindada. Detalle en [[vulnerabilities/002-xss/README#🎯 Qué hacer con un XSS (objetivos de explotación)|entry point → objetivos]].
+
 > Si hay un **XSS en `my-account`** → hay que ver **cómo hacérselo llegar al administrator**.
+
+**Dónde probar (recon):**
+- [ ] **Reflexión en el buscador** → romper el contexto HTML con `<>`.
+- [ ] **XSS en comentarios** (stored) → probar también el campo **website/URL** (va a un `href`).
+- [ ] **DOM:** ¿hay `document.write`? ¿`location.search`? ¿`innerHTML`? ¿`location.hash`? (source → sink, DOM Invader).
+- [ ] ¿Está corriendo **jQuery**? ¿**qué versión**? (sinks `$()`, `.html()`, `attr('href')`).
+- [ ] ¿Hay **`ng-app`** / **AngularJS**? → inyección por **expresión** `{{...}}`.
+- [ ] ¿Hay **`eval`** (u otro sink que evalúe la respuesta)? → reflected DOM.
+
+**Qué hacer con él (contra el admin):**
 - [ ] XSS **almacenado** (comentario/campo que el admin visita) → se dispara en su sesión.
-- [ ] Con el XSS: robar sus cookies, o leer su CSRF token y **cambiar su email/password** vía `fetch`.
+- [ ] Con el XSS: robar sus cookies, o leer su CSRF token y **cambiar su email/password** vía `fetch` (payloads: [[vulnerabilities/002-xss/exfil-payloads.js|exfil-payloads.js]]).
 - [ ] *(extra)* Exfiltrar datos de `/my-account` del admin (`email`, `apiKey`) al exploit server.
-- 📁 `vulnerabilities/xss/` · ofuscación en `vulnerabilities/obfuscacion/`
+- 📁 **Cómo explotar:** [[vulnerabilities/002-xss/README|XSS]] · labs: [[vulnerabilities/002-xss/labs/README|labs]] · cheat sheet: [[vulnerabilities/002-xss/cheat-sheet|cheat sheet]] · ofuscación: [[vulnerabilities/019-obfuscacion/xss-obfuscation|xss-obfuscation]]
 
 ### Cross-Site Request Forgery (CSRF)
 > [!danger] 🚩 ¿Está o no está?
-> **No hay token CSRF** en el `<form>` (o no se valida).
+> **La FLAG es que haya una acción relevante del admin que forjar** (cambiar su email/password). Si la hay → evaluá la defensa. Sin token es el caso fácil; con token, casi siempre hay bypass.
 
 > **Cambio de correo/contraseña** del admin vía `<form>` malicioso.
 - [ ] Generar PoC (Burp → *Generate CSRF PoC*) → entregar al admin por exploit server.
 - [ ] Le cambio el email a uno mío → **recupero la contraseña** por correo → login como admin.
-- [ ] *(por validar)* SameSite de la cookie (`Lax`/`None` habilita variantes).
-- 📁 `vulnerabilities/csrf/`
+- [ ] **Si hay token CSRF** → probá los **puntos flojos** antes de descartar: ¿solo en POST? ¿solo si está presente? ¿no atado a la sesión? ¿atado a una cookie que puedo setear (CRLF)? ¿duplicado en cookie+body? → [[vulnerabilities/003-csrf/csrf#🔎 Puntos flojos a verificar (bypass de token)|puntos flojos]].
+- [ ] *(por validar)* **SameSite** de la cookie (enruta el vector, **no** descarta): `None`/ausente → todos los vectores; `Lax` → solo GET top-level + `_method=POST`; `Strict` → redirect client-side / subdominio hermano.
+- [ ] *(por validar)* **¿API REST (JSON)?** No es descarte → probá **convertir el body JSON a `x-www-form-urlencoded`** (o `text/plain`): si el server igual lo parsea, el CSRF sigue vivo (esos content-types no disparan preflight CORS).
+- [ ] **Si el token está bien atado y no hay bypass** → buscá un **XSS** que lo lea y forje la request, o **dangling markup** para exfiltrarlo. Ver [[vulnerabilities/002-xss/README#🎯 Qué hacer con un XSS (objetivos de explotación)|XSS → bypass CSRF / dangling markup]].
+- 📁 **Cómo explotar:** [[vulnerabilities/003-csrf/csrf|CSRF]] · labs: [[vulnerabilities/003-csrf/labs/README|labs]]
 
 ### Clickjacking
 > [!danger] 🚩 ¿Está o no está?
@@ -78,7 +96,7 @@
 - [ ] Rastrear **source → sink** (`location.hash/search`, `document.referrer`, `postMessage`).
 - [ ] DOM-XSS → mismo fin que XSS: robar sesión / actuar como el admin.
 - [ ] *(por validar)* `postMessage` sin chequeo de `origin`.
-- 📁 `vulnerabilities/xss/` (DOM)
+- 📁 **Cómo explotar:** [[vulnerabilities/002-xss/README#🌳 DOM XSS — source → sink|DOM XSS]] · labs: [[vulnerabilities/002-xss/labs/README|labs]]
 
 ### Cross-Origin Resource Sharing (CORS)
 > [!danger] 🚩 ¿Está o no está?
