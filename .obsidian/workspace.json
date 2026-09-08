@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "vulnerabilities/007-ssrf/labs/README.md",
+                "file": "exam/STAGE_3/STAGE_3.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "STAGE_3"
             }
           },
           {
@@ -27,15 +27,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "exam/STAGE_3/STAGE_3.md",
+                "file": "vulnerabilities/007-ssrf/examples/007-ssrf-ciego-rce-shellshock.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "STAGE_3"
+              "title": "007-ssrf-ciego-rce-shellshock"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -199,11 +200,28 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "2002cc5228ced8e1",
+  "active": "e46ae849e046ef6e",
   "lastOpenFiles": [
-    "vulnerabilities/007-ssrf/ssrf.md",
     "exam/STAGE_3/STAGE_3.md",
+    "vulnerabilities/007-ssrf/examples/007-ssrf-ciego-rce-shellshock.md",
+    "vulnerabilities/007-ssrf/examples/006-ssrf-ciego-deteccion-oob.md",
+    "vulnerabilities/007-ssrf/examples/005-bypass-open-redirect.md",
+    "vulnerabilities/open-redirect/README.md",
+    "vulnerabilities/007-ssrf/ssrf.md.tmp.92100.1c3c29c64fdf",
     "vulnerabilities/007-ssrf/labs/README.md",
+    "vulnerabilities/007-ssrf/open-redirect.md",
+    "vulnerabilities/open-redirect",
+    "exam/STAGE_2/STAGE_2.md",
+    "vulnerabilities/007-ssrf/examples/005-bypass-open-redirect.md.tmp.92100.0aa1fd659f47",
+    "vulnerabilities/007-ssrf/examples/004-bypass-whitelist.md",
+    "vulnerabilities/007-ssrf/examples/003-bypass-blacklist-variantes-localhost.md",
+    "vulnerabilities/007-ssrf/examples/002-ssrf-escaneo-red-interna.md",
+    "vulnerabilities/007-ssrf/examples/001-ssrf-directo-localhost.md",
+    "vulnerabilities/007-ssrf/ssrf.md",
+    "vulnerabilities/007-ssrf/examples",
+    "vulnerabilities/007-ssrf/scripts/scan_internal.py",
+    "vulnerabilities/007-ssrf/scripts",
+    "graphify-out/cache/stat-index.xa9w0i_y.tmp",
     "vulnerabilities/007-ssrf/labs/README.md.tmp.92100.5a546a382ddc",
     "vulnerabilities/007-ssrf/labs",
     "graphify-out/cache/stat-index.cmiochpv.tmp",
@@ -216,28 +234,10 @@
     "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
     "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
     "vulnerabilities/006-xxe/xxe.md",
-    "exam/STAGE_3/STAGE_3.md.tmp.92100.5bd6a1b9600f",
-    "vulnerabilities/006-xxe/xxe.md.tmp.92100.3f79c1125a8f",
     "vulnerabilities/006-xxe/scripts/README.md",
-    "vulnerabilities/006-xxe/scripts/gen_svg_xxe.py",
     "vulnerabilities/006-xxe/examples/leer-archivo-in-band.md",
-    "vulnerabilities/006-xxe/scripts",
     "vulnerabilities/006-xxe/examples/xxe-ciego-reutilizar-dtd-local.md",
-    "vulnerabilities/006-xxe/examples/xxe-ciego-error-based-con-dtd-externo.md",
-    "vulnerabilities/006-xxe/examples/xxe-ciego-exfiltrar-con-dtd-externo.md",
-    "vulnerabilities/006-xxe/examples/xxe-ciego-exfiltrar-con-dtd-externo.md.tmp.92100.51107373dacb",
-    "vulnerabilities/006-xxe/examples/xxe-ciego-callback-oob.md",
-    "vulnerabilities/006-xxe/examples/xxe-por-subida-de-svg.md",
-    "vulnerabilities/006-xxe/examples/xinclude-sin-controlar-el-xml.md",
-    "vulnerabilities/006-xxe/examples/xxe-a-ssrf-metadata-cloud.md",
-    "vulnerabilities/006-xxe/examples",
-    "how-to-work/xml.md",
-    "vulnerabilities/006-xxe/xxe.md.tmp.92100.67735e72035a",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
-    "vulnerabilities/006-xxe/labs/README.md",
-    "exam/STAGE_2/STAGE_2.md",
-    "exam/STAGE_1/STAGE_1.md",
-    "vulnerabilities/005-cors/cors.md",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/xxe/bitso.0whvrzxl.oti8.svg",

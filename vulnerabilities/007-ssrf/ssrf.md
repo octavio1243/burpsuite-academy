@@ -21,9 +21,12 @@ tags:
 ## 📚 Referencias rápidas
 
 - 🧪 **Laboratorios** — 7 labs (2 Apprentice + 3 Practitioner + 2 Expert), **payload exacto por lab** → [[vulnerabilities/007-ssrf/labs/README|labs/README]]
-- 🛠️ **Scripts** (escaneo de red interna en Python) → [[vulnerabilities/007-ssrf/example1.py|example1.py]] (async, itera `192.168.0.X`)
+- 🐍 **Ejemplos / PoCs completas** (del más simple al más rebuscado, cada uno con su "por qué"):
+    - [[vulnerabilities/007-ssrf/examples/001-ssrf-directo-localhost|001 · directo a localhost]] · [[vulnerabilities/007-ssrf/examples/002-ssrf-escaneo-red-interna|002 · escaneo red interna]] · [[vulnerabilities/007-ssrf/examples/003-bypass-blacklist-variantes-localhost|003 · bypass blacklist]] · [[vulnerabilities/007-ssrf/examples/004-bypass-whitelist|004 · bypass whitelist]]
+    - [[vulnerabilities/007-ssrf/examples/005-bypass-open-redirect|005 · open redirect]] · Ciego: [[vulnerabilities/007-ssrf/examples/006-ssrf-ciego-deteccion-oob|006 · detección OOB]] · [[vulnerabilities/007-ssrf/examples/007-ssrf-ciego-rce-shellshock|007 · RCE Shellshock ⭐]]
+- 🛠️ **Scripts** (escaneo de red interna en Python) → [[vulnerabilities/007-ssrf/scripts/scan_internal.py|scripts/scan_internal.py]] (async, itera `192.168.0.X`)
 - 🔗 **XXE → SSRF:** una entidad XML puede apuntar a una URL interna → [[vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud|XXE ejemplo 002]].
-- 🔗 **Open redirection:** es el *pivote* del filtro whitelist (lab 5) — si no podés falsear el host, dejás que otra feature redirija por vos.
+- 🔗 **Open redirection:** es el *pivote* del filtro whitelist (lab 5) — si no podés falsear el host, dejás que otra feature redirija por vos. Qué es y cómo detectarlo → [[vulnerabilities/open-redirect/README|Open Redirect]] · uso como bypass (con mermaid del `302`) → [[vulnerabilities/007-ssrf/examples/005-bypass-open-redirect|ejemplo 005]].
 
 ## 🎯 Cuándo hay SSRF (condiciones)
 
@@ -44,17 +47,19 @@ tags:
 
 ---
 
-## 🧩 Árbol de decisión (cada fila → su lab)
+## 🧩 Árbol de decisión (cada fila → su ejemplo)
 
-| Situación | Técnica | Lab |
+De lo más simple a lo más rebuscado (cada uno explica por qué lo anterior no alcanzaba):
+
+| Situación | Técnica | Ejemplo |
 | --- | --- | --- |
-| Controlás la URL **y ves la respuesta**, sin filtro | **SSRF directo a `localhost`** | [[vulnerabilities/007-ssrf/labs/README\|L1]] |
-| Igual, pero el target es **otro back-end** interno | **Escaneo `192.168.0.X:8080`** (Intruder) | [[vulnerabilities/007-ssrf/labs/README\|L2]] |
-| **No ves** la respuesta (algo dispara la request) | **Blind → Collaborator (OOB)** | [[vulnerabilities/007-ssrf/labs/README\|L3]] |
-| Bloquea `localhost`/`127.0.0.1`/`admin` | **Bypass blacklist** (reps IP + encode) | [[vulnerabilities/007-ssrf/labs/README\|L4]] |
-| Solo acepta el **dominio propio** (whitelist) | **Bypass whitelist** (`@`, `#`, encode) | [[vulnerabilities/007-ssrf/labs/README\|L7]] |
-| No podés **falsear el host** | **Open redirect** de otra feature | [[vulnerabilities/007-ssrf/labs/README\|L5]] |
-| Blind, querés **impacto real** | **Servicio interno vulnerable → RCE** (Shellshock) | [[vulnerabilities/007-ssrf/labs/README\|L6]] |
+| Controlás la URL **y ves la respuesta**, sin filtro | **SSRF directo a `localhost`** | [[vulnerabilities/007-ssrf/examples/001-ssrf-directo-localhost\|001 · directo]] |
+| Igual, pero el target es **otro back-end** interno | **Escaneo `192.168.0.X:8080`** (Intruder) | [[vulnerabilities/007-ssrf/examples/002-ssrf-escaneo-red-interna\|002 · escaneo]] |
+| Bloquea `localhost`/`127.0.0.1`/`admin` | **Bypass blacklist** (reps IP + encode) | [[vulnerabilities/007-ssrf/examples/003-bypass-blacklist-variantes-localhost\|003 · blacklist]] |
+| Solo acepta el **dominio propio** (whitelist) | **Bypass whitelist** (`@`, `#`, encode) | [[vulnerabilities/007-ssrf/examples/004-bypass-whitelist\|004 · whitelist]] |
+| No podés **falsear el host** | **Open redirect** de otra feature | [[vulnerabilities/007-ssrf/examples/005-bypass-open-redirect\|005 · open redirect]] |
+| **No ves** la respuesta (algo dispara la request) | **Blind → Collaborator (OOB)** | [[vulnerabilities/007-ssrf/examples/006-ssrf-ciego-deteccion-oob\|006 · OOB]] |
+| Blind, querés **impacto real** | **Servicio interno vulnerable → RCE** (Shellshock) | [[vulnerabilities/007-ssrf/examples/007-ssrf-ciego-rce-shellshock\|007 · RCE]] |
 
 ## 🗺️ Qué probar primero (flujo)
 
@@ -62,12 +67,12 @@ tags:
 flowchart TD
     S(["Un parámetro lleva una URL o un host"]) --> V{"¿Ves la respuesta<br/>del fetch?"}
     V -->|Sí · directo| F{"¿Hay filtro?"}
-    V -->|No · ciego| C["L3 · confirmar con Collaborator"]
-    F -->|Sin filtro| D["L1/L2 · localhost o 192.168.0.X:8080"]
-    F -->|Blacklist| B["L4 · 127.1 / decimal / doble-encode"]
-    F -->|Whitelist| W["L7 · user@host + # doble-encode"]
-    F -->|No puedo falsear el host| O["L5 · open redirect"]
-    C --> R["L6 · servicio interno vulnerable a RCE"]
+    V -->|No · ciego| C["006 · confirmar con Collaborator"]
+    F -->|Sin filtro| D["001/002 · localhost o 192.168.0.X:8080"]
+    F -->|Blacklist| B["003 · 127.1 / decimal / doble-encode"]
+    F -->|Whitelist| W["004 · user@host + # doble-encode"]
+    F -->|No puedo falsear el host| O["005 · open redirect"]
+    C --> R["007 · servicio interno vulnerable a RCE"]
 ```
 
 ---
