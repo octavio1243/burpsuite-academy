@@ -1,7 +1,11 @@
 # SQL Injection — Punto de entrada
 
 > Documento inicial de SQL Injection. Acá va **en qué hacer foco** antes de abrir los labs.
-> Detalle lab por lab (18 labs, orden oficial): [labs/README.md](labs/README.md).
+
+## 📚 Referencias rápidas
+
+- 🧪 **Laboratorios** — detalle lab por lab (18 labs, orden oficial + foco de cada uno): [labs/README.md](labs/README.md)
+- 📄 **Cheat sheet** — sintaxis por motor (concat, substring, comentarios, versión, contenidos, errores condicionales, time delays, DNS/OAST…): [cheat-sheet.md](cheat-sheet.md)
 
 > [!danger] 🚩 ¿Está o no está?
 > Si la app usa una **cookie `TrackingId`** → **casi seguro hay SQL Injection**.
