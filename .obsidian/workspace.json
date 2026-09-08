@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "29a2fe943c357207",
+        "id": "a97fc606ccece701",
         "type": "tabs",
         "children": [
           {
-            "id": "ac9f9b06356135f7",
+            "id": "dec879f4c6109902",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "exam/STAGE_3/STAGE_3.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "STAGE_3"
+              "title": "Nueva pestaña"
             }
           }
         ]
@@ -99,7 +95,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "exam/STAGE_3/STAGE_3.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +113,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "exam/STAGE_3/STAGE_3.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +155,6 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "exam/STAGE_3/STAGE_3.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -188,31 +181,46 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "ac9f9b06356135f7",
+  "active": "dec879f4c6109902",
   "lastOpenFiles": [
-    "graphify-out/cost.json",
-    "graphify-out/manifest.json",
-    "graphify-out/graph.html",
-    "graphify-out/GRAPH_REPORT.md",
-    "graphify-out/graph.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/9e99e84c2ce0db4162865881519e44c0b0f46612146c1c00e9413ca399b4f34b.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/62cdbbf3fb0e59748160e0e57c7122a746df8af5e93c76fc02aa50d5e63dbb8e.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/83501ba7191d0fc76c0631d33d4f1afa43eec58eeadb6705ee2ea2d384c68731.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/bf3f85187f94c4f1dd0e0f6f019379a3a57bb4ff33a98e68b12ce6841aa9a042.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/9eeda3098340008c2943f151d4bbff82583416a090e8748d1f94ec87d5222e76.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/951ef2aad90be4dbdfc3baed59d20625e3e502560bb63f9759b0aeaf0768d456.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/28637caef2add2a77c8e5ea4a7ca2e8f0eecde9a126dee8c0bb55c0f6f02d2be.json",
-    "exam/STAGE_2/STAGE_2.md",
-    "exam/STAGE_1/STAGE_1.md",
-    "obfuscacion/xxe-obfuscation.md",
+    "vulnerabilities/information-disclousure/Leer .git/index",
+    "vulnerabilities/information-disclousure/Leer .git/read.py",
+    "vulnerabilities/information-disclousure/Leer .git/a1451aa5fb13a61680d55be57015c9928cc9f3",
+    "vulnerabilities/information-disclousure/Leer .git/d23f13ce6c704b81857379a3e247e3436f4b26",
+    "vulnerabilities/information-disclousure/Leer .git/923b00c44e569f5272c6009920b4d008ca32d3",
+    "vulnerabilities/information-disclousure/Leer .git/9ea5f572c88526baf92f8ca4e1d741213fdf37",
+    "vulnerabilities/information-disclousure/Leer .git/54555944002791a4d27412bf6e9a6f29e942fa",
+    "vulnerabilities/information-disclousure/Leer .git/4b463a3c35c96d8a70b5c5ce970105ab6d3db6",
+    "vulnerabilities/information-disclousure/Leer .git/44e3b9853691431dc58d5f4978d3940cea4af2",
+    "vulnerabilities/information-disclousure/Leer .git",
+    "vulnerabilities/information-disclousure",
+    "vulnerabilities/insecure_deserialization/PHP/phpggc/README.md",
     "exam/STAGE_3/STAGE_3.md",
-    "obfuscacion/xss-obfuscation.md",
-    "obfuscacion/sql-obfuscation.md",
-    "obfuscacion/README.md",
-    "obfuscacion/js-obfuscation.md",
-    "obfuscacion/encodings.md",
-    "obfuscacion/html-obfuscation.md",
-    "file-upload-vulnerabilities/file-upload-vulnerabilities.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/tunings/README.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/slow-candidates-mode.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/releases_notes_v7.1.0.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/releases_notes_v7.0.0.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/hashcat-python-plugin-requirements.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/hashcat-rust-plugin-requirements.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/hashcat-python-plugin-quickstart.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/keyboard-layout-mapping.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/hashcat-python-plugin-development-guide.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/hashcat-help.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/hashcat-plugin-development-guide.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/hashcat-brain.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/hashcat-example-hashes.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/hashcat-assimilation-bridge-development.md",
+    "vulnerabilities/jwt-attacks/hashcat-7.1.2/docs/hashcat-assimilation-bridge.md",
+    "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
+    "vulnerabilities/file-upload-vulnerabilities/file-upload-vulnerabilities.md",
+    "vulnerabilities/obfuscacion/xxe-obfuscation.md",
+    "vulnerabilities/obfuscacion/xss-obfuscation.md",
+    "vulnerabilities/obfuscacion/sql-obfuscation.md",
+    "vulnerabilities/obfuscacion/README.md",
+    "vulnerabilities/obfuscacion/js-obfuscation.md",
+    "vulnerabilities/obfuscacion/html-obfuscation.md",
+    "vulnerabilities/obfuscacion/encodings.md",
+    "vulnerabilities/xxe/bitso.0whvrzxl.oti8.svg",
     "file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "base.jpg",
     "exiftool-13.59_64/mantenimiento.jpg",

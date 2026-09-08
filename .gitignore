@@ -16,8 +16,8 @@ ENV/
 # ===== Herramientas descargadas (re-descargables, pesadas) =====
 exiftool-13.59_64/
 exiftool-13.59_64.zip
-jwt-attacks/hashcat-7.1.2/
-insecure_deserialization/PHP/phpggc/
+vulnerabilities/jwt-attacks/hashcat-7.1.2/
+vulnerabilities/insecure_deserialization/PHP/phpggc/
 
 # ===== Salidas / resultados generados =====
 template/responses/

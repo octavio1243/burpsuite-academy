@@ -38,7 +38,7 @@
 - [ ] **UNION** → extraer credenciales del admin de la tabla de usuarios.
 - [ ] Blind → condicional / time-based si no refleja.
 - [ ] Bypass filtros/WAF con ofuscación.
-- 📁 `sql-injection/` · ofuscación en `obfuscacion/`
+- 📁 `vulnerabilities/sql-injection/` · ofuscación en `vulnerabilities/obfuscacion/`
 
 ### Cross-Site Scripting (XSS)
 > [!danger] 🚩 ¿Está o no está?
@@ -48,7 +48,7 @@
 - [ ] XSS **almacenado** (comentario/campo que el admin visita) → se dispara en su sesión.
 - [ ] Con el XSS: robar sus cookies, o leer su CSRF token y **cambiar su email/password** vía `fetch`.
 - [ ] *(extra)* Exfiltrar datos de `/my-account` del admin (`email`, `apiKey`) al exploit server.
-- 📁 `xss/` · ofuscación en `obfuscacion/`
+- 📁 `vulnerabilities/xss/` · ofuscación en `vulnerabilities/obfuscacion/`
 
 ### Cross-Site Request Forgery (CSRF)
 > [!danger] 🚩 ¿Está o no está?
@@ -58,7 +58,7 @@
 - [ ] Generar PoC (Burp → *Generate CSRF PoC*) → entregar al admin por exploit server.
 - [ ] Le cambio el email a uno mío → **recupero la contraseña** por correo → login como admin.
 - [ ] *(por validar)* SameSite de la cookie (`Lax`/`None` habilita variantes).
-- 📁 `csrf/`
+- 📁 `vulnerabilities/csrf/`
 
 ### Clickjacking
 > [!danger] 🚩 ¿Está o no está?
@@ -67,7 +67,7 @@
 > **Iframe que le cambie el email** al admin; **autocompletar el email por query params**.
 - [ ] Iframe transparente sobre el form de "change email" con el campo prellenado en la URL.
 - [ ] Le hago clic a ciegas → cambia email → recupero contraseña → **llega a mi bandeja**.
-- 📁 `clickjacking/`
+- 📁 `vulnerabilities/clickjacking/`
 
 ### DOM-Based Vulnerabilities (DOM)
 > [!danger] 🚩 ¿Está o no está?
@@ -77,7 +77,7 @@
 - [ ] Rastrear **source → sink** (`location.hash/search`, `document.referrer`, `postMessage`).
 - [ ] DOM-XSS → mismo fin que XSS: robar sesión / actuar como el admin.
 - [ ] *(por validar)* `postMessage` sin chequeo de `origin`.
-- 📁 `xss/` (DOM)
+- 📁 `vulnerabilities/xss/` (DOM)
 
 ### Cross-Origin Resource Sharing (CORS)
 > [!danger] 🚩 ¿Está o no está?
@@ -87,7 +87,7 @@
 > **Leer el `my-account`** del admin. *(pregunta: cómo entregarle el fetch al administrator?)*
 - [ ] Servir desde el exploit server un `fetch` **con credenciales** a `/my-account`.
 - [ ] Si refleja `Origin` arbitrario / `Origin: null` + `Allow-Credentials: true` → exfiltro su respuesta.
-- 📁 `cors/`
+- 📁 `vulnerabilities/cors/`
 
 ### HTTP Request Smuggling (HRS)
 > [!danger] 🚩 ¿Está o no está?
@@ -97,7 +97,7 @@
 - [ ] **Robar su petición completa** por desfase de colas → capturar sus cookies/headers.
 - [ ] Hacer un **`/my-account` camuflado** que caiga en su sesión.
 - [ ] **Crear un comentario del admin** en un post con **sus headers** (probar su identidad / exfiltrar).
-- 📁 `http_smuggling/`
+- 📁 `vulnerabilities/http_smuggling/`
 
 ### Access Control (IDOR / Broken Access Control)
 > [!danger] 🚩 ¿Está o no está?
@@ -106,14 +106,14 @@
 - [ ] `/my-account?username=administrator` → ¿me devuelve sus datos?
 - [ ] **Escalar privilegios de carlos** con un `update` → `role=2` (o `roleid`, `isAdmin`).
 - [ ] Forzar rutas de admin (`/admin`) con user normal; headers `X-Original-URL`, `X-Forwarded-For`.
-- 📁 *(crear `access-control/`)*
+- 📁 *(crear `vulnerabilities/access-control/`)*
 
 ### Authentication (Auth)
 > [!danger] 🚩 ¿Está o no está?
 > *(por definir señal)* — probable: **rate limit en login** / 2FA / reset débil.
 
 - [ ] *(por completar)* Fuerza bruta de credenciales de admin, bypass 2FA, enumeración, reset poisoning.
-- 📁 `brute-force/`
+- 📁 `vulnerabilities/brute-force/`
 
 ### Web Cache Poisoning (WCP)
 > [!danger] 🚩 ¿Está o no está?
@@ -122,7 +122,7 @@
 > **Pisar archivos `.js`** para ejecutar los nuestros — o incluso **la página completa** y servir un HTML nuevo.
 - [ ] Cachear un **JS falso mío** que le robe la sesión al admin cuando cargue la página.
 - [ ] **Param Miner → Guess headers** para hallar el input no-keyed que envenena.
-- 📁 *(crear `web-cache-poisoning/`)* · ver `host-header-injection/`
+- 📁 *(crear `vulnerabilities/web-cache-poisoning/`)* · ver `vulnerabilities/host-header-injection/`
 
 ### HTTP Host Header Attacks (Host)
 > [!danger] 🚩 ¿Está o no está?
@@ -131,7 +131,7 @@
 - [ ] En **recuperar contraseña**, cambiar el `Host` → el link de reset del admin llega a mi Collaborator → capturo su token.
 - [ ] *(variante)* Desde el usuario logueado, **cambiar la URL del reset** tras haber cambiado el correo primero.
 - [ ] `X-Forwarded-Host`, doble `Host`, `Host: localhost`.
-- 📁 `host-header-injection/`
+- 📁 `vulnerabilities/host-header-injection/`
 
 ### OAuth Authentication (OAuth)
 > [!danger] 🚩 ¿Está o no está?
@@ -139,7 +139,7 @@
 
 - [ ] Manipular `redirect_uri` → desviar el **authorization code** del admin a mi exploit server.
 - [ ] Falta de `state` → CSRF de login / account linking. Robo de `code` por `Referer`.
-- 📁 *(crear `oauth/`)*
+- 📁 *(crear `vulnerabilities/oauth/`)*
 
 ### JSON Web Tokens (JWT)
 > [!danger] 🚩 ¿Está o no está?
@@ -147,7 +147,7 @@
 
 - [ ] Forjar/alterar el token: `alg:none`, firma no verificada, HS256 débil (crackear), `kid`/`jwk`/`jku`.
 - [ ] Cambiar `sub`/`role` → **administrator**.
-- 📁 `jwt-attacks/`
+- 📁 `vulnerabilities/jwt-attacks/`
 
 ---
 
@@ -156,23 +156,23 @@
 ### Password Reset
 - [ ] Token débil/predecible, reutilizable, o ligado al **Host header**.
 - [ ] `username`/`user_id` manipulable en el POST de reset → resetear al **admin**.
-- 📁 *(crear `password-reset/`)* · ver `host-header-injection/`
+- 📁 *(crear `vulnerabilities/password-reset/`)* · ver `vulnerabilities/host-header-injection/`
 
 ### API Testing / Mass Assignment
 - [ ] Métodos alternos (`PUT`/`PATCH`/`DELETE`), `Content-Type` swaps.
 - [ ] **Mass assignment**: añadir `"isAdmin":true`, `"role":"admin"` al JSON del perfil.
 - [ ] Documentación/endpoints ocultos de la API.
-- 📁 *(crear `api-testing/`)*
+- 📁 *(crear `vulnerabilities/api-testing/`)*
 
 ### GraphQL (InQL)
 - [ ] **InQL** → introspección; si está off, probar sugerencias/aliasing.
 - [ ] Mutaciones no autorizadas (cambiar rol/password). Brute por batching (aliases) saltando rate limit.
-- 📁 `graphql/`
+- 📁 `vulnerabilities/graphql/`
 
 ### Prototype Pollution (client-side)
 - [ ] Buscar *gadget*: `__proto__` en query/JSON/params → propiedad que afecte la lógica.
 - [ ] DOM Invader (Burp) para detectar source→sink.
-- 📁 `prototype-pollution/`
+- 📁 `vulnerabilities/prototype-pollution/`
 
 ---
 

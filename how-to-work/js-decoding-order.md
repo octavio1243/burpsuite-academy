@@ -126,7 +126,7 @@ qué filtro te estorbe en cada capa.
 
 ---
 
-> Relacionado: [../obfuscacion/js-obfuscation.md](../obfuscacion/js-obfuscation.md)
+> Relacionado: [../vulnerabilities/obfuscacion/js-obfuscation.md](../vulnerabilities/obfuscacion/js-obfuscation.md)
 > (tablas de escapes y payloads) y
-> [../obfuscacion/html-obfuscation.md](../obfuscacion/html-obfuscation.md)
+> [../vulnerabilities/obfuscacion/html-obfuscation.md](../vulnerabilities/obfuscacion/html-obfuscation.md)
 > (entidades y contextos HTML).
