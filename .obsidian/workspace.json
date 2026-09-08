@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
+                "file": "vulnerabilities/007-ssrf/labs/README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "008-xxe-ciego-reutilizar-dtd-local"
+              "title": "README"
             }
           },
           {
@@ -201,6 +201,13 @@
   },
   "active": "2002cc5228ced8e1",
   "lastOpenFiles": [
+    "vulnerabilities/007-ssrf/ssrf.md",
+    "exam/STAGE_3/STAGE_3.md",
+    "vulnerabilities/007-ssrf/labs/README.md",
+    "vulnerabilities/007-ssrf/labs/README.md.tmp.92100.5a546a382ddc",
+    "vulnerabilities/007-ssrf/labs",
+    "graphify-out/cache/stat-index.cmiochpv.tmp",
+    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
     "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
     "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
     "vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob.md",
@@ -209,9 +216,7 @@
     "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
     "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
     "vulnerabilities/006-xxe/xxe.md",
-    "exam/STAGE_3/STAGE_3.md",
     "exam/STAGE_3/STAGE_3.md.tmp.92100.5bd6a1b9600f",
-    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
     "vulnerabilities/006-xxe/xxe.md.tmp.92100.3f79c1125a8f",
     "vulnerabilities/006-xxe/scripts/README.md",
     "vulnerabilities/006-xxe/scripts/gen_svg_xxe.py",
@@ -229,14 +234,10 @@
     "how-to-work/xml.md",
     "vulnerabilities/006-xxe/xxe.md.tmp.92100.67735e72035a",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
-    "vulnerabilities/006-xxe/labs/README.md.tmp.92100.5d029a3c4163",
     "vulnerabilities/006-xxe/labs/README.md",
-    "vulnerabilities/006-xxe/labs",
     "exam/STAGE_2/STAGE_2.md",
-    "graphify-out/cache/stat-index.etd5rzu0.tmp",
     "exam/STAGE_1/STAGE_1.md",
     "vulnerabilities/005-cors/cors.md",
-    "vulnerabilities/005-cors/examples/robar-apikey-origin-reflejado.md",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/xxe/bitso.0whvrzxl.oti8.svg",
