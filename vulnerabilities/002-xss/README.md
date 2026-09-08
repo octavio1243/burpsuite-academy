@@ -89,6 +89,7 @@ El parser HTML ve `</script>` **aunque esté dentro de un string JS** y cierra e
 - **Patrón típico:** `location.search` → `document.write` (busca img/script), `location.hash` → jQuery `$(hash)` (necesita `hashchange` → entregar por **iframe**, ver [ejemplo-iframe.html](ejemplo-iframe.html)).
 - **jQuery `attr('href', …)`** → sink de atributo → payload `javascript:alert(1)`.
 - **AngularJS** (`ng-app` presente): aunque filtren `<>` y `"`, inyectás una **expresión** Angular: `{{$on.constructor('alert(1)')()}}`.
+- **Más allá del XSS de una sola página** (web messages / `postMessage`, open redirect, cookie manipulation, DOM clobbering, dangling markup) → [[vulnerabilities/025-dom-based/dom-based|DOM-based vulnerabilities]] · [[vulnerabilities/025-dom-based/sinks|lista de sinks & sources]].
 
 ## 🎯 Qué hacer con un XSS (objetivos de explotación)
 

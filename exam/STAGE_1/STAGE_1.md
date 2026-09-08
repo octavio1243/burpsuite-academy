@@ -82,13 +82,20 @@
 - 📁 **Técnica (aplica sobre todo en STAGE 2):** [[vulnerabilities/004-clickjacking/clickjacking|Clickjacking]] · labs: [[vulnerabilities/004-clickjacking/labs/README|labs]]
 
 ### DOM-Based Vulnerabilities (DOM)
-> [!danger] 🚩 ¿Está o no está?
-> Hay `.js` con **sinks peligrosos**: `innerHTML`, `document.write`, `location`,
-> `eval`, `postMessage`, `addEventListener` / listeners, `setTimeout`, jQuery `$()`.
+> [!danger] 🚩 ¿Está o no está? — **grepeá el JS del cliente**
+> Abrí los `.js` del target y buscá (Ctrl+F) estas cadenas. Si aparece **`addEventListener("message"` / `postMessage(` / `eval(`** → es **altamente probable** que haya una vuln DOM-based (prioridad alta). Otros sinks: `innerHTML`, `outerHTML`, `document.write`, `location`/`location.href`, `document.cookie`, `setTimeout("…")`, `Function()`, jQuery `$()`/`.html()`. Sources controlables: `location.search/hash`, `document.referrer`, `document.cookie`, `window.name`, web messages. Lista completa → [[vulnerabilities/025-dom-based/sinks|sinks & sources]].
 
-- [ ] *(por completar)* DOM-XSS: rastrear **source → sink** (`location.hash/search`, `document.referrer`, `postMessage`) → mismo fin que XSS (cookies/acciones).
-- [ ] *(por validar)* `postMessage` sin chequeo de `origin` → inyectar. DOM open-redirect para robar token en flujos OAuth.
-- 📁 **Cómo explotar:** [[vulnerabilities/002-xss/README#🌳 DOM XSS — source → sink|DOM XSS]] · labs: [[vulnerabilities/002-xss/labs/README|labs]]
+> [!note] 🎯 Objetivo y entrega (leé esto antes de la checklist)
+> **Objetivo:** ejecutar JS en la sesión de la **víctima** → **robar su cookie** (session hijack) y entrar a su cuenta = **meta del Stage 1**. Si la cookie es `HttpOnly`, no la robás pero **actuás en su sesión** (leer su CSRF token y cambiar email/password). Mismo fin que un XSS.
+> **¿Requiere exploit server? SÍ.** Estos DOM-based **no persisten** (el bug vive en el JS del cliente) → **entregás** un `<iframe>`/URL por el **exploit server** y necesitás una **víctima que lo visite**. Única excepción: **open redirect** (URL directa, para OAuth). Confirmá la visita en el **Access log**.
+> **Ojo (Stage 1):** si en esta etapa **no hay víctima** a quien entregarle, un DOM-based que solo dispara con **tu propio** clic no te da acceso a otra cuenta → ahí lo viable es **robar cookies de una víctima** (si existe) o encadenar **open redirect → OAuth**. Si necesita víctima y no la hay, es más un tema de Stage 2.
+
+- [ ] **Grepeá los sinks** de arriba en cada `.js` (sobre todo los nuevos). Cada hit → rastreá si el argumento viene de un **source** controlable (usá **DOM Invader**).
+- [ ] **`addEventListener('message')` / `postMessage` sin chequeo de `event.origin`** → inyectar vía `<iframe>` que hace `postMessage` en `onload` (sink `innerHTML`/`location.href`/`JSON.parse`).
+- [ ] **`eval` / `Function` / `setTimeout(str)`** → ejecución directa (reflected DOM: la respuesta reflejada se evalúa).
+- [ ] **DOM open-redirect** (`location.href` con param `url`) → munición para robar **token/`code`** en flujos OAuth.
+- [ ] **Cookie manipulation** (`document.cookie` como sink) y **DOM clobbering** (`window.x || {}` + HTML con `id`/`name` whitelisted) → ver entry point.
+- 📁 **Cómo explotar:** [[vulnerabilities/025-dom-based/dom-based|DOM-based]] · sinks: [[vulnerabilities/025-dom-based/sinks|sinks & sources]] · labs: [[vulnerabilities/025-dom-based/labs/README|labs]] · DOM-XSS clásico: [[vulnerabilities/002-xss/README#🌳 DOM XSS — source → sink|XSS→DOM]]
 
 ### Cross-Origin Resource Sharing (CORS)
 > [!danger] 🚩 ¿Está o no está?
@@ -153,7 +160,7 @@
 
 - [ ] *(por completar)* Manipular `redirect_uri` → desviar el **authorization code** a mi exploit server → robar su sesión.
 - [ ] *(por validar)* Falta de `state` → CSRF de login / account linking. Robo de `code` por `Referer`.
-- 📁 *(crear)* [[vulnerabilities/oauth/README|OAuth]]
+- 📁 **Cómo explotar:** [[vulnerabilities/026-oauth/oauth|OAuth]] *(entry point incompleto)*
 
 ### JSON Web Tokens (JWT)
 > [!danger] 🚩 ¿Está o no está?
