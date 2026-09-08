@@ -42,21 +42,38 @@
 > [!danger] 🚩 ¿Está o no está?
 > Se **importan archivos `.js`** en la página (posible punto de inyección/robo).
 
+> [!note] 🍪 `HttpOnly` — bifurca el camino, NO descarta el XSS
+> **Mirá el flag `HttpOnly` de la cookie de sesión** (Burp → Response / DevTools) **antes** de invertir tiempo en robar la cookie:
+> - `HttpOnly: false` → `document.cookie` la ve → **robo directo de cookie** (win rápido).
+> - `HttpOnly: true` → **no** podés leer la cookie, pero el XSS **sigue teniendo impacto**: `fetch` same-origin a `/my-account` para rascar info (`email`, `apiKey`), **actuar en su sesión** (cambiar email/password leyendo el CSRF token), o reenviar el body. Es un ataque **más complejo** pero válido → probarlo llegado el caso. Detalle en [[vulnerabilities/002-xss/README#🎯 Qué hacer con un XSS (objetivos de explotación)|entry point → objetivos]].
+
 > A priori se busca **obtener sus cookies**.
-- [ ] Buscador con XSS → exfiltrar cookies al exploit server.
-- [ ] XSS **almacenado** en un comentario → se dispara cuando la víctima lo ve.
+
+**Dónde probar (recon):**
+- [ ] **Reflexión en el buscador** → romper el contexto HTML con `<>` (`"><svg onload=...>`).
+- [ ] **XSS en comentarios** (stored) → probar también el campo **website/URL** (va a un `href`).
+- [ ] **DOM:** ¿hay `document.write`? ¿`location.search`? ¿`innerHTML`? ¿`location.hash`? → seguir **source → sink** (DOM Invader).
+- [ ] ¿Está corriendo **jQuery**? ¿**qué versión**? (sinks `$()`, `.html()`, `attr('href')`).
+- [ ] ¿Hay **`ng-app`** / **AngularJS**? → inyección por **expresión** `{{...}}`, no HTML.
+- [ ] ¿Hay **`eval`** (u otro sink que evalúe la respuesta)? → reflected DOM.
 - [ ] Prototype pollution puede ser (correr extensión / DOM Invader).
+
+**Qué hacer con él:**
+- [ ] Buscador/comentario con XSS → **exfiltrar cookies** al exploit server (payloads: [[vulnerabilities/002-xss/exfil-payloads.js|exfil-payloads.js]]).
 - [ ] *(extra)* Si la cookie es `HttpOnly` y no la podés robar → usar el XSS para **actuar en su sesión**: leer el CSRF token + hacer `fetch` a `/my-account` o cambiar email/password en su nombre.
 - [ ] *(extra)* Exfiltrar `apiKey`/datos de `/my-account` con `fetch` same-origin desde el XSS.
-- 📁 [[vulnerabilities/002-xss/ejemplo-iframe.html|XSS]] · ofuscación en [[vulnerabilities/019-obfuscacion/xss-obfuscation|ofuscación XSS]]
+- 📁 **Cómo explotar:** [[vulnerabilities/002-xss/README|XSS]] · labs: [[vulnerabilities/002-xss/labs/README|labs]] · cheat sheet: [[vulnerabilities/002-xss/cheat-sheet|cheat sheet]] · ofuscación: [[vulnerabilities/019-obfuscacion/xss-obfuscation|xss-obfuscation]]
 
 ### Cross-Site Request Forgery (CSRF)
 > [!danger] 🚩 ¿Está o no está?
-> **No existe token CSRF** en el form (o no se valida). Buen inicio que no lo tenga.
+> **La FLAG es que haya una acción relevante que forjar** (cambiar email/password sobre todo). Si la hay → evaluá la defensa. Que **no tenga token** es el caso fácil; con token, casi siempre hay bypass.
 
-- [ ] *(por completar)* Endpoint que cambia **email/password sin token CSRF** (o token no validado) → PoC en exploit server → la víctima lo visita → cambio su email a uno mío → recupero contraseña por correo.
-- [ ] *(por validar)* ¿SameSite de la cookie? `Lax`/`None` habilita variantes.
-- 📁 [[vulnerabilities/003-csrf/csrf|CSRF]]
+- [ ] *(por completar)* Endpoint que cambia **email/password** → PoC en exploit server → la víctima lo visita → cambio su email a uno mío → recupero contraseña por correo.
+- [ ] **Si hay token CSRF** → probá los **puntos flojos** antes de descartar: ¿valida solo en POST? ¿solo si está presente? ¿no atado a la sesión? ¿atado a una cookie que puedo setear (CRLF)? ¿duplicado en cookie+body? → [[vulnerabilities/003-csrf/csrf#🔎 Puntos flojos a verificar (bypass de token)|puntos flojos]].
+- [ ] *(por validar)* **SameSite** de la cookie (enruta el vector, **no** descarta): `None`/ausente → todos los vectores; `Lax` → solo GET top-level + `_method=POST`; `Strict` → redirect client-side / subdominio hermano.
+- [ ] *(por validar)* **¿API REST (JSON)?** No es descarte → probá **convertir el body JSON a `x-www-form-urlencoded`** (o `text/plain`): si el server igual lo parsea, el CSRF sigue vivo (esos content-types no disparan preflight CORS).
+- [ ] **Si el token está bien atado y no hay bypass** → buscá un **XSS** que lea el token y forje la request, o **dangling markup** para exfiltrarlo. Ver [[vulnerabilities/002-xss/README#🎯 Qué hacer con un XSS (objetivos de explotación)|XSS → bypass CSRF / dangling markup]].
+- 📁 **Cómo explotar:** [[vulnerabilities/003-csrf/csrf|CSRF]] · labs: [[vulnerabilities/003-csrf/labs/README|labs]]
 
 ### Clickjacking
 > [!danger] 🚩 ¿Está o no está?
@@ -73,7 +90,7 @@
 
 - [ ] *(por completar)* DOM-XSS: rastrear **source → sink** (`location.hash/search`, `document.referrer`, `postMessage`) → mismo fin que XSS (cookies/acciones).
 - [ ] *(por validar)* `postMessage` sin chequeo de `origin` → inyectar. DOM open-redirect para robar token en flujos OAuth.
-- 📁 [[vulnerabilities/002-xss/ejemplo-iframe.html|XSS]] (DOM)
+- 📁 **Cómo explotar:** [[vulnerabilities/002-xss/README#🌳 DOM XSS — source → sink|DOM XSS]] · labs: [[vulnerabilities/002-xss/labs/README|labs]]
 
 ### Cross-Origin Resource Sharing (CORS)
 > [!danger] 🚩 ¿Está o no está?

@@ -172,7 +172,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -187,8 +187,17 @@
   },
   "active": "dec879f4c6109902",
   "lastOpenFiles": [
+    "vulnerabilities/003-csrf/labs/README.md",
+    "vulnerabilities/003-csrf/csrf.md",
     "exam/STAGE_2/STAGE_2.md",
+    "vulnerabilities/002-xss/README.md",
     "exam/STAGE_1/STAGE_1.md",
+    "exam/STAGE_3/STAGE_3.md",
+    "vulnerabilities/003-csrf/labs",
+    "vulnerabilities/002-xss/cheat-sheet.md",
+    "vulnerabilities/002-xss/labs/README.md",
+    "vulnerabilities/002-xss/exfil-payloads.js",
+    "vulnerabilities/002-xss/labs",
     "vulnerabilities/001-sql-injection/README.md",
     "graphify-out/cache/stat-index.u61npc60.tmp",
     "vulnerabilities/001-sql-injection/cheat-sheet.md",
@@ -199,9 +208,6 @@
     "vulnerabilities/001-sql-injection/cheat-sheet.md.tmp.92100.dfea34ce8dee",
     "exam/STAGE_1/STAGE_1.md.tmp.92100.a9008df095c3",
     "vulnerabilities/001-sql-injection/labs/README.md",
-    "vulnerabilities/024-llm-attacks/test.txt",
-    "vulnerabilities/024-llm-attacks/exploting-ai-agents-to-trigger-secondary-vulnerabilities",
-    "vulnerabilities/024-llm-attacks",
     "vulnerabilities/022-race-conditions/race-conditions.md",
     "vulnerabilities/021-graphql/graphql.md",
     "vulnerabilities/020-prototype-pollution/prototype-pollution.md",
@@ -217,12 +223,6 @@
     "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/releases_notes_v7.1.0.md",
     "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/releases_notes_v7.0.0.md",
     "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/keyboard-layout-mapping.md",
-    "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/hashcat-rust-plugin-requirements.md",
-    "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/hashcat-python-plugin-requirements.md",
-    "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/hashcat-python-plugin-development-guide.md",
-    "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/hashcat-python-plugin-quickstart.md",
-    "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/hashcat-plugin-development-guide.md",
-    "vulnerabilities/018-jwt-attacks/hashcat-7.1.2/docs/hashcat-help.md",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
