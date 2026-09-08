@@ -23,8 +23,9 @@ tags:
 - 🧠 **Fundamentos** (qué es XML, entities, DTD internal/external, entidades general `&` vs de parámetro `%`) → [[how-to-work/xml|how-to-work/xml]]
 - 🧪 **Laboratorios** — 9 labs (2 Apprentice + 6 Practitioner + 1 Expert), payload por lab → [[vulnerabilities/006-xxe/labs/README|labs/README]]
 - 🐍 **Ejemplos / PoCs completas** (vector entero: request + `Content-Type` + DTD + verificación):
-    - [[vulnerabilities/006-xxe/examples/leer-archivo-in-band|leer archivo in-band]] · [[vulnerabilities/006-xxe/examples/xxe-a-ssrf-metadata-cloud|XXE → SSRF metadata]] · [[vulnerabilities/006-xxe/examples/xinclude-sin-controlar-el-xml|XInclude]] · [[vulnerabilities/006-xxe/examples/xxe-por-subida-de-svg|subida de SVG]]
-    - Ciego: [[vulnerabilities/006-xxe/examples/xxe-ciego-callback-oob|callback OOB]] · [[vulnerabilities/006-xxe/examples/xxe-ciego-exfiltrar-con-dtd-externo|exfiltrar con DTD externo ⭐]] · [[vulnerabilities/006-xxe/examples/xxe-ciego-error-based-con-dtd-externo|error-based]] · [[vulnerabilities/006-xxe/examples/xxe-ciego-reutilizar-dtd-local|reutilizar DTD local]]
+    - [[vulnerabilities/006-xxe/examples/001-leer-archivo-in-band|001 · leer archivo in-band]] · [[vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud|002 · XXE → SSRF]] · [[vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml|003 · XInclude]] · [[vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg|004 · subida de SVG]]
+    - Ciego: [[vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob|005 · callback OOB]] · [[vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo|006 · exfiltrar con DTD externo ⭐]] · [[vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo|007 · error-based]] · [[vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local|008 · reutilizar DTD local]]
+- 🛠️ **Scripts** (generadores de payloads en Python) → [[vulnerabilities/006-xxe/scripts/README|scripts/]] (`gen_svg_xxe.py` arma el SVG con el recurso parametrizable)
 - 🔗 **XXE → SSRF:** la entidad puede apuntar a URLs internas / metadata cloud → [[vulnerabilities/007-ssrf/README|SSRF]].
 - 🔗 **Superficie oculta:** SVG, DOCX/XLSX, SOAP, RSS = **XML** → cualquier [[vulnerabilities/017-file-upload-vulnerabilities/README|upload]] que los procese es candidato.
 
@@ -62,7 +63,7 @@ tags:
 | Controlás el XML **y la respuesta refleja** | **In-band file read** | `<!ENTITY xxe SYSTEM "file:///etc/passwd">` + `&xxe;` |
 | Querés pegarle a algo interno | **XXE → SSRF** | `<!ENTITY xxe SYSTEM "http://169.254.169.254/…">` |
 | **No** controlás el documento entero (solo un valor) | **XInclude** | `<xi:include>` (ver abajo) |
-| El input es una **imagen/archivo** | **XXE en SVG/Office** | SVG con `<!DOCTYPE>` → [[vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg|PoC]] |
+| El input es una **imagen/archivo** | **XXE en SVG/Office** | SVG con `<!DOCTYPE>` → [[vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg|004]] (generalo con [[vulnerabilities/006-xxe/scripts/README\|gen_svg_xxe.py]]) |
 | Blind, solo confirmar | **OOB** con Collaborator | `SYSTEM "http://COLLAB"` (general → si filtran, `%` de parámetro) |
 | Blind, querés el **contenido** | **DTD externa** (exfil) | → [[#Blind — exfiltrar contenido con DTD externa (OOB)\|exfil OOB]] |
 | Blind, hay **errores verbosos** | **Error-based** | → [[#Blind — forzar error para leer el archivo (error-based)\|error-based]] |
