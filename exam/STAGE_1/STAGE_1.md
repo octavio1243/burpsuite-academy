@@ -27,6 +27,18 @@
 
 ## ✅ Vulnerabilidades (Stage 1)
 
+### SQL Injection (SQLi)
+> [!danger] 🚩 ¿Está o no está?
+> Si hay una **cookie `TrackingId`** → **casi seguro hay SQL Injection** (suele ser **blind**). 🚩 FLAG casi asegurada.
+
+> Fin: **bypass de login** o **extraer credenciales** de la tabla de usuarios → entrar en la cuenta.
+- [ ] **Filtro de categoría** (`?category=`) → WHERE / UNION, salida visible.
+- [ ] **Login** (`username`) → `administrator'--` (bypass, comenta el password).
+- [ ] **Cookie `TrackingId`** → **blind** (⚠️). Si hay tracking, hay SQLi.
+- [ ] **Stock check** → body XML → **filter bypass** si hay WAF.
+- [ ] *(pruebas)* Si es blind, orden: **error → time → OAST**. XML con WAF → **ofuscar** (entidades/Hackvertor).
+- 📁 **Entry point:** `vulnerabilities/001-sql-injection/README.md` · labs: `vulnerabilities/001-sql-injection/labs/README.md`
+
 ### Cross-Site Scripting (XSS)
 > [!danger] 🚩 ¿Está o no está?
 > Se **importan archivos `.js`** en la página (posible punto de inyección/robo).
@@ -37,7 +49,7 @@
 - [ ] Prototype pollution puede ser (correr extensión / DOM Invader).
 - [ ] *(extra)* Si la cookie es `HttpOnly` y no la podés robar → usar el XSS para **actuar en su sesión**: leer el CSRF token + hacer `fetch` a `/my-account` o cambiar email/password en su nombre.
 - [ ] *(extra)* Exfiltrar `apiKey`/datos de `/my-account` con `fetch` same-origin desde el XSS.
-- 📁 `vulnerabilities/xss/` · ofuscación en `vulnerabilities/obfuscacion/`
+- 📁 `vulnerabilities/002-xss/` · ofuscación en `vulnerabilities/019-obfuscacion/`
 
 ### Cross-Site Request Forgery (CSRF)
 > [!danger] 🚩 ¿Está o no está?
@@ -45,7 +57,7 @@
 
 - [ ] *(por completar)* Endpoint que cambia **email/password sin token CSRF** (o token no validado) → PoC en exploit server → la víctima lo visita → cambio su email a uno mío → recupero contraseña por correo.
 - [ ] *(por validar)* ¿SameSite de la cookie? `Lax`/`None` habilita variantes.
-- 📁 `vulnerabilities/csrf/`
+- 📁 `vulnerabilities/003-csrf/`
 
 ### Clickjacking
 > [!danger] 🚩 ¿Está o no está?
@@ -53,7 +65,7 @@
 
 - [ ] Iframe transparente sobre botones → hacerle **cambiar la contraseña o el email** a ciegas; luego recupero la contraseña y **llega a mi bandeja**.
 - [ ] *(extra)* Prellenar el form vía parámetros en la URL del iframe (labs de "change email"). Requiere que falte `X-Frame-Options` / `frame-ancestors`.
-- 📁 `vulnerabilities/clickjacking/`
+- 📁 `vulnerabilities/004-clickjacking/`
 
 ### DOM-Based Vulnerabilities (DOM)
 > [!danger] 🚩 ¿Está o no está?
@@ -62,7 +74,7 @@
 
 - [ ] *(por completar)* DOM-XSS: rastrear **source → sink** (`location.hash/search`, `document.referrer`, `postMessage`) → mismo fin que XSS (cookies/acciones).
 - [ ] *(por validar)* `postMessage` sin chequeo de `origin` → inyectar. DOM open-redirect para robar token en flujos OAuth.
-- 📁 `vulnerabilities/xss/` (DOM)
+- 📁 `vulnerabilities/002-xss/` (DOM)
 
 ### Cross-Origin Resource Sharing (CORS)
 > [!danger] 🚩 ¿Está o no está?
@@ -71,7 +83,7 @@
 
 - [ ] `fetch` a `/my-account` buscando datos del usuario (`email`, `apiKey`, `password`).
 - [ ] *(extra)* Servir el `fetch` **con credenciales desde el exploit server**: si refleja `Origin` arbitrario + `Allow-Credentials: true` (o `Origin: null`) → exfiltro la respuesta.
-- 📁 `vulnerabilities/cors/`
+- 📁 `vulnerabilities/005-cors/`
 
 ### HTTP Request Smuggling (HRS)
 > [!danger] 🚩 ¿Está o no está?
@@ -82,7 +94,7 @@
 - [ ] Emitir petición que fuerce un `Set-Cookie` **que refleje las cookies** → obtener las suyas.
 - [ ] **Robar su petición** por desfase de colas (capturar su request completa).
 - [ ] *(por validar)* HTTP Request Smuggler → *smuggle probe*; probar **CL.TE** / **TE.CL**.
-- 📁 `vulnerabilities/http_smuggling/`
+- 📁 `vulnerabilities/008-http_smuggling/`
 
 ### Access Control Vulnerabilities (IDOR / Broken Access Control)
 > [!danger] 🚩 ¿Está o no está?
@@ -98,10 +110,10 @@
 > **Rate limit en el login** (si lo hay, es la pista: no te lo dejan tan fácil →
 > dificultad mínima esperada).
 
-- [ ] **Fuerza bruta** con las listas (~11000 peticiones) → usar scripts de `vulnerabilities/brute-force/`.
+- [ ] **Fuerza bruta** con las listas (~11000 peticiones) → usar scripts de `vulnerabilities/011-brute-force/`.
 - [ ] *(extra)* Enumeración de usuario (mensaje/tiempo distinto), bypass de 2FA / brute del código, reset poisoning, credenciales por defecto.
 - [ ] *(por validar)* Rate limit → resetear contador con `X-Forwarded-For`.
-- 📁 `vulnerabilities/brute-force/`
+- 📁 `vulnerabilities/011-brute-force/`
 
 ### Web Cache Poisoning (WCP)
 > [!danger] 🚩 ¿Está o no está?
@@ -110,7 +122,7 @@
 
 - [ ] Cachear un **JavaScript falso mío** que envíe las cookies a mi exploit server.
 - [ ] *(extra)* Detectar caché (`X-Cache`, `Age`) + **Param Miner → Guess headers** para hallar el input no-keyed que envenena.
-- 📁 *(crear)* · ver `vulnerabilities/host-header-injection/`
+- 📁 *(crear)* · ver `vulnerabilities/016-host-header-injection/`
 
 ### HTTP Host Header Attacks (Host)
 > [!danger] 🚩 ¿Está o no está?
@@ -119,7 +131,7 @@
 
 - [ ] En **recuperar contraseña**, cambiar el `Host` → ver si el link de reset apunta a **oastify/Collaborator** (envenenamiento del reset).
 - [ ] *(extra)* `X-Forwarded-Host`, doble `Host`, `Host: localhost` → bypass / acceso interno.
-- 📁 `vulnerabilities/host-header-injection/`
+- 📁 `vulnerabilities/016-host-header-injection/`
 
 ### OAuth Authentication (OAuth)
 > [!danger] 🚩 ¿Está o no está?
@@ -134,7 +146,7 @@
 > **Requisito necesario:** el login usa **JWT** (no una session cookie simple).
 
 - [ ] *(por completar)* Forjar token de la víctima: `alg:none`, firma no verificada, clave HS256 débil (crackear), inyección `kid`/`jwk`/`jku`.
-- 📁 `vulnerabilities/jwt-attacks/`
+- 📁 `vulnerabilities/018-jwt-attacks/`
 
 ---
 
@@ -142,7 +154,7 @@
 
 ### Content Discovery
 - [ ] Burp *Discover content*, `robots.txt`, `sitemap.xml`, `/.git`, comentarios HTML, backups (`.bak`, `~`, `.old`), endpoints/API ocultos.
-- 📁 `vulnerabilities/information-disclousure/`
+- 📁 `vulnerabilities/014-information-disclousure/`
 
 ---
 
