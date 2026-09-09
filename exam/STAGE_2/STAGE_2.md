@@ -147,13 +147,15 @@
 
 ### HTTP Request Smuggling (HRS)
 > [!danger] 🚩 ¿Está o no está?
-> **Pasaron los detectores** (HTTP Request Smuggler → *smuggle probe* confirma CL.TE / TE.CL).
+> Igual que Stage 1 (HTTP Request Smuggler; **CL.TE antes que TE.CL**; **diferencial > timing**). La diferencia: acá la **víctima activa suele ser el `administrator`**.
 
-> Permite interferir en la petición de **la víctima activa** (que puede ser el **administrator**) al encolar peticiones.
-- [ ] **Robar su petición completa** por desfase de colas → capturar sus cookies/headers.
-- [ ] Hacer un **`/my-account` camuflado** que caiga en su sesión.
-- [ ] **Crear un comentario del admin** en un post con **sus headers** (probar su identidad / exfiltrar).
-- 📁 `vulnerabilities/http_smuggling/`
+> **En Stage 2 (escalar a admin):** aprovechás que **el admin navega** y/o entrás directo al panel.
+- [ ] **Comentario + admin navegando** → si podés **comentar** y el admin **visita el post**, colá para **robarle las cookies** (capturar su request / meter un stored XSS que caiga en su sesión).
+- [ ] **Header especial para ser admin** → **revelá/reflejá tus headers** (reveal front-end rewriting) y **compará con los del admin**: deducí qué header agrega el front (IP interna, rol, `X-…`) y **replicalo** en la request colada → [[vulnerabilities/008-http_smuggling/labs/README|lab 8]].
+- [ ] **Entrar al admin directo:** basta con **bypassear el front y contrabandear la 2ª petición** a `/admin/…` (borrar carlos / crear admin) → [[vulnerabilities/008-http_smuggling/examples/001-cl-te|CL.TE]] / [[vulnerabilities/008-http_smuggling/examples/002-te-cl|TE.CL]].
+- [ ] **Recurso estático (CL.0) hacia `/admin`:** posible, **pero es ciego** (no ves la respuesta) → no sabés qué pasó → **escenario poco probable/poco útil** salvo una acción a ciegas ya conocida → [[vulnerabilities/008-http_smuggling/examples/006-cl-0|006 · CL.0]].
+- [ ] **También acá:** envenenar caché con JS del exploit, **web cache deception** y **response queue poisoning** → [[vulnerabilities/008-http_smuggling/examples/007-response-queue-poisoning|007]] (ver detalle en Stage 1).
+- 📁 **Cómo explotar:** [[vulnerabilities/008-http_smuggling/http-smuggling|entry point]] · [[vulnerabilities/008-http_smuggling/labs/README|labs]]
 
 ### Access Control (IDOR / Broken Access Control)
 > [!danger] 🚩 ¿Está o no está?
