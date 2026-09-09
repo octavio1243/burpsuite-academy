@@ -112,14 +112,16 @@
 
 ### HTTP Request Smuggling (HRS)
 > [!danger] 🚩 ¿Está o no está?
-> **Correr scripts de detección** (HTTP Request Smuggler → *smuggle probe*) →
-> confirma CL.TE / TE.CL.
+> Extensión **HTTP Request Smuggler** → *smuggle probe*. Orden: **CL.TE primero (no contamina), TE.CL después (contamina)**. Preferí la detección **diferencial (404)** al timing → [[vulnerabilities/008-http_smuggling/http-smuggling#🧪-cómo-detectarlo|cómo detectar]].
 
-- [ ] Emitir otra petición que haga `GET /my-account` → robar `email`/`apiKey`/`password`.
-- [ ] Emitir petición que fuerce un `Set-Cookie` **que refleje las cookies** → obtener las suyas.
-- [ ] **Robar su petición** por desfase de colas (capturar su request completa).
-- [ ] *(por validar)* HTTP Request Smuggler → *smuggle probe*; probar **CL.TE** / **TE.CL**.
-- 📁 [[vulnerabilities/008-http_smuggling/detect.py|HTTP Request Smuggling]]
+> **En Stage 1 (todavía sin admin):** el objetivo es **cualquier usuario/víctima** o **la caché** (nada que dependa de que el admin esté navegando — eso es Stage 2).
+- [ ] **Buscador con historial** → si el search **guarda/refleja** las búsquedas, colá una que quede almacenada (para XSS almacenado o para capturar la request del próximo).
+- [ ] **XSS reflejado colado** (ej. en `User-Agent`) → la respuesta de la **próxima víctima** trae tu payload → [[vulnerabilities/008-http_smuggling/labs/README|lab 10]].
+- [ ] **Robar `/my-account` del próximo usuario** → colás para que **su request** quede capturada / su respuesta te llegue → `email`/`apiKey`/`password`.
+- [ ] **Envenenar la caché** con un **JS del exploit server** (afecta a **todo** visitante). *(también sirve en Stage 2)*
+- [ ] **Web cache deception:** forzar que los datos de **/my-account** del próximo usuario queden **cacheados** en una ruta estática que **vos** pedís → los leés. *(también en Stage 2)*
+- [ ] **Desincronización de cola** (response queue poisoning) → recibís **la respuesta de la víctima**. *(también en Stage 2)* → [[vulnerabilities/008-http_smuggling/examples/007-response-queue-poisoning|007 · queue poisoning]]
+- 📁 **Cómo explotar:** [[vulnerabilities/008-http_smuggling/http-smuggling|entry point]] · [[vulnerabilities/008-http_smuggling/labs/README|labs]] · scripts: [[vulnerabilities/008-http_smuggling/scripts/detect.py|detect.py]]
 
 ### Access Control Vulnerabilities (IDOR / Broken Access Control)
 > [!danger] 🚩 ¿Está o no está?
