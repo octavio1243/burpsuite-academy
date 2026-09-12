@@ -250,6 +250,6 @@ Luego `GET /client/CLIENT_ID/logo` → la respuesta es el JSON de credenciales.
 > - **Open redirect** (DOM/server) = la munición clásica para saltarse un `redirect_uri` whitelisteado → [[vulnerabilities/025-dom-based/dom-based|DOM-based]] · [[vulnerabilities/025-dom-based/labs/README|labs open redirect]].
 > - **CSRF** (falta de `state`, forced linking) → [[vulnerabilities/003-csrf/csrf|csrf]].
 > - **SSRF** (dynamic registration por `logo_uri`/`request_uri`, u OIDC discovery) → [[vulnerabilities/007-ssrf/ssrf|ssrf]].
-> - **JWT** (el `id_token` de OpenID es un JWT firmado → atacable si la validación es débil) → ver `vulnerabilities/018-jwt-attacks/`.
+> - **JWT** (el `id_token` de OpenID es un JWT firmado → atacable si la validación es débil) → [[vulnerabilities/018-jwt-attacks/labs/README|labs JWT]].
 > - El `code`/`token` robado y el linking forzado se **entregan por exploit server** (víctima/admin logueada visita) → misma mecánica de víctima que CSRF/clickjacking/XSS entregado.
 > - **Toma de cuenta** en general → [[vulnerabilities/029-authentication/authentication|authentication]] · [[vulnerabilities/028-access-control/access-control|access control]].
