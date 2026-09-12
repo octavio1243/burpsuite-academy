@@ -12,33 +12,27 @@ tags:
 > **Fuente única** para los 3 stages (evita duplicar). Cada STAGE linkea acá.
 > Técnica completa → [[vulnerabilities/030-web-cache-poisoning/web-cache-poisoning|entry point]] · labs → [[vulnerabilities/030-web-cache-poisoning/labs/README|labs]] · ejemplos → carpeta `examples/`.
 
-## 🚩 Flags — ¿vale la pena probar?
+## 🚩 Flags
 
-> La **señal de detección es la misma en todos los stages**: **headers de caché** en la respuesta (sobre todo de un `.js`/la home).
-> - **`X-Cache: hit`/`miss`** (y `X-Cache-Hits`, `Cache-Status`) → vino de caché.
-> - **`Age`**, **`Cache-Control`** (`public`, `max-age`), **`Vary`**, **`Expires`** → qué y cuánto se cachea.
-> - Que alterne **`miss`→`hit`** = hay algo que envenenar.
-> - *(recon)* `Pragma: x-get-cache-key` / Akamai `akamai-x-get-cache-key` → devuelve **`X-Cache-Key`** = qué es keyed vs unkeyed.
+> [!danger] 🚩 ¿Caché envenenable? — headers en la respuesta (`.js`/home)
+> `X-Cache: hit/miss` · `X-Cache-Hits` · `Cache-Status` · `Age` · `Cache-Control` · `Vary` · `Expires`. Que alterne **`miss`→`hit`** = envenenable.
+> **Recon de key:** `Pragma: x-get-cache-key` (Akamai `akamai-x-get-cache-key`) → `X-Cache-Key` = keyed vs unkeyed.
 
-> [!tip] 🎯 Gadgets que gritan WCP (dónde suele haber reflejo cacheable)
-> - **Idioma en la URL** (`/en`, `/es`, `?lang=`) → contenido **localizado**, cacheado y a menudo con params reflejados / `Vary: Accept-Language`.
-> - **Scripts que llaman un callback** (geolocalización tipo `geolocate.js` → `setCountryCookie(...)`) → candidato a **parameter cloaking**: pisás el **nombre del callback** por `alert(1)` → [[vulnerabilities/030-web-cache-poisoning/examples/009-parameter-cloaking|009]].
-> - `<script src>`/`@import` cuyo host o query **refleja** un header/param controlable.
+> [!tip] 💡 Gadgets que gritan WCP
+> **Idioma en URL** (`/en`, `?lang=`) · **scripts con callback** (geoloc `setCountryCookie(...)` → [[vulnerabilities/030-web-cache-poisoning/examples/009-parameter-cloaking|cloaking]]) · `<script src>`/`@import` que **refleja** un header/param.
 
-### Stage 1
-- Los headers de caché de arriba **+ hay víctimas navegando** (alguien que reciba el payload).
+## 🎯 Stage 1 vs Stage 2
 
-### Stage 2
-- Los headers de caché de arriba **+ el admin navega** (la home) → **su sesión es el premio**.
+> **Misma técnica; sólo cambia a quién le robás la sesión.** El "cómo" (detección, vector, Param Miner, explotación) está abajo en **Independiente del stage**.
 
-## 🧪 Cosas a probar (lo que cambia por stage = el objetivo)
-
-### Stage 1 — robar la sesión de una víctima
-- [ ] Envenenar la **home** (o un `.js`) para que **cualquiera que visite** reciba **mi JS** → exfil de su cookie → **entrar a su cuenta**.
-
-### Stage 2 — escalar robando al admin
-- [ ] **Mismo ataque apuntando al admin** (pasa por la home) → robo de su sesión = **escalada**.
-- [ ] **Targeting:** si `User-Agent` (u otro header) está en `Vary` = keyed → **replicá el del admin** para envenenar **SU** copia (lab *targeted, unknown header*).
+| Aspecto            | 🟢 Stage 1                                        | 🔴 Stage 2                                                          |
+| ------------------ | ------------------------------------------------- | ------------------------------------------------------------------ |
+| **Objetivo**       | entrar a la cuenta de **una víctima**             | **escalar a admin**                                                |
+| **A quién le pega** | cualquiera que navegue                            | el **admin** (pasa por la home)                                    |
+| **Flag extra**     | hay caché **+ víctimas navegando**                | hay caché **+ el admin navega la home**                            |
+| **Qué hago**       | envenenar home/`.js` → todo visitante recibe mi JS | **lo mismo**, el que cae es el admin                               |
+| **Payload**        | `document.cookie` → mi Collaborator → su sesión   | igual → **sesión del admin**                                       |
+| **Extra**          | —                                                 | **targeting**: si `User-Agent` ∈ `Vary`, replicá el del admin para envenenar **su** copia |
 
 ## ♾️ Independiente del stage (el "cómo" — sirve para los dos)
 
@@ -63,7 +57,16 @@ Ver los **headers de caché** del bloque de Flags. Confirmá `miss`→`hit` y, s
 5. **Verificás a mano:** que el input **cambie la respuesta** Y **no entre en la key** (`X-Cache: hit` o `X-Cache-Key`).
 
 ### 4) Cache buster (probar sin esperar ni ensuciar)
-Headers keyed inofensivos: `Accept-Encoding: gzip, deflate, cachebuster` · `Accept: */*, text/cachebuster` · `Cookie: cachebuster=1` · `Origin: https://cachebuster.vulnerable-website.com`. ⚠️ **Quitarlo al atacar** → [[vulnerabilities/030-web-cache-poisoning/examples/007-unkeyed-query-string-cachebuster|007]].
+**HackVector** → `<@random_num(10)/>` genera un número random por envío = buster automático. Copiar y pegar:
+```
+Origin: <@random_num(10)/>
+Accept-Encoding: gzip, deflate, cb<@random_num(10)/>
+Accept: */*, text/cb<@random_num(10)/>
+Cookie: cachebuster=<@random_num(10)/>
+```
+
+> [!warning] ⚠️ Quitá el buster al atacar
+> La key real que piden las víctimas **no lo lleva** → primero probás con buster, después lo sacás para envenenar. → [[vulnerabilities/030-web-cache-poisoning/examples/007-unkeyed-query-string-cachebuster|007]]
 
 ### 5) Explotar
 Hosteo en el **exploit server** el JS que la página envenenada importa, en el **path exacto**:

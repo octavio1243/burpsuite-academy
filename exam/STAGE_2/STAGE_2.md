@@ -1,8 +1,8 @@
 # STAGE 2 — PRIVILEGE ESCALATION
 
 > **Objetivo único:** escalar del usuario normal (Stage 1) a **administrador**.
-> Ahora **la víctima activa que navega y está logueada es el administrator**.
-> Cada vulnerabilidad es *un camino distinto* para lo mismo: **tomar su cuenta o su rol**.
+> Ahora **la víctima activa que navega y está logueada es el administrator**. Cada vulnerabilidad es *un camino distinto* para **tomar su cuenta o su rol**.
+> 🚩=`[!danger]` · 💡=`[!tip]` · ⚠️=`[!warning]`. El "qué probar" completo vive en `exam/to-do-list/<vuln>`.
 
 ## 🧰 Herramientas que tengo para atacar
 
@@ -25,229 +25,94 @@
 - [ ] Comparar requests **user vs. admin** (¿solo cambia un `role`, `id`, cookie?).
 - [ ] Extensiones: **Param Miner**, **HTTP Request Smuggler**, **InQL**.
 
+> [!tip] ✅ ¿Hay víctima que visita tus entregas? (Access log)
+> Entregá algo trivial por el exploit server → **IP distinta** en el Access log = hay bot admin → los ataques *delivered* (CSRF/XSS/clickjacking) son viables. **Solo tu IP** → el admin solo ve contenido in-app (⇒ stored XSS) o el camino es **auto-escalada** (mass assignment, IDOR, JWT).
+
 ---
 
 ## ✅ Vulnerabilidades (Stage 2)
 
-### SQL Injection (SQLi)
-> [!danger] 🚩 ¿Está o no está?
-> Hay un **search / buscador** (o cualquier input que consulte la base de datos).
+### 🗄️ SQL Injection
+> [!danger] 🚩 Hay **search/buscador** o input que consulta la BD
 
-> **Objetivo:** obtener **usuario y contraseña de admin** por inyección SQL.
-- [ ] Puntos: buscador, login, filtros, cookies, headers. `'`, `''`, `OR 1=1`.
-- [ ] **UNION** → extraer credenciales del admin de la tabla de usuarios.
-- [ ] Blind → condicional / time-based si no refleja.
-- [ ] Bypass filtros/WAF con ofuscación.
-- [ ] *(menos común)* **Escritura para escalar:** si la SQLi es un `UPDATE`/`INSERT` o permite stacked queries (`; UPDATE…`) → **subir tu propio rol** (`roleId` / `role` / `isAdmin`) en vez de robarle al admin. Ver callout *"vector de escritura"* en el entry point.
-- 📁 **Cómo explotar:** [[vulnerabilities/001-sql-injection/README|SQL Injection]] · [[vulnerabilities/001-sql-injection/labs/README|labs]] · [[vulnerabilities/001-sql-injection/cheat-sheet|cheat sheet]]
+→ [[exam/to-do-list/sql-injection|Qué probar]] (S2: UNION saca user+pass del admin; o UPDATE/stacked sube tu rol)
 
-### Cross-Site Scripting (XSS)
-> [!danger] 🚩 ¿Está o no está?
-> **¿Aparecen archivos `.js` nuevos** cuando estás logueado? Zonas que ve el admin.
+### 🧬 Cross-Site Scripting (XSS)
+> [!danger] 🚩 **`.js` nuevos** al estar logueado / en zonas del admin
 
-> [!note] 🍪 `HttpOnly` — bifurca el camino, NO descarta el XSS
-> **Mirá el flag `HttpOnly` de la cookie del admin antes** de apostar todo a robarla:
-> - `HttpOnly: false` → **robo directo** de su cookie → sesión de admin.
-> - `HttpOnly: true` → no la leés, pero el XSS **sigue sirviendo contra el admin**: `fetch` a `/my-account` para sacar `email`/`apiKey`, **leer su CSRF token y cambiarle email/password**, o reenviar el body como él. Más complejo, pero es la vía cuando la cookie está blindada. Detalle en [[vulnerabilities/002-xss/README#🎯 Qué hacer con un XSS (objetivos de explotación)|entry point → objetivos]].
+→ [[exam/to-do-list/xss|Qué probar]]
 
-> Si hay un **XSS en `my-account`** → hay que ver **cómo hacérselo llegar al administrator**.
+### 🎣 CSRF
+> [!danger] 🚩 Existe una **acción relevante del admin** que forjar (cambiar email/password)
 
-**Dónde probar (recon):**
-- [ ] **Reflexión en el buscador** → romper el contexto HTML con `<>`.
-- [ ] **XSS en comentarios** (stored) → probar también el campo **website/URL** (va a un `href`).
-- [ ] **DOM:** ¿hay `document.write`? ¿`location.search`? ¿`innerHTML`? ¿`location.hash`? (source → sink, DOM Invader).
-- [ ] ¿Está corriendo **jQuery**? ¿**qué versión**? (sinks `$()`, `.html()`, `attr('href')`).
-- [ ] ¿Hay **`ng-app`** / **AngularJS**? → inyección por **expresión** `{{...}}`.
-- [ ] ¿Hay **`eval`** (u otro sink que evalúe la respuesta)? → reflected DOM.
+→ [[exam/to-do-list/csrf|Qué probar]]
 
-**Qué hacer con él (contra el admin):**
-- [ ] XSS **almacenado** (comentario/campo que el admin visita) → se dispara en su sesión.
-- [ ] Con el XSS: robar sus cookies, o leer su CSRF token y **cambiar su email/password** vía `fetch` (payloads: [[vulnerabilities/002-xss/exfil-payloads.js|exfil-payloads.js]]).
-- [ ] *(extra)* Exfiltrar datos de `/my-account` del admin (`email`, `apiKey`) al exploit server.
-- 📁 **Cómo explotar:** [[vulnerabilities/002-xss/README|XSS]] · labs: [[vulnerabilities/002-xss/labs/README|labs]] · cheat sheet: [[vulnerabilities/002-xss/cheat-sheet|cheat sheet]] · ofuscación: [[vulnerabilities/019-obfuscacion/xss-obfuscation|xss-obfuscation]]
+### 🖱️ Clickjacking
+> [!danger] 🚩 Acción clickeable del admin **+ página enmarcable** (sin `X-Frame-Options`/`frame-ancestors`) **+ víctima**
 
-### Cross-Site Request Forgery (CSRF)
-> [!danger] 🚩 ¿Está o no está?
-> **La FLAG es que exista una acción relevante del admin que forjar.** Acá **sí** estás logueado (usuario normal) y el objetivo es **comprometer al admin** → CSRF es un vector de primera. Si hay acción relevante → evaluá la defensa; sin token es fácil, con token casi siempre hay bypass.
+→ [[exam/to-do-list/clickjacking|Qué probar]]
 
-> [!tip] ✅ Confirmá que hay una víctima que visita tus entregas (Access log)
-> Antes de invertir en un CSRF/XSS **entregado por exploit server**: entregá algo trivial y mirá el **Access log** del exploit server.
-> - Aparece una **IP distinta a la tuya** → hay un **victim simulado** que visita tus entregas → el ataque *delivered* (CSRF/XSS al admin) **es viable**.
-> - **Solo tu IP** → nadie consume las entregas → CSRF por exploit server **no aplica** → el admin solo **revisa contenido in-app** (⇒ **stored XSS** en un campo que ve en `/admin`), o el camino es **auto-escalada de privilegios** (sin víctima: mass-assignment `roleid`, IDOR, JWT…).
-> ⚠️ Que hayas usado (o no) el exploit server en STAGE 1 **no** es la señal — es **reutilizable**. La señal es **quién aparece en el log**.
+### 🌳 DOM-Based
+> [!danger] 🚩 `.js` nuevos contra el admin con `postMessage`/`eval`/`addEventListener("message"`
 
-**Acciones del admin a probar (¿alguna es CSRF-able?):**
-- [ ] **Cambiar email** → cambiárselo a uno mío → **reset de password** por correo → login como admin.
-- [ ] **Cambiar contraseña** → sobre todo si el form **NO pide la contraseña actual** → CSRF directo.
-- [ ] **Flujo de recuperación de cuenta** (forgot/reset password) → ¿puedo forjar el disparo del reset, o cómo se setea/valida el token de reset?
-- [ ] Cualquier **otra acción con estado** del admin (cambiar rol, 2FA, borrar usuario, etc.).
+→ [[exam/to-do-list/dom-based|Qué probar]]
 
-**Cómo explotarla una vez encontrada:**
-- [ ] Generar PoC (Burp → *Generate CSRF PoC*) → entregar al admin por exploit server → el admin la visita → se ejecuta en su sesión.
-- [ ] Le cambio el email a uno mío → **recupero la contraseña** por correo → login como admin.
-- [ ] **Si hay token CSRF** → probá los **puntos flojos** antes de descartar: ¿solo en POST? ¿solo si está presente? ¿no atado a la sesión? ¿atado a una cookie que puedo setear (CRLF)? ¿duplicado en cookie+body? → [[vulnerabilities/003-csrf/csrf#🔎 Puntos flojos a verificar (bypass de token)|puntos flojos]].
-- [ ] *(por validar)* **SameSite** de la cookie (enruta el vector, **no** descarta): `None`/ausente → todos los vectores; `Lax` → solo GET top-level + `_method=POST`; `Strict` → redirect client-side / subdominio hermano.
-- [ ] *(por validar)* **¿API REST (JSON)?** No es descarte → probá **convertir el body JSON a `x-www-form-urlencoded`** (o `text/plain`): si el server igual lo parsea, el CSRF sigue vivo (esos content-types no disparan preflight CORS).
-- [ ] **Si el token está bien atado y no hay bypass** → buscá un **XSS** que lo lea y forje la request, o **dangling markup** para exfiltrarlo. Ver [[vulnerabilities/002-xss/README#🎯 Qué hacer con un XSS (objetivos de explotación)|XSS → bypass CSRF / dangling markup]].
-- 📁 **Cómo explotar:** [[vulnerabilities/003-csrf/csrf|CSRF]] · labs: [[vulnerabilities/003-csrf/labs/README|labs]]
+### 🔀 CORS
+> [!danger] 🚩 `ACAO` refleja tu `Origin`/`null`/subdominio **+ `Allow-Credentials: true`**
 
-### Clickjacking
-> [!danger] 🚩 ¿Está o no está? (las 3 juntas)
-> 1. **Acción relevante y clickeable** del admin (cambiar su email, borrar/aprobar algo, submit que dispara XSS…).
-> 2. **La página del admin se deja enmarcar** → **faltan** `X-Frame-Options` **y** CSP `frame-ancestors` en la response.
-> 3. Hay una **víctima admin** que visita tu entrega y **hace clic** → confirmalo con el **Access log** del exploit server (IP distinta a la tuya, igual que con CSRF/XSS entregados).
-> Si la página **no** se enmarca → descartá clickjacking (pivoteá a CSRF/XSS). **Sirve aunque el form tenga token CSRF** (la víctima manda su form real).
+→ [[exam/to-do-list/cors|Qué probar]]
 
-**Acciones del admin a probar (¿alguna es clickeable a ciegas?):**
-- [ ] **Cambiar email** del admin → el campo se puede **prellenar por query param** en el `src` del iframe → clic ciego → reset de password → **llega a tu bandeja**.
-- [ ] **Borrar/aprobar** algo con estado (incluso **multistep** con confirmación → varios señuelos).
-- [ ] **Submit** que dispara un **DOM XSS** → el clic ciego ejecuta el payload (prellenado por URL).
+### 📦 HTTP Request Smuggling
+> [!danger] 🚩 *Smuggle probe*; la víctima activa suele ser el **admin**
 
-> [!tip] 🏷️ Nombres de botones/señuelos (no se adivinan, se leen)
-> El **texto del señuelo** lo elegís vos (los labs usan **`Test me`**, o **`Click me first`** / **`Click me next`** en multistep). El **botón real** del admin lo **reconocés registrando tu propia cuenta** y navegando el target (ahí ves el label exacto y si hay confirmación). Candidatos vistos en los labs para buscar/alinear en el target:
-> - **`Delete account`** (+ confirmación **`Yes`**) → suele ser **multistep**.
-> - **`Update email`** → change-email (prellenable por URL).
-> - **`Submit feedback`** → si dispara DOM XSS.
-> Orden multistep típico: **botón de acción → `Yes`**.
+→ [[exam/to-do-list/http-request-smuggling|Qué probar]]
 
-**Cómo explotarla:**
-- [ ] Iframe del target casi transparente (`opacity` baja) + `<div>` señuelo sobre el botón; alineá con `opacity:0.1` y entregá con `~0.0001`.
-- [ ] **¿No sabés la resolución del admin?** Mandá un **beacon** (`<img>`) con `screen.width/height` + `innerWidth/Height` + `dpr` al **Collaborator** o al **Access log** del exploit server → recalculá los `top`/`left` (o posicioná el señuelo por proporción de `innerWidth`). Ver [[vulnerabilities/004-clickjacking/clickjacking#6) Beacon de resolución/layout (para alinear a ciegas)|PoC beacon]].
-- [ ] **Prellená** los inputs por query params; si hay **frame buster** → `sandbox="allow-forms"`.
-- 📁 **Cómo explotar:** [[vulnerabilities/004-clickjacking/clickjacking|Clickjacking]] · labs: [[vulnerabilities/004-clickjacking/labs/README|labs]]
+### 🔓 Access Control (IDOR)
+> [!danger] 🚩 Peticiones con **`username`/`id`/`role`** manipulable → vertical o horizontal→vertical
 
-### DOM-Based Vulnerabilities (DOM)
-> [!danger] 🚩 ¿Está o no está? — **grepeá el JS (sobre todo el nuevo)**
-> **`.js` nuevos que aparecen contra el admin** (checkout, `my-account`, home). Buscá (Ctrl+F): **`addEventListener("message"` / `postMessage(` / `eval(`** → **altamente probable** que haya vuln DOM-based (prioridad alta). Otros sinks: `innerHTML`, `document.write`, `location`/`location.href`, `document.cookie`, `setTimeout(str)`, jQuery `$()`. Sources: `location.search/hash`, `document.referrer`, `document.cookie`, `window.name`, web messages. Lista → [[vulnerabilities/025-dom-based/sinks|sinks & sources]].
+→ [[exam/to-do-list/access-control|Qué probar]]
 
-> [!note] 🎯 Objetivo y entrega (leé esto antes de la checklist)
-> **Objetivo:** ejecutar JS en la sesión del **admin** → **robar su cookie** (si no es `HttpOnly`) o **actuar como él** (leer su CSRF token y cambiarle email/password, o disparar la acción de admin). Mismo fin que un XSS.
-> **¿Requiere exploit server? SÍ.** Estos DOM-based **no persisten** en el target (el bug vive en el JS del cliente) → tenés que **entregar** un `<iframe>`/URL por el **exploit server** y que el **admin lo visite**. Única excepción: **open redirect**, que puede ser una URL directa (para robar el `code` en OAuth).
-> **Tu duda ("¿sirve en Stage 2? depende del exploit server"):** sí, **depende de que el admin visite** tu exploit — y eso es exactamente lo que hace el **bot víctima** del examen. Es la vía clásica para escalar a admin cuando su cookie se puede robar o podés actuar en su sesión. **Confirmá la visita en el Access log** (IP distinta).
+### 🔑 Authentication (incluye Password Reset)
+> [!danger] 🚩 Hay **"recuperar contraseña"**; el reset/el cambio de password **mandan el `username`** → manipulable al admin
 
-- [ ] **Grepeá los sinks** en cada `.js` → rastreá source→sink (**DOM Invader**). Un `postMessage`/`addEventListener('message')`/`eval` es la señal fuerte.
-- [ ] **Web message** (`postMessage` sin chequeo de `origin`) → `<iframe>` al target que dispara `postMessage` en `onload`; se lo hacés llegar al **admin** por el exploit server → XSS en su sesión.
-- [ ] **DOM-XSS** → mismo fin que XSS contra el admin: robar sesión / actuar como él (leer su CSRF token, cambiar email/password).
-- [ ] **DOM open-redirect** → robar **token/`code`** del admin en OAuth. **Cookie manipulation** / **DOM clobbering** (si hay DOMPurify + `id`/`name` permitidos).
-- 📁 **Cómo explotar:** [[vulnerabilities/025-dom-based/dom-based|DOM-based]] · sinks: [[vulnerabilities/025-dom-based/sinks|sinks & sources]] · labs: [[vulnerabilities/025-dom-based/labs/README|labs]] · DOM-XSS clásico: [[vulnerabilities/002-xss/README#🌳 DOM XSS — source → sink|XSS→DOM]]
+→ [[exam/to-do-list/authentication|Qué probar]]
 
-### Cross-Origin Resource Sharing (CORS)
-> [!danger] 🚩 FLAG — se tiene que cumplir esto (en la respuesta del endpoint de datos)
-> **Las dos juntas** para leer los datos del **admin**:
-> 1. **`Access-Control-Allow-Origin` refleja tu `Origin` arbitrario** (probalo en Repeater con `Origin: https://evil.com`) — o acepta **`Origin: null`** — o **confía en subdominios** (ahí necesitás un **XSS en un subdominio** como trampolín).
-> 2. **`Access-Control-Allow-Credentials: true`** (necesario para que viajen las cookies del admin).
->
-> ⚠️ **`ACAO: *` NO sirve** para robar la sesión del admin (`*` no convive con credenciales). Buscás **reflejo** / **`null`** / **subdominio confiable**.
+### 🌐 Web Cache Poisoning
+> [!danger] 🚩 `X-Cache`/`Age`/`Vary`/`Cache-Control` en la respuesta
 
-> **Objetivo:** leer el `/my-account` (o `/accountDetails`) del **admin** → robar su `apiKey`/datos → escalar.
-- [ ] En Repeater, agregar `Origin: https://evil.com` a la request de datos → confirmar reflejo + `Allow-Credentials: true`.
-- [ ] **Entrega (respuesta a tu duda "cómo se lo doy al admin"):** subís al **exploit server** un `<script>`/`<iframe>` con `fetch(endpoint,{credentials:'include'})`, exfiltrás a `…/log?key=`, y usás **"Deliver exploit to victim"** → el bot admin lo visita con **sus** cookies. Confirmás en el **Access log**.
-- [ ] Si confía en subdominios/HTTP → el trampolín es un **XSS en subdominio** (ver lab Practitioner).
-- 📁 **Cómo explotar:** [[vulnerabilities/005-cors/cors|CORS]] · labs: [[vulnerabilities/005-cors/labs/README|labs]]
+→ [[exam/to-do-list/web-cache-poisoning|Qué probar]]
 
-### HTTP Request Smuggling (HRS)
-> [!danger] 🚩 ¿Está o no está?
-> Igual que Stage 1 (HTTP Request Smuggler; **CL.TE antes que TE.CL**; **diferencial > timing**). La diferencia: acá la **víctima activa suele ser el `administrator`**.
+### 🏠 HTTP Host Header
+> [!danger] 🚩 **Pisar el `Host`** del mail de reset → el link del admin llega a mi Collaborator
 
-> **En Stage 2 (escalar a admin):** aprovechás que **el admin navega** y/o entrás directo al panel.
-- [ ] **Comentario + admin navegando** → si podés **comentar** y el admin **visita el post**, colá para **robarle las cookies** (capturar su request / meter un stored XSS que caiga en su sesión).
-- [ ] **Header especial para ser admin** → **revelá/reflejá tus headers** (reveal front-end rewriting) y **compará con los del admin**: deducí qué header agrega el front (IP interna, rol, `X-…`) y **replicalo** en la request colada → [[vulnerabilities/008-http_smuggling/labs/README|lab 8]].
-- [ ] **Entrar al admin directo:** basta con **bypassear el front y contrabandear la 2ª petición** a `/admin/…` (borrar carlos / crear admin) → [[vulnerabilities/008-http_smuggling/examples/001-cl-te|CL.TE]] / [[vulnerabilities/008-http_smuggling/examples/002-te-cl|TE.CL]].
-- [ ] **Recurso estático (CL.0) hacia `/admin`:** posible, **pero es ciego** (no ves la respuesta) → no sabés qué pasó → **escenario poco probable/poco útil** salvo una acción a ciegas ya conocida → [[vulnerabilities/008-http_smuggling/examples/006-cl-0|006 · CL.0]].
-- [ ] **También acá:** envenenar caché con JS del exploit, **web cache deception** y **response queue poisoning** → [[vulnerabilities/008-http_smuggling/examples/007-response-queue-poisoning|007]] (ver detalle en Stage 1).
-- 📁 **Cómo explotar:** [[vulnerabilities/008-http_smuggling/http-smuggling|entry point]] · [[vulnerabilities/008-http_smuggling/labs/README|labs]]
+→ [[exam/to-do-list/host-header|Qué probar]]
 
-### Access Control (IDOR / Broken Access Control)
-> [!danger] 🚩 ¿Está o no está?
-> Peticiones con **`username` / `id` / `role`** manipulables. Acá el objetivo es **vertical** (llegar a admin) o **horizontal → vertical** (robar credenciales de admin).
+### 🪪 OAuth
+> [!danger] 🚩 El login **usa OAuth**
 
-**Escalar a admin (vertical):**
-- [ ] **Cookie de rol** → `Admin=false` → `Admin=true` (o el flag/rol que traiga la sesión).
-- [ ] **Mass assignment** → en un `update` de perfil, agregar **`roleid=2`** (o `role`, `isAdmin`) → auto-escalada, incluso sobre tu propia cuenta.
-- [ ] **Bypass de plataforma** (el control existe pero está mal puesto):
-  - Forzar `/admin` con headers **`X-Original-URL`** / **`X-Rewrite-URL`**.
-  - **Cambiar el método** — filtra `POST` pero **no `GET`**.
-  - **`Referer`** — subpáginas (`/admin/deleteUser`) que solo chequean el referer → **concatená el referer actual con `/admin`**.
+→ [[exam/to-do-list/oauth|Qué probar]]
 
-**Horizontal → vertical (datos/credenciales de otro):**
-- [ ] **`userId` expuesto en comentarios/blog** → visitá **`/my-account?username=<userId>`** (el userId puede ser **`administrator`**). ⚠️ **cuidado con el `302` que trae body.**
-- [ ] 🔁 **Si el `GET` está filtrado/redirige, cambiá el método:** `POST /my-account?username=administrator` (o `HEAD`/método raro). Si el control solo cubre el `GET`, el otro método pasa (**method-based bypass**).
-- [ ] **Leer el chat de otro** (IDOR en transcript: `/download-transcript/N.txt`, número incremental) → 🚩 **si hay live chat, es FLAG probable** (credenciales en el log).
-- 📁 **Cómo explotar:** [[vulnerabilities/028-access-control/access-control|entry point]] · [[vulnerabilities/028-access-control/labs/README|labs]]
+### 🎫 JWT
+> [!danger] 🚩 La sesión **es un JWT** → cambiar `sub`/`role` a administrator
 
-### Authentication (Auth)
-> [!danger] 🚩 ¿Está o no está? (señales de escalada)
-> 1. **Existe opción de "recuperar contraseña"** → el flujo de reset suele ser el flanco más débil para tomar la cuenta del **admin**.
-> 2. **Al recuperar TU cuenta te piden el `username`** (para mandar el token / setear la password nueva) → ese `username` es **manipulable** → apuntalo al admin.
-> 3. **El endpoint de cambiar password (usuario logueado) manda el `username`** → si lo cambiás, se vuelve **oráculo de fuerza bruta** del password ajeno.
+→ [[exam/to-do-list/jwt|Qué probar]]
 
-> Fin (Stage 2): **escalar a admin**. Caminos:
-- [ ] **Fuerza bruta por cookies** — si la sesión/stay-logged-in del admin es predecible (`base64(user:md5(pass))`), brute-forceás la **cookie** contra un endpoint autenticado, sin `/login` ni rate limit.
-- [ ] **Reset poisoning al admin (`X-Forwarded-Host`)** — la app arma el **link del mail** con un header que vos controlás (el middleware confía en `X-Forwarded-Host`). Disparás el reset del **admin** con `X-Forwarded-Host: TU-collab`: el token es **válido para el admin** pero el link apunta a tu server → cuando el admin lo abre, **su token te llega al Collaborator** → reseteás su password y entrás. (mecánica de Host header abajo).
-- [ ] **Tokens cruzados (lo más fácil)** — pedís el reset de **tu** cuenta, agarrás **tu token válido** y en el POST final **cambiás el `username` al admin** → usás **tu token para resetear la cuenta del admin**.
-- [ ] **Fuerza bruta vía cambio de password** — en `POST /my-account/change-password`, mandás dos new-passwords **distintas** y cambiás el `username` al admin: el error `New passwords do not match` (vs `Current password is incorrect`) **delata el password correcto sin lockear**.
-- [ ] *(según flujo)* Bypass 2FA del admin, enumeración, credenciales por defecto.
-- 📁 **Cómo explotar:** [[vulnerabilities/029-authentication/authentication|entry point]] · [[vulnerabilities/029-authentication/labs/README|labs]] · scripts: [[vulnerabilities/011-brute-force/login_userenum_password.py|brute-force]]
+### 🧩 API Testing / Mass Assignment
+> [!danger] 🚩 Endpoints **API (JSON)** con update de perfil
 
-### Web Cache Poisoning (WCP)
-> 📋 **Movido al to-do-list compartido** (piloto de reorg — flags + cosas a probar + técnica, sin duplicar entre stages):
-> → [[exam/to-do-list/web-cache-poisoning#Stage 2|to-do-list/web-cache-poisoning · Stage 2]]
-> (independiente del stage: detección, Param Miner, inputs unkeyed, cache buster, explotación en el mismo archivo).
+→ [[exam/to-do-list/api-testing|Qué probar]] (`"isAdmin":true`/`roleid=2` → auto-escalada)
 
-### HTTP Host Header Attacks (Host)
-> [!danger] 🚩 ¿Está o no está?
-> **Pisar el `Host`** del email de recuperar contraseña → el link apunta a **oastify/Collaborator** y **se ejecuta**.
+### 🕸️ GraphQL
+> [!danger] 🚩 Endpoint **GraphQL** (InQL)
 
-- [ ] En **recuperar contraseña**, cambiar el `Host` → el link de reset del admin llega a mi Collaborator → capturo su token.
-- [ ] *(variante)* Desde el usuario logueado, **cambiar la URL del reset** tras haber cambiado el correo primero.
-- [ ] `X-Forwarded-Host`, doble `Host`, `Host: localhost`.
-- 📁 `vulnerabilities/host-header-injection/`
+→ [[exam/to-do-list/graphql|Qué probar]]
 
-### OAuth Authentication (OAuth)
-> [!danger] 🚩 ¿Está o no está?
-> **Requisito necesario:** el login **usa OAuth** (si no, no aplica).
+### 🧪 Prototype Pollution (client-side)
+> [!danger] 🚩 **`__proto__`** en query/JSON cambia el comportamiento
 
-- [ ] Manipular `redirect_uri` → desviar el **authorization code** del admin a mi exploit server.
-- [ ] Falta de `state` → CSRF de login / account linking. Robo de `code` por `Referer`.
-- 📁 **Cómo explotar:** [[vulnerabilities/026-oauth/oauth|OAuth]] *(entry point incompleto)*
-
-### JSON Web Tokens (JWT)
-> [!danger] 🚩 ¿Está o no está?
-> **Requisito necesario:** la sesión **es un JWT** (no una cookie de sesión simple).
-
-- [ ] Forjar/alterar el token: `alg:none`, firma no verificada, HS256 débil (crackear), `kid`/`jwk`/`jku`.
-- [ ] Cambiar `sub`/`role` → **administrator**.
-- 📁 `vulnerabilities/jwt-attacks/`
-
----
-
-## 🔎 Extras que ya teníamos (útiles en Stage 2)
-
-### Password Reset
-- [ ] Token débil/predecible, reutilizable, o ligado al **Host header**.
-- [ ] `username`/`user_id` manipulable en el POST de reset → resetear al **admin** (tokens cruzados).
-- 📁 **Cómo explotar:** [[vulnerabilities/029-authentication/authentication|Authentication → fase reset]] · [[vulnerabilities/029-authentication/labs/README|labs]] · Host header: `vulnerabilities/016-host-header-injection/`
-
-### API Testing / Mass Assignment
-- [ ] Métodos alternos (`PUT`/`PATCH`/`DELETE`), `Content-Type` swaps.
-- [ ] **Mass assignment**: añadir `"isAdmin":true`, `"role":"admin"` al JSON del perfil.
-- [ ] Documentación/endpoints ocultos de la API.
-- 📁 *(crear `vulnerabilities/api-testing/`)*
-
-### GraphQL (InQL)
-- [ ] **InQL** → introspección; si está off, probar sugerencias/aliasing.
-- [ ] Mutaciones no autorizadas (cambiar rol/password). Brute por batching (aliases) saltando rate limit.
-- 📁 `vulnerabilities/graphql/`
-
-### Prototype Pollution (client-side)
-- [ ] Buscar *gadget*: `__proto__` en query/JSON/params → propiedad que afecte la lógica.
-- [ ] DOM Invader (Burp) para detectar source→sink.
-- 📁 `vulnerabilities/prototype-pollution/`
+→ [[exam/to-do-list/prototype-pollution|Qué probar]]
 
 ---
 
 > [!success] Salida del Stage 2
 > Sesión/credenciales de **administrador** → usar para el **Stage 3**.
-
-> [!todo] Pendiente de completar
-> **Authentication** (definir señal/escenario) y afinar los `?` cuando aparezcan en labs.
