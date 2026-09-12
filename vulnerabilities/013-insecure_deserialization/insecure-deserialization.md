@@ -49,8 +49,8 @@ tags:
 
 ## 🎯 Qué se logra (por qué importa)
 
-- **Escalada de privilegios sin RCE** (001–003): la app confía en atributos del objeto (`admin`, `access_token`, rutas). Los reescribís → sos otro usuario o borrás lo que quieras. *Barato, sin herramientas.*
-- **RCE por gadget chain** (004–010): encadenás métodos mágicos (`__destruct`, `__wakeup`, `readObject`…) que ya existen en el código/librerías → ejecutás comandos. **Es el camino a `cat /home/carlos/secret` del Stage 3.**
+- **🔴 Escalada de privilegios — Stage 2 (último recurso)** (001–003): la app confía en atributos del objeto (`admin`, `access_token`, rutas). Los reescribís → **sos administrator** o borrás lo que quieras. *Barato, sin herramientas.* Raro que sea el vector de Stage 2, **pero posible**: si ves la cookie serializada y agotaste lo normal, probalo.
+- **⚫ RCE por gadget chain — Stage 3** (004–010): encadenás métodos mágicos (`__destruct`, `__wakeup`, `readObject`…) que ya existen en el código/librerías → ejecutás comandos. **Es el camino a `cat /home/carlos/secret`.**
 
 ## 🧪 Cómo detectarlo (metodología)
 
@@ -79,9 +79,9 @@ tags:
 
 ## 🧰 Herramientas y scripts del vault
 
-- **Java →** `ysoserial-all.jar` + [`JAVA/serialize_payload.py`](vulnerabilities/013-insecure_deserialization/JAVA/serialize_payload.py) (genera el gadget y aplica el pipeline de capas configurable: `gzip,base64,url`…).
-- **PHP →** [`PHP/gen-payload.ps1`](vulnerabilities/013-insecure_deserialization/PHP/gen-payload.ps1) (corre **phpggc** en Docker) + [`PHP/sign-cookie.ps1`](vulnerabilities/013-insecure_deserialization/PHP/sign-cookie.ps1) (firma HMAC-SHA1 para el lab Symfony).
-- **Ruby →** [`Ruby/serialize.py`](vulnerabilities/013-insecure_deserialization/Ruby/serialize.py) (Marshal vía Docker: modo `gadget` = RCE universal, `custom` = forjar un objeto real, `object` = entender el formato).
+- **Java →** `ysoserial-all.jar` + [`scripts/JAVA/serialize_payload.py`](vulnerabilities/013-insecure_deserialization/scripts/JAVA/serialize_payload.py) (genera el gadget y aplica el pipeline de capas configurable: `gzip,base64,url`…).
+- **PHP →** [`scripts/PHP/gen_rce_oast.py`](vulnerabilities/013-insecure_deserialization/scripts/PHP/gen_rce_oast.py) (corre **phpggc** en Docker y arma el comando de **exfil por OAST** para *leer* el secreto) · [`scripts/PHP/gen-payload.ps1`](vulnerabilities/013-insecure_deserialization/scripts/PHP/gen-payload.ps1) (versión PS) + [`scripts/PHP/sign-cookie.ps1`](vulnerabilities/013-insecure_deserialization/scripts/PHP/sign-cookie.ps1) (firma HMAC-SHA1 para el lab Symfony).
+- **Ruby →** [`scripts/Ruby/serialize.py`](vulnerabilities/013-insecure_deserialization/scripts/Ruby/serialize.py) (Marshal vía Docker: modo `gadget` = RCE universal, `custom` = forjar un objeto real, `object` = entender el formato).
 - **Hackvertor** (BApp): tags `<@base64>…</@base64>` para re-encodar en vivo sin recompilar (clave en el lab Java custom, que recalcula offsets).
 
 ## 🛡️ Prevención (lado defensivo)

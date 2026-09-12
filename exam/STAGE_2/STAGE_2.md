@@ -112,6 +112,12 @@
 
 → [[exam/to-do-list/prototype-pollution|Qué probar]]
 
+### 🧷 Insecure Deserialization *(último recurso)*
+> [!warning] ⚠️ La cookie de sesión es un **objeto serializado** (PHP `O:` · Java `rO0`) y **agotaste** lo normal
+> Reescribí atributos/tipos sin herramienta: `admin`→true / `access_token`→`i:0` (type juggling). Raro pero **posible y barato**.
+
+→ [[exam/to-do-list/insecure-deserialization|Qué probar (Stage 2)]]
+
 ---
 
 > [!success] Salida del Stage 2

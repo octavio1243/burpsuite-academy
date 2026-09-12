@@ -22,7 +22,21 @@
             }
           },
           {
-            "id": "2868656a806c8f3b",
+            "id": "0e351e4eec6e62ce",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/STAGE_3/STAGE_3.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "STAGE_3"
+            }
+          },
+          {
+            "id": "25a28765e49ab97b",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -36,49 +50,77 @@
             }
           },
           {
-            "id": "0e351e4eec6e62ce",
+            "id": "eeb56c178bd7e88d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "exam/STAGE_3/STAGE_3.md",
+                "file": "vulnerabilities/013-insecure_deserialization/examples/004-object-injection-php.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "STAGE_3"
+              "title": "004-object-injection-php"
             }
           },
           {
-            "id": "5aadf8d039c1a94d",
+            "id": "52b5f7d17695efac",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "vulnerabilities/013-insecure_deserialization/examples/001-modificar-objeto-php.md",
+                "file": "vulnerabilities/013-insecure_deserialization/examples/005-java-apache-commons-ysoserial.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "001-modificar-objeto-php"
+              "title": "005-java-apache-commons-ysoserial"
             }
           },
           {
-            "id": "2425e926db5eff0c",
+            "id": "fe32099104185be8",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "vulnerabilities/013-insecure_deserialization/examples/002-modificar-tipos-php.md",
+                "file": "vulnerabilities/013-insecure_deserialization/examples/006-php-phpggc-symfony.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "002-modificar-tipos-php"
+              "title": "006-php-phpggc-symfony"
+            }
+          },
+          {
+            "id": "38f381f44b866606",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/013-insecure_deserialization/examples/007-ruby-gadget-documentado.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "007-ruby-gadget-documentado"
+            }
+          },
+          {
+            "id": "8aa40abca69ea9b8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/013-insecure_deserialization/examples/008-java-custom-gadget-sqli.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "008-java-custom-gadget-sqli"
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 6
       }
     ],
     "direction": "vertical"
@@ -112,7 +154,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "path:\"vulnerabilities/013-insecure_deserialization/PHP/phpggc/\" ",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -242,22 +284,34 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "2425e926db5eff0c",
+  "active": "38f381f44b866606",
   "lastOpenFiles": [
-    "vulnerabilities/013-insecure_deserialization/examples/001-modificar-objeto-php.md",
-    "vulnerabilities/013-insecure_deserialization/examples/010-phar-deserialization.md",
-    "exam/STAGE_3/STAGE_3.md",
-    "vulnerabilities/013-insecure_deserialization/examples/009-php-custom-gadget.md",
+    "vulnerabilities/013-insecure_deserialization/scripts/PHP/gen_rce_oast.py",
+    "vulnerabilities/013-insecure_deserialization/scripts/Ruby/_gen.rb",
+    "vulnerabilities/013-insecure_deserialization/scripts/Ruby/_load.rb",
+    "vulnerabilities/013-insecure_deserialization/scripts/Ruby/_payload.b64",
     "vulnerabilities/013-insecure_deserialization/examples/008-java-custom-gadget-sqli.md",
     "vulnerabilities/013-insecure_deserialization/examples/007-ruby-gadget-documentado.md",
     "vulnerabilities/013-insecure_deserialization/examples/006-php-phpggc-symfony.md",
     "vulnerabilities/013-insecure_deserialization/examples/005-java-apache-commons-ysoserial.md",
+    "vulnerabilities/013-insecure_deserialization/examples/007-ruby-gadget-documentado.md.tmp.163828.6040f3a001ee",
+    "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/gadgetchains/WordPress/P/WooCommerce/RCE/2/chain.php",
+    "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/gadgetchains/WordPress/P/EverestForms/RCE/1/chain.php",
+    "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/gadgetchains/WordPress/P/YoastSeo/FW/1/gadgets.php",
+    "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/gadgetchains/WordPress/P/YoastSeo/FW/1/chain.php",
+    "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/gadgetchains/WordPress/P/WooCommerce/RCE/2/gadgets.php",
+    "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/gadgetchains/WordPress/P/WooCommerce/RCE/1/gadgets.php",
+    "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/README.md",
     "vulnerabilities/013-insecure_deserialization/examples/004-object-injection-php.md",
     "vulnerabilities/013-insecure_deserialization/examples/003-usar-funcionalidad-app.md",
     "vulnerabilities/013-insecure_deserialization/examples/002-modificar-tipos-php.md",
-    "vulnerabilities/013-insecure_deserialization/insecure-deserialization.md",
-    "vulnerabilities/013-insecure_deserialization/examples",
+    "vulnerabilities/013-insecure_deserialization/examples/001-modificar-objeto-php.md",
+    "exam/to-do-list/insecure-deserialization.md",
     "exam/STAGE_2/STAGE_2.md",
+    "exam/STAGE_3/STAGE_3.md",
+    "vulnerabilities/013-insecure_deserialization/examples/010-phar-deserialization.md",
+    "vulnerabilities/013-insecure_deserialization/examples/009-php-custom-gadget.md",
+    "vulnerabilities/013-insecure_deserialization/insecure-deserialization.md",
     "exam/STAGE_1/STAGE_1.md",
     "vulnerabilities/030-web-cache-poisoning/web-cache-poisoning.md",
     "vulnerabilities/030-web-cache-poisoning/labs/README.md",
@@ -268,18 +322,6 @@
     "vulnerabilities/030-web-cache-poisoning/examples/007-unkeyed-query-string-cachebuster.md",
     "vulnerabilities/030-web-cache-poisoning/examples/006-unkeyed-port.md",
     "vulnerabilities/030-web-cache-poisoning/examples/005-ver-cache-key-akamai.md",
-    "vulnerabilities/030-web-cache-poisoning/examples/004-host-header-injection-redirect.md",
-    "vulnerabilities/030-web-cache-poisoning/examples/003-multiples-headers.md",
-    "vulnerabilities/030-web-cache-poisoning/examples/002-xfh-script-import.md",
-    "vulnerabilities/030-web-cache-poisoning/examples/011-dynamic-resource-imports-css.md.tmp.163828.dc0013978928",
-    "exam/to-do-list/jwt.md.tmp.163828.cdea9d1fdebc",
-    "exam/to-do-list",
-    "exam/STAGE_1/STAGE_1.md.tmp.163828.33af4baca9b2",
-    "vulnerabilities/030-web-cache-poisoning/web-cache-poisoning.md.tmp.163828.e7a88567964f",
-    "vulnerabilities/030-web-cache-poisoning/examples/010-fat-get.md.tmp.163828.e08520a05c01",
-    "vulnerabilities/030-web-cache-poisoning/examples/002-xfh-script-import.md.tmp.163828.6b5b31952e2d",
-    "vulnerabilities/030-web-cache-poisoning/examples/001-xfh-breakout-meta-tag.md.tmp.163828.f64047908528",
-    "vulnerabilities/030-web-cache-poisoning/examples",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
