@@ -20,23 +20,8 @@
               "icon": "lucide-file",
               "title": "STAGE_1"
             }
-          },
-          {
-            "id": "132721fa933aa71a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/030-web-cache-poisoning/examples/007-unkeyed-query-string-cachebuster.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "007-unkeyed-query-string-cachebuster"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -200,15 +185,17 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "132721fa933aa71a",
+  "active": "5bfc1db963887f08",
   "lastOpenFiles": [
-    "vulnerabilities/030-web-cache-poisoning/examples/006-unkeyed-port.md",
-    "exam/STAGE_1/STAGE_1.md",
+    "vulnerabilities/030-web-cache-poisoning/web-cache-poisoning.md",
+    "vulnerabilities/030-web-cache-poisoning/labs/README.md",
     "vulnerabilities/030-web-cache-poisoning/examples/011-dynamic-resource-imports-css.md",
     "vulnerabilities/030-web-cache-poisoning/examples/010-fat-get.md",
     "vulnerabilities/030-web-cache-poisoning/examples/009-parameter-cloaking.md",
     "vulnerabilities/030-web-cache-poisoning/examples/008-unkeyed-query-parameter.md",
     "vulnerabilities/030-web-cache-poisoning/examples/007-unkeyed-query-string-cachebuster.md",
+    "vulnerabilities/030-web-cache-poisoning/examples/006-unkeyed-port.md",
+    "exam/STAGE_1/STAGE_1.md",
     "vulnerabilities/030-web-cache-poisoning/examples/005-ver-cache-key-akamai.md",
     "vulnerabilities/030-web-cache-poisoning/examples/004-host-header-injection-redirect.md",
     "vulnerabilities/030-web-cache-poisoning/examples/003-multiples-headers.md",
@@ -227,7 +214,6 @@
     "exam/to-do-list/api-testing.md",
     "exam/to-do-list/content-discovery.md",
     "exam/to-do-list/file-upload.md",
-    "exam/to-do-list/insecure-deserialization.md",
     "exam/to-do-list/jwt.md.tmp.163828.cdea9d1fdebc",
     "exam/to-do-list",
     "exam/STAGE_1/STAGE_1.md.tmp.163828.33af4baca9b2",

