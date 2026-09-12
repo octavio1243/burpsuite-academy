@@ -150,13 +150,9 @@
 - 📁 **Cómo explotar:** [[vulnerabilities/029-authentication/authentication|entry point]] · [[vulnerabilities/029-authentication/labs/README|labs]] · scripts: [[vulnerabilities/011-brute-force/login_userenum_password.py|brute-force]]
 
 ### Web Cache Poisoning (WCP)
-> [!danger] 🚩 ¿Está o no está?
-> **Sí o sí** cabeceras **`X-Cache`** (`hit`/`miss`) **+ `Age`** en la respuesta de
-> un `.js` → hay caché que envenenar.
-
-- [ ] Cachear un **JavaScript falso mío** que envíe las cookies a mi exploit server.
-- [ ] *(extra)* Detectar caché (`X-Cache`, `Age`) + **Param Miner → Guess headers** para hallar el input no-keyed que envenena.
-- 📁 *(crear)* · ver [[vulnerabilities/016-host-header-injection/conn_reuse.py|Host header]]
+> 📋 **Movido al to-do-list compartido** (piloto de reorg — flags + cosas a probar + técnica, sin duplicar entre stages):
+> → [[exam/to-do-list/web-cache-poisoning#Stage 1|to-do-list/web-cache-poisoning · Stage 1]]
+> (independiente del stage: detección, Param Miner, inputs unkeyed, cache buster, explotación en el mismo archivo).
 
 ### HTTP Host Header Attacks (Host)
 > [!danger] 🚩 ¿Está o no está?
