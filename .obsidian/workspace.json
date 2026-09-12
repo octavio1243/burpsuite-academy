@@ -216,6 +216,7 @@
   },
   "active": "8b71dfad4cfabdb9",
   "lastOpenFiles": [
+    "graphify-out/cache/stat-index.lora62mp.tmp",
     "vulnerabilities/026-oauth/examples/006-ssrf-dynamic-client-registration.md",
     "vulnerabilities/026-oauth/examples/005-steal-token-proxy-page.md",
     "vulnerabilities/026-oauth/examples/004-steal-token-open-redirect.md",
@@ -251,7 +252,6 @@
     "vulnerabilities/013-insecure_deserialization/examples/001-modificar-objeto-php.md",
     "exam/to-do-list/insecure-deserialization.md",
     "vulnerabilities/013-insecure_deserialization/examples/010-phar-deserialization.md",
-    "vulnerabilities/013-insecure_deserialization/examples/009-php-custom-gadget.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
