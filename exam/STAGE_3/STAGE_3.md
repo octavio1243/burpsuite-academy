@@ -126,7 +126,8 @@
 
 - [ ] `../../../../home/carlos/secret` en el parámetro de fichero.
 - [ ] Bypass: `....//`, encoding (`%2e`, doble `%252e`), null byte, prefijo/sufijo forzado.
-- 📁 `vulnerabilities/path-transversal/` · ofuscación en `vulnerabilities/obfuscacion/`
+- 📚 Labs (defensa · encoding · payload) → [[vulnerabilities/010-path-transversal/labs/README|labs Path Traversal]] · encodings → [[vulnerabilities/019-obfuscacion/encodings|encodings.md]]
+- 📁 `vulnerabilities/010-path-transversal/` · ofuscación en `vulnerabilities/019-obfuscacion/`
 
 ### Insecure Deserialization (Deser)
 > [!danger] 🚩 ¿Está o no está?
