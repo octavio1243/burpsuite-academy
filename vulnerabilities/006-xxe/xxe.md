@@ -99,4 +99,4 @@ flowchart TD
 > [!note] Relación con otras vulns
 > - **SSRF** — XXE es un vector clásico para llegar a la red interna/metadata → [[vulnerabilities/007-ssrf/README|SSRF]].
 > - **File upload** — SVG/DOCX/SOAP son XML: un upload que los parsea = superficie XXE → [[vulnerabilities/017-file-upload-vulnerabilities/README|file upload]].
-> - **SSTI** — si buscabas "qué template engine usa", eso es otra vuln → [[vulnerabilities/009-server-side-template-injection/README|SSTI]] (XXE no usa templates, usa el parser XML).
+> - **SSTI** — si buscabas "qué template engine usa", eso es otra vuln → [[vulnerabilities/009-server-side-template-injection/server-side-template-injection|SSTI]] (XXE no usa templates, usa el parser XML).

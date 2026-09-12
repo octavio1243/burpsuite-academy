@@ -99,12 +99,26 @@
 
 ### Server-Side Template Injection (SSTI)
 > [!danger] 🚩 ¿Está o no está?
-> Hay una **plantilla editable** (cambiar nombre, mensajes, etc.) que luego **se inserta/renderiza** → confirmar con **oastify**.
+> El usuario tiene un ***preferred name***, o —lo más probable— podés **modificar la descripción de los productos**. Algo **editable que después se renderiza** → probá SSTI. Confirmá con `7*7` (y con **oastify** si es ciego).
 
-- [ ] Fuzz `${{7*7}}`, `{{7*7}}`, `<%= 7*7 %>` → detectar motor por la respuesta.
-- [ ] Confirmar por OAST si es ciego (callback desde el render).
-- [ ] Payload de **RCE** del motor → `cat /home/carlos/secret`.
-- 📁 `vulnerabilities/server-side-template-injection/`
+**1) Identificá el lenguaje/motor.** En el examen casi seguro es uno de estos cuatro (no suelen complicar el template):
+
+| Lenguaje | Motor típico |
+| --- | --- |
+| Ruby | ERB |
+| Python | Tornado · Django |
+| Java | FreeMarker |
+| Node | Handlebars |
+
+- [ ] Fuzz `${7*7}` · `{{7*7}}` · `<%= 7*7 %>` · `#{7*7}` → mirá cuál da `49` y qué dice el **error** para fijar el motor. Árbol → [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet#🎯 Árbol de detección de SSTI (metodología PortSwigger)|árbol de detección]].
+
+**2) Según el motor, ahí te movés** (el payload depende del motor):
+- [ ] **RCE** del motor → `cat /home/carlos/secret` (o borrar/leer según el objetivo).
+- [ ] **Django / FreeMarker sandbox** no dan RCE directo → **fuga de info** (`{% debug %}` → `settings.SECRET_KEY`) o **reflection** sobre objetos disponibles.
+- [ ] Confirmar por **OAST** si es ciego (callback desde el render).
+
+- 📚 **Metodología general** → [[vulnerabilities/009-server-side-template-injection/server-side-template-injection|entry point SSTI]] · **payload por motor** → [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet|cheatsheet de motores]] · **por lab** → [[vulnerabilities/009-server-side-template-injection/labs/README|labs (motor · lenguaje · payload)]] · **externo** → [PayloadsAllTheThings — SSTI](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection)
+- 📁 `vulnerabilities/009-server-side-template-injection/`
 
 ### Directory Traversal / LFI (Path Traversal)
 > [!danger] 🚩 ¿Está o no está?
