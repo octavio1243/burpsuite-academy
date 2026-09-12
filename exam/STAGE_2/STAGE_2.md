@@ -159,12 +159,20 @@
 
 ### Access Control (IDOR / Broken Access Control)
 > [!danger] 🚩 ¿Está o no está?
-> Peticiones con **`username` / `id` / `role`** manipulables. Probar accesos directos.
+> Peticiones con **`username` / `id` / `role`** manipulables. Acá el objetivo es **vertical** (llegar a admin) o **horizontal → vertical** (robar credenciales de admin).
 
-- [ ] `/my-account?username=administrator` → ¿me devuelve sus datos?
-- [ ] **Escalar privilegios de carlos** con un `update` → `role=2` (o `roleid`, `isAdmin`).
-- [ ] Forzar rutas de admin (`/admin`) con user normal; headers `X-Original-URL`, `X-Forwarded-For`.
-- 📁 *(crear `vulnerabilities/access-control/`)*
+**Escalar a admin (vertical):**
+- [ ] **Cookie de rol** → `Admin=false` → `Admin=true` (o el flag/rol que traiga la sesión).
+- [ ] **Mass assignment** → en un `update` de perfil, agregar **`roleid=2`** (o `role`, `isAdmin`) → auto-escalada, incluso sobre tu propia cuenta.
+- [ ] **Bypass de plataforma** (el control existe pero está mal puesto):
+  - Forzar `/admin` con headers **`X-Original-URL`** / **`X-Rewrite-URL`**.
+  - **Cambiar el método** — filtra `POST` pero **no `GET`**.
+  - **`Referer`** — subpáginas (`/admin/deleteUser`) que solo chequean el referer → **concatená el referer actual con `/admin`**.
+
+**Horizontal → vertical (datos/credenciales de otro):**
+- [ ] **`userId` expuesto en comentarios/blog** → visitá **`/my-account?username=<userId>`** (el userId puede ser **`administrator`**). ⚠️ **cuidado con el `302` que trae body.**
+- [ ] **Leer el chat de otro** (IDOR en transcript: `/download-transcript/N.txt`, número incremental) → 🚩 **si hay live chat, es FLAG probable** (credenciales en el log).
+- 📁 **Cómo explotar:** [[vulnerabilities/028-access-control/access-control|entry point]] · [[vulnerabilities/028-access-control/labs/README|labs]]
 
 ### Authentication (Auth)
 > [!danger] 🚩 ¿Está o no está?

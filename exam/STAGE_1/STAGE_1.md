@@ -126,11 +126,12 @@
 ### Access Control Vulnerabilities (IDOR / Broken Access Control)
 > [!danger] 🚩 ¿Está o no está?
 > No hay una señal única (va más por probar). Pista: **peticiones que llevan el
-> nombre de usuario / `id` / GUID** manipulable (IDOR).
+> nombre de usuario / `id` / GUID** manipulable (IDOR). En Stage 1 el objetivo es **horizontal**: leer los datos de otro usuario.
 
-- [ ] `/my-account?username=carlos` (sin loguear) → ver si devuelve sus datos → `email`, `apiKey`, `password`.
-- [ ] *(extra)* Cambiar `id`/GUID en URL/params/cookies → recurso ajeno. Forzar `/admin` o rutas ocultas.
-- 📁 *(crear)* [[vulnerabilities/access-control/README|Access Control]]
+- [ ] **`/my-account?username=carlos`** (incluso sin loguear) → devuelve sus datos → `email`, `apiKey`, `password`. **Anda directo** cuando la app confía en el `username` de la query.
+- [ ] ⚠️ **Ojo con el redirect:** puede responder **`302` pateándote al login pero con el body lleno** → leé el **cuerpo**, no el status.
+- [ ] *(extra)* Cambiar `id`/GUID en URL/params/cookies → recurso ajeno. Si el ID es un GUID "impredecible", suele estar **filtrado** en un blog/post.
+- 📁 **Cómo explotar:** [[vulnerabilities/028-access-control/access-control|entry point]] · [[vulnerabilities/028-access-control/labs/README|labs]]
 
 ### Authentication (Auth)
 > [!danger] 🚩 ¿Está o no está?
