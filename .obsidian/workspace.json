@@ -36,35 +36,35 @@
             }
           },
           {
-            "id": "70f81ee726b457a5",
+            "id": "d92ebd0b7b6cfef7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "vulnerabilities/013-insecure_deserialization/insecure-deserialization.md",
+                "file": "vulnerabilities/029-authentication/authentication.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "insecure-deserialization"
+              "title": "authentication"
             }
           },
           {
-            "id": "25a28765e49ab97b",
+            "id": "bf43ccff8cd3d923",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "exam/STAGE_2/STAGE_2.md",
+                "file": "vulnerabilities/016-host-header-injection/host-header.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "STAGE_2"
+              "title": "host-header"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -228,9 +228,14 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "70f81ee726b457a5",
+  "active": "bf43ccff8cd3d923",
   "lastOpenFiles": [
+    "vulnerabilities/029-authentication/authentication.md",
     "exam/STAGE_3/STAGE_3.md",
+    "vulnerabilities/013-insecure_deserialization/insecure-deserialization.md",
+    "vulnerabilities/016-host-header-injection/host-header.md",
+    "vulnerabilities/016-host-header-injection/labs/README.md",
+    "vulnerabilities/016-host-header-injection/labs",
     "exam/STAGE_1/STAGE_1.md",
     "exam/STAGE_2/STAGE_2.md",
     "vulnerabilities/013-insecure_deserialization/examples/008-java-custom-gadget-sqli.md",
@@ -246,7 +251,6 @@
     "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/gadgetchains/WordPress/P/EverestForms/RCE/1/chain.php",
     "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/gadgetchains/WordPress/P/YoastSeo/FW/1/gadgets.php",
     "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/gadgetchains/WordPress/P/YoastSeo/FW/1/chain.php",
-    "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/gadgetchains/WordPress/P/WooCommerce/RCE/2/gadgets.php",
     "vulnerabilities/013-insecure_deserialization/scripts/PHP/phpggc/README.md",
     "vulnerabilities/013-insecure_deserialization/examples/004-object-injection-php.md",
     "vulnerabilities/013-insecure_deserialization/examples/003-usar-funcionalidad-app.md",
@@ -255,7 +259,6 @@
     "exam/to-do-list/insecure-deserialization.md",
     "vulnerabilities/013-insecure_deserialization/examples/010-phar-deserialization.md",
     "vulnerabilities/013-insecure_deserialization/examples/009-php-custom-gadget.md",
-    "vulnerabilities/013-insecure_deserialization/insecure-deserialization.md",
     "vulnerabilities/030-web-cache-poisoning/web-cache-poisoning.md",
     "vulnerabilities/030-web-cache-poisoning/labs/README.md",
     "vulnerabilities/030-web-cache-poisoning/examples/011-dynamic-resource-imports-css.md",
@@ -263,8 +266,6 @@
     "vulnerabilities/030-web-cache-poisoning/examples/009-parameter-cloaking.md",
     "vulnerabilities/030-web-cache-poisoning/examples/008-unkeyed-query-parameter.md",
     "vulnerabilities/030-web-cache-poisoning/examples/007-unkeyed-query-string-cachebuster.md",
-    "vulnerabilities/030-web-cache-poisoning/examples/006-unkeyed-port.md",
-    "vulnerabilities/030-web-cache-poisoning/examples/005-ver-cache-key-akamai.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
