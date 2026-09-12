@@ -230,6 +230,7 @@
   },
   "active": "bf43ccff8cd3d923",
   "lastOpenFiles": [
+    "vulnerabilities/016-host-header-injection/host-header.md.tmp.163828.09b529e48b95",
     "vulnerabilities/029-authentication/authentication.md",
     "exam/STAGE_3/STAGE_3.md",
     "vulnerabilities/013-insecure_deserialization/insecure-deserialization.md",
@@ -265,7 +266,6 @@
     "vulnerabilities/030-web-cache-poisoning/examples/010-fat-get.md",
     "vulnerabilities/030-web-cache-poisoning/examples/009-parameter-cloaking.md",
     "vulnerabilities/030-web-cache-poisoning/examples/008-unkeyed-query-parameter.md",
-    "vulnerabilities/030-web-cache-poisoning/examples/007-unkeyed-query-string-cachebuster.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",

