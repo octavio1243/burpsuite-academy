@@ -17,11 +17,11 @@ El caché **excluye de la key ciertos parámetros** (típicos de analítica: `ut
 
 ## Request
 
-```http
-GET /?utm_content=<@burp_urlencode>'/><script>alert(1)</script><'</@burp_urlencode> HTTP/2
-Host: 0ae0000303146144801476c300a5007e.web-security-academy.net
-Pragma: x-get-cache-key
-```
+> `GET /?utm_content=`==`<@burp_urlencode>'/><script>alert(1)</script><'</@burp_urlencode>`==` HTTP/2`
+> `Host: 0ae0...web-security-academy.net`
+> `Pragma: x-get-cache-key`
+
+**⬇️ se refleja en el body de `/`** (con `Pragma: x-get-cache-key` confirmás que `utm_content` no entra en la key)
 
 ## Por qué funciona
 - **Keyed:** `host + path` (y quizás otros params). **Unkeyed:** `utm_content`.

@@ -18,26 +18,20 @@ Un **GET que lleva body** ("fat GET"): el **caché keyea la URL** (`?param=innoc
 
 ## Request → variantes
 
-### Fat GET clásico
-```http
-GET /?param=innocent HTTP/1.1
-Host: innocent-website.com
-Content-Type: application/x-www-form-urlencoded
-Content-Length: 22
+**Fat GET clásico** (la URL keyea `?param=innocent`; el body pisa):
+> `GET /?param=innocent HTTP/1.1`
+> `Content-Type: application/x-www-form-urlencoded`
+>
+> `param=`==`bad-stuff-here`==
 
-param=bad-stuff-here
-```
+**Si no lee el body → forzalo con method override:**
+> `GET /?param=innocent HTTP/1.1`
+> `X-HTTP-Method-Override: POST`
+> `Content-Type: application/x-www-form-urlencoded`
+>
+> `param=`==`bad-stuff-here`==
 
-### Forzando que lea el body con method override
-```http
-GET /?param=innocent HTTP/1.1
-Host: innocent-website.com
-X-HTTP-Method-Override: POST
-Content-Type: application/x-www-form-urlencoded
-Content-Length: 22
-
-param=bad-stuff-here
-```
+**⬇️** el backend refleja el **valor del body** bajo la key `?param=innocent`.
 
 ## Por qué funciona
 - El **caché** arma la key con la **URL** → ve `param=innocent`.

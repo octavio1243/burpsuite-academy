@@ -18,16 +18,16 @@ El **paso de reconocimiento** que ahorra tiempo: algunos CDNs **te dicen exactam
 
 ## Request → Response
 
-```http
-GET /?param=1 HTTP/1.1
-Host: innocent-website.com
-Pragma: akamai-x-get-cache-key
-```
+> `GET /?param=1 HTTP/1.1`
+> `Host: innocent-website.com`
+> `Pragma: `==`akamai-x-get-cache-key`==
 
-```http
-HTTP/1.1 200 OK
-X-Cache-Key: innocent-website.com/?param=1
-```
+**⬇️ te devuelve la key literal:**
+
+> `HTTP/1.1 200 OK`
+> `X-Cache-Key: `==`innocent-website.com/?param=1`==
+
+(lo que NO figure en la key pero sí se refleje = **unkeyed**)
 
 ## Por qué sirve
 - La `X-Cache-Key` te dibuja **la key literal**. Comparás lo que mandás contra lo que aparece:

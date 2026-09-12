@@ -17,19 +17,13 @@ Cuando el caché **excluye un parámetro** de la key, "escondés" (*cloak*) un *
 
 ## Cómo se ve
 
-### Cloaking con un segundo `?`
-```http
-GET /?example=123?excluded_param=bad-stuff-here
-```
+**Cloaking con un segundo `?`:**
+> `GET /?example=123?excluded_param=`==`bad-stuff-here`==
 
-### Ruby on Rails: separa por `&` **y por `;`**
-```http
-GET /?keyed_param=abc&excluded_param=123;keyed_param=bad-stuff-here
-```
-Rails parte el query en **3 parámetros**:
-- `keyed_param=abc`
-- `excluded_param=123`
-- `keyed_param=bad-stuff-here`  ← **tiene precedencia** (gana el último)
+**Ruby on Rails (separa por `&` y por `;`):**
+> `GET /?keyed_param=abc&excluded_param=123;`==`keyed_param=bad-stuff-here`==
+
+Rails parte el query en **3**: `keyed_param=abc` · `excluded_param=123` · ==`keyed_param=bad-stuff-here`== (**gana el último**). El caché solo keyea `keyed_param=abc`.
 
 ## Por qué funciona
 - El **caché** keyea `keyed_param=abc` y trata todo lo que va después de `excluded_param=` (incluido el `;keyed_param=bad-stuff-here`) como **valor del param excluido** → **no lo mete en la key**.
