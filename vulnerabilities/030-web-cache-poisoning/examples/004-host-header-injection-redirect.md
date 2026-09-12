@@ -17,16 +17,14 @@ El **paso de descubrimiento** que conecta *Host header injection* con WCP: el **
 
 ## Request → Response
 
-```http
-GET / HTTP/1.1
-Host: vulnerable-website.com:1337
-```
+> `GET / HTTP/1.1`
+> `Host: vulnerable-website.com:`==`1337`==
 
-```http
-HTTP/1.1 302 Moved Permanently
-Location: https://vulnerable-website.com:1337/en
-Cache-Status: miss
-```
+**⬇️ el puerto se refleja en el `Location`:**
+
+> `HTTP/1.1 302 Moved Permanently`
+> `Location: https://vulnerable-website.com:`==`1337`==`/en`
+> `Cache-Status: miss`
 
 ## Por qué funciona
 - La app **construye el `Location` a partir del `Host`** de la request, **sin validar** → todo lo que metas en `Host` (acá el puerto `:1337`) **vuelve reflejado** en el redirect.
