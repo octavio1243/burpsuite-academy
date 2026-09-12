@@ -171,15 +171,23 @@
 
 **Horizontal → vertical (datos/credenciales de otro):**
 - [ ] **`userId` expuesto en comentarios/blog** → visitá **`/my-account?username=<userId>`** (el userId puede ser **`administrator`**). ⚠️ **cuidado con el `302` que trae body.**
+- [ ] 🔁 **Si el `GET` está filtrado/redirige, cambiá el método:** `POST /my-account?username=administrator` (o `HEAD`/método raro). Si el control solo cubre el `GET`, el otro método pasa (**method-based bypass**).
 - [ ] **Leer el chat de otro** (IDOR en transcript: `/download-transcript/N.txt`, número incremental) → 🚩 **si hay live chat, es FLAG probable** (credenciales en el log).
 - 📁 **Cómo explotar:** [[vulnerabilities/028-access-control/access-control|entry point]] · [[vulnerabilities/028-access-control/labs/README|labs]]
 
 ### Authentication (Auth)
-> [!danger] 🚩 ¿Está o no está?
-> *(por definir señal)* — probable: **rate limit en login** / 2FA / reset débil.
+> [!danger] 🚩 ¿Está o no está? (señales de escalada)
+> 1. **Existe opción de "recuperar contraseña"** → el flujo de reset suele ser el flanco más débil para tomar la cuenta del **admin**.
+> 2. **Al recuperar TU cuenta te piden el `username`** (para mandar el token / setear la password nueva) → ese `username` es **manipulable** → apuntalo al admin.
+> 3. **El endpoint de cambiar password (usuario logueado) manda el `username`** → si lo cambiás, se vuelve **oráculo de fuerza bruta** del password ajeno.
 
-- [ ] *(por completar)* Fuerza bruta de credenciales de admin, bypass 2FA, enumeración, reset poisoning.
-- 📁 `vulnerabilities/brute-force/`
+> Fin (Stage 2): **escalar a admin**. Caminos:
+- [ ] **Fuerza bruta por cookies** — si la sesión/stay-logged-in del admin es predecible (`base64(user:md5(pass))`), brute-forceás la **cookie** contra un endpoint autenticado, sin `/login` ni rate limit.
+- [ ] **Reset poisoning al admin (`X-Forwarded-Host`)** — la app arma el **link del mail** con un header que vos controlás (el middleware confía en `X-Forwarded-Host`). Disparás el reset del **admin** con `X-Forwarded-Host: TU-collab`: el token es **válido para el admin** pero el link apunta a tu server → cuando el admin lo abre, **su token te llega al Collaborator** → reseteás su password y entrás. (mecánica de Host header abajo).
+- [ ] **Tokens cruzados (lo más fácil)** — pedís el reset de **tu** cuenta, agarrás **tu token válido** y en el POST final **cambiás el `username` al admin** → usás **tu token para resetear la cuenta del admin**.
+- [ ] **Fuerza bruta vía cambio de password** — en `POST /my-account/change-password`, mandás dos new-passwords **distintas** y cambiás el `username` al admin: el error `New passwords do not match` (vs `Current password is incorrect`) **delata el password correcto sin lockear**.
+- [ ] *(según flujo)* Bypass 2FA del admin, enumeración, credenciales por defecto.
+- 📁 **Cómo explotar:** [[vulnerabilities/029-authentication/authentication|entry point]] · [[vulnerabilities/029-authentication/labs/README|labs]] · scripts: [[vulnerabilities/011-brute-force/login_userenum_password.py|brute-force]]
 
 ### Web Cache Poisoning (WCP)
 > [!danger] 🚩 ¿Está o no está?
@@ -221,8 +229,8 @@
 
 ### Password Reset
 - [ ] Token débil/predecible, reutilizable, o ligado al **Host header**.
-- [ ] `username`/`user_id` manipulable en el POST de reset → resetear al **admin**.
-- 📁 *(crear `vulnerabilities/password-reset/`)* · ver `vulnerabilities/host-header-injection/`
+- [ ] `username`/`user_id` manipulable en el POST de reset → resetear al **admin** (tokens cruzados).
+- 📁 **Cómo explotar:** [[vulnerabilities/029-authentication/authentication|Authentication → fase reset]] · [[vulnerabilities/029-authentication/labs/README|labs]] · Host header: `vulnerabilities/016-host-header-injection/`
 
 ### API Testing / Mass Assignment
 - [ ] Métodos alternos (`PUT`/`PATCH`/`DELETE`), `Content-Type` swaps.
