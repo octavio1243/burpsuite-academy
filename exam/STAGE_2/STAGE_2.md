@@ -83,9 +83,9 @@
 → [[exam/to-do-list/web-cache-poisoning|Qué probar]]
 
 ### 🏠 HTTP Host Header
-> [!danger] 🚩 **Pisar el `Host`** del mail de reset → el link del admin llega a mi Collaborator
+> [!danger] 🚩 Panel **"accesible solo localmente"** (`Host: localhost` lo abre) · **routing** al interno (`localhost:6566`, confirmá con Collaborator) · o **pisar el `Host`** del reset/cache-JS **contra el admin**
 
-→ [[exam/to-do-list/host-header|Qué probar]]
+→ [[exam/to-do-list/host-header|Qué probar]] (S2: auth bypass `localhost` · routing-based SSRF · delivered al admin)
 
 ### 🪪 OAuth
 > [!danger] 🚩 El login **usa OAuth**

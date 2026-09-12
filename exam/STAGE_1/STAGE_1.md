@@ -78,9 +78,9 @@
 → [[exam/to-do-list/web-cache-poisoning|Qué probar]]
 
 ### 🏠 HTTP Host Header
-> [!danger] 🚩 El `Host`/`X-Forwarded-Host` manipulado termina en el link del mail de reset
+> [!danger] 🚩 El `Host`/`X-Forwarded-Host` manipulado termina en el link del **mail de reset** (o reflejado en un `<script src>` **cacheable** → JS que roba la sesión del user)
 
-→ [[exam/to-do-list/host-header|Qué probar]]
+→ [[exam/to-do-list/host-header|Qué probar]] (S1: reset poisoning · dangling markup · cache poisoning → JS)
 
 ### 🪪 OAuth
 > [!danger] 🚩 El login es **por OAuth** (si no, no aplica)
