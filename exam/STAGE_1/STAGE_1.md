@@ -130,18 +130,24 @@
 
 - [ ] **`/my-account?username=carlos`** (incluso sin loguear) → devuelve sus datos → `email`, `apiKey`, `password`. **Anda directo** cuando la app confía en el `username` de la query.
 - [ ] ⚠️ **Ojo con el redirect:** puede responder **`302` pateándote al login pero con el body lleno** → leé el **cuerpo**, no el status.
+- [ ] 🔁 **Si el `GET` está filtrado/redirige, cambiá el método:** `POST /my-account?username=administrator` (o `HEAD`/método raro). Si el control solo cubre el `GET`, el otro método pasa (**method-based bypass**).
 - [ ] *(extra)* Cambiar `id`/GUID en URL/params/cookies → recurso ajeno. Si el ID es un GUID "impredecible", suele estar **filtrado** en un blog/post.
 - 📁 **Cómo explotar:** [[vulnerabilities/028-access-control/access-control|entry point]] · [[vulnerabilities/028-access-control/labs/README|labs]]
 
 ### Authentication (Auth)
-> [!danger] 🚩 ¿Está o no está?
-> **Rate limit en el login** (si lo hay, es la pista: no te lo dejan tan fácil →
-> dificultad mínima esperada).
+> [!danger] 🚩 ¿Está o no está? (tres señales)
+> 1. **El error de login cambia según el usuario** → **enumeración de usuarios**.
+>    - **Caso obvio (demasiada info):** el mensaje te dice **cuál** campo falló — `Invalid username` vs `Incorrect password`. Con eso ya sabés qué usuarios existen: cualquier error de "password" = usuario válido.
+>    - **Caso sutil:** el texto es "el mismo" pero difiere en algo mínimo (un punto final que aparece/desaparece, un espacio, largo, status, o **timing**) → grep-match en Intruder para aislarlo.
+>    - Test de base: sabés que **`carlos` existe** y **`carlosasdf` no** → mandá los dos con un password cualquiera y **compará las dos respuestas**. Si difieren, enumerás toda la lista y **después** solo brute-forceás el password del user válido.
+> 2. **Hay rate limit en el login** → si te ponen freno es porque **la vía intencionada es fuerza bruta** (no te lo dejan gratis). El juego pasa a ser **saltar el rate limit**.
+> 3. **Hay checkbox "stay logged in"** → esa cookie suele ser **predecible/derivada del password** (`base64(user:md5(pass))`) → **otro vector de fuerza bruta que NO pega contra `/login`** (y ahí no hay rate limit).
 
-- [ ] **Fuerza bruta** con las listas (~11000 peticiones) → usar scripts de [[vulnerabilities/011-brute-force/login_userenum_password.py|brute-force]].
-- [ ] *(extra)* Enumeración de usuario (mensaje/tiempo distinto), bypass de 2FA / brute del código, reset poisoning, credenciales por defecto.
-- [ ] *(por validar)* Rate limit → resetear contador con `X-Forwarded-For`.
-- 📁 [[vulnerabilities/011-brute-force/login_userenum_password.py|brute-force]]
+> Fin (Stage 1): **entrar a la cuenta de la víctima**. Tres caminos típicos:
+- [ ] **Fuerza bruta para entrar** — enumerar usuario (mensaje/tiempo/lock distinto) y **spray de passwords** con las listas (~11000 peticiones) → scripts de [[vulnerabilities/011-brute-force/login_userenum_password.py|brute-force]]. Si hay bloqueo por IP → **`X-Forwarded-For`** rotado; si es por-request → **array de passwords** en un JSON.
+- [ ] **Bypass de 2FA** — completás usuario+password y **navegás directo a `/my-account`** salteando el paso del código; o si el código se ata a una cookie/param `verify` que controlás → apuntala a la víctima y **brute-force del código** (4 dígitos).
+- [ ] **Fuerza bruta de la stay-logged-in cookie** — si existe el checkbox: la cookie es `base64(user:md5(password))` → brute-forceás la **cookie** contra un endpoint autenticado (`GET /my-account`), **sin tocar `/login`** ni su rate limit.
+- 📁 **Cómo explotar:** [[vulnerabilities/029-authentication/authentication|entry point]] · [[vulnerabilities/029-authentication/labs/README|labs]] · scripts: [[vulnerabilities/011-brute-force/login_userenum_password.py|brute-force]]
 
 ### Web Cache Poisoning (WCP)
 > [!danger] 🚩 ¿Está o no está?
