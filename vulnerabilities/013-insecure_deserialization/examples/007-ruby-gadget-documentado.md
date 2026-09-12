@@ -19,7 +19,7 @@ tags:
 - **Efecto:** **RCE** → `rm /home/carlos/morale.txt`.
 
 ## Generar el payload
-No hay "ysoserial de Ruby": usás el **gadget chain documentado** ([devcraft.io](https://devcraft.io/2021/01/07/universal-deserialisation-gadget-for-ruby-2-x-3-x.html)) y solo cambiás el comando (`id` → `rm …`). En el vault: [`Ruby/serialize.py`](vulnerabilities/013-insecure_deserialization/Ruby/serialize.py) modo `gadget` lo arma vía Docker y lo devuelve en base64.
+No hay "ysoserial de Ruby": usás el **gadget chain documentado** ([devcraft.io](https://devcraft.io/2021/01/07/universal-deserialisation-gadget-for-ruby-2-x-3-x.html)) y solo cambiás el comando (`id` → `rm …`). En el vault: [`scripts/Ruby/serialize.py`](vulnerabilities/013-insecure_deserialization/scripts/Ruby/serialize.py) modo `gadget` lo arma vía Docker y lo devuelve en base64.
 
 ## El pipeline de codificación (lo importante)
 > `Marshal.dump(payload)` (binario) **⟶** ==`base64`== **⟶** ==`url`== **⟶** cookie `session`

