@@ -66,6 +66,7 @@ GET /user/personal-info?user=<USER_NAME>
     - **API keys, IPs, credenciales de DB**, etc. **en el código**
 
 > [!note] Ver también
+> - **Wordlist del examen** (Intruder/Discover content, 279 rutas de labs BSCP) → [[vulnerabilities/014-information-disclousure/burp-labs-wordlist|burp-labs-wordlist]].
 > - **Labs** (5, con objetivo y solución paso a paso) → [[vulnerabilities/014-information-disclousure/labs/README|labs de Information disclosure]].
 > - **`.git` descargado + `read.py`** (lab de version control) → `vulnerabilities/014-information-disclousure/Leer .git/`.
 > - **Access control** (headers internos / bypass de `/admin`) → [[vulnerabilities/028-access-control/access-control|access control]].

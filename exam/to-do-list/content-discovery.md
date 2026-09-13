@@ -14,6 +14,7 @@ tags:
 - Encontrar endpoints/rutas/datos ocultos que abran otra vía (admin panel, GUID, credenciales, backups).
 
 ## ♾️ Independiente del stage
+- [ ] **Wordlist del examen** (Intruder / Discover content): [[vulnerabilities/014-information-disclousure/burp-labs-wordlist|burp-labs-wordlist]] (279 rutas de labs BSCP).
 - [ ] Burp **Discover content** · `robots.txt` · `sitemap.xml` · `/.git`, `/cgi-bin/phpinfo.php`.
 - [ ] Comentarios HTML · JS del cliente · backups (`.bak`, `~`, `.old`) · endpoints/API ocultos.
 - [ ] **Endpoint GraphQL** (probá universal + introspection con InQL): `/graphql` · `/api` · `/api/graphql` · `/graphql/api` · `/graphql/graphql`. → [[exam/to-do-list/graphql\|GraphQL]]
