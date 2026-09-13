@@ -56,6 +56,7 @@ Tres formas de pasarlo:
 - **Password reset**: el flujo de "olvidé mi contraseña" suele ser el eslabón más flojo:
   - **Lógica rota**: el token no se valida o el `username` del POST final se puede **cambiar a la víctima**.
   - **Poisoning por middleware**: el link del mail se arma con el **Host header** → con `X-Forwarded-Host: TU-collaborator` envenenás el link y **el token de la víctima te llega a vos**.
+  - **Token predecible por tiempo (colisión de timestamp)**: si el token se **deriva del instante de generación** (timestamp, contador, seed débil) y **no está atado al usuario**, disparás **dos resets casi simultáneos** — uno para la **víctima** (admin) y otro para una cuenta **tuya**. Como ambos tokens nacen del mismo momento, el que **te llega a tu mail** vale para **canjear el reset de la víctima**: abrís `/forgot-password?token=<EL-TUYO>` y seteás la password del admin. Difícil de clavar (la ventana es de milisegundos), pero **se intenta**: mandá los dos `POST /forgot-password` juntos (Repeater *Send group in parallel* / Turbo Intruder) y probá el token recibido contra la cuenta objetivo. Señal de que aplica: el token **parece secuencial/temporal** entre dos requests, no aleatorio.
 - **Password change**: el "cambiar contraseña" puede filtrar el **current-password** por diferencia de respuestas (mandás dos new-passwords distintas y observás cuál error tira) → fuerza bruta **sin lockear**.
 
 > [!tip] Regla de oro: la cookie también es fuerza bruta

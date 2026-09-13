@@ -104,9 +104,37 @@
               "icon": "lucide-file",
               "title": "004-h2-cl"
             }
+          },
+          {
+            "id": "3888f896c5d1dcbe",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/to-do-list/access-control.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "access-control"
+            }
+          },
+          {
+            "id": "82ddffea05fdd7bc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/to-do-list/authentication.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "authentication"
+            }
           }
         ],
-        "currentTab": 6
+        "currentTab": 8
       }
     ],
     "direction": "vertical"
@@ -270,8 +298,10 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "86fe36b081bc28dc",
+  "active": "82ddffea05fdd7bc",
   "lastOpenFiles": [
+    "exam/to-do-list/access-control.md",
+    "vulnerabilities/008-http_smuggling/examples/004-h2-cl.md",
     "graphify-out/cache/semantic/pd5fd89c46bb5/b30f858ec66f1e5ec5b8b89da19343d400c5a51798c82b31c6aa87ab81ce3c25.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/74a348d6ed2261565b77380f585f02bca05f37ee2fba337562e840b6ec2f7919.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/bba201cb301921a797f0f9bdb1c38b163811441041892777b72e86b3b5b07260.json",
@@ -284,7 +314,6 @@
     "exam/extensions-needed.md",
     "exam/extensions-needed.md.tmp.5408.4336defd700a",
     "graphify-out/cache/semantic/pd5fd89c46bb5/46718f988cdad30c92ed6e0478b84d18df113163df095af773573075e857da4b.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/a636cb5e695b6df126baba55a3eb495ec593f0024699f897213f66bbbadb297e.json",
     "exam/shortcuts/postmessage.md",
     "exam/shortcuts/fetch-then-exfil.md",
     "exam/shortcuts/host-headers.md",
@@ -307,7 +336,6 @@
     "vulnerabilities/018-jwt-attacks/labs/README.md",
     "vulnerabilities/026-oauth/examples/006-ssrf-dynamic-client-registration.md",
     "vulnerabilities/026-oauth/examples/005-steal-token-proxy-page.md",
-    "vulnerabilities/026-oauth/examples/004-steal-token-open-redirect.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
