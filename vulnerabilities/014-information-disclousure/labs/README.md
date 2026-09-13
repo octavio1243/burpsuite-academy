@@ -10,6 +10,8 @@ tags:
 
 # Information disclosure — Labs de PortSwigger
 
+> 🔎 Metodología (dónde filtra + técnicas y herramientas) → [[vulnerabilities/014-information-disclousure/information-disclosure|entry point de Information disclosure]].
+
 Labs de la categoría **[Information disclosure](https://portswigger.net/web-security/information-disclosure)**: **3 Apprentice + 2 Practitioner** (5 en total). **El hilo común:** la app **filtra información sensible** que no debería — versiones de frameworks, secret keys, código fuente, credenciales, o comportamiento interno — a través de **mensajes de error, páginas de debug, archivos olvidados (backups, `.git`, `robots.txt`), comentarios HTML o métodos HTTP** (TRACE). No es un exploit "activo": es **recon** que te entrega la pieza para el próximo paso (una credencial, un endpoint oculto, un header mágico). Lo que cambia lab a lab: **por dónde filtra** y **qué te da** esa fuga.
 
 > [!note] Tres "sabores" de information disclosure
