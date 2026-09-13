@@ -25,75 +25,29 @@
 
 ---
 
-## ✅ Vulnerabilidades (Stage 1)
+## ✅ Vulnerabilidades (Stage 1) — por prioridad
 
-### 🗄️ SQL Injection
-> [!danger] 🚩 Cookie **`TrackingId`** → casi seguro SQLi (suele ser **blind**)
+| # | Vulnerabilidad | 🚩 Señal detonante | Qué probar |
+|---|---|---|---|
+| 1 | 🔎 **Content Discovery** | Siempre — arranque de recon | [[exam/to-do-list/content-discovery\|Qué probar]] (`robots.txt`, `/.git`, backups, endpoints ocultos) |
+| 2 | 🌳 **DOM-Based (DOM-XSS)** | 🚩 `.js` con `addEventListener("message"` / `postMessage(` / `eval(` | [[exam/to-do-list/dom-based\|Qué probar]] |
+| 3 | 🧬 **XSS (Cross-Site Scripting)** | 🚩 Se **importan `.js`** en la página (inyección/robo de cookie) | [[exam/to-do-list/xss\|Qué probar]] |
+| 4 | 🌐 **Web Cache Poisoning** | 🚩 `X-Cache`/`Age`/`Vary`/`Cache-Control` en la respuesta | [[exam/to-do-list/web-cache-poisoning\|Qué probar]] |
+| 5 | 🏠 **HTTP Host Header** | 🚩 El `Host`/`X-Forwarded-Host` manipulado termina en el link del **mail de reset** (o reflejado en un `<script src>` **cacheable** → JS que roba la sesión) | [[exam/to-do-list/host-header\|Qué probar]] (reset poisoning · dangling markup · cache poisoning → JS) |
+| 6 | 📦 **HTTP Request Smuggling** | 🚩 *Smuggle probe* (CL.TE antes que TE.CL; diferencial > timing) | [[exam/to-do-list/http-request-smuggling\|Qué probar]] |
+| 7 | 🔑 **Authentication** | 🚩 Error de login distinto por usuario · rate limit en login · checkbox "stay logged in" | [[exam/to-do-list/authentication\|Qué probar]] |
 
-→ [[exam/to-do-list/sql-injection|Qué probar]]
+### 🔻 Menos relevante en Stage 1
 
-### 🧬 Cross-Site Scripting (XSS)
-> [!danger] 🚩 Se **importan `.js`** en la página (inyección/robo de cookie)
-
-→ [[exam/to-do-list/xss|Qué probar]]
-
-### 🎣 CSRF
-> [!warning] ⚠️ Casi siempre **Stage 2** — el CSRF no te loguea; en S1 (sin cuenta) saltalo salvo víctima logueada + cuenta propia
-
-→ [[exam/to-do-list/csrf|Qué probar]]
-
-### 🖱️ Clickjacking
-> [!warning] ⚠️ Casi siempre **Stage 2** — en S1 no hay víctima logueada cuyo clic robar
-
-→ [[exam/to-do-list/clickjacking|Qué probar]]
-
-### 🌳 DOM-Based
-> [!danger] 🚩 `.js` con `addEventListener("message"` / `postMessage(` / `eval(`
-
-→ [[exam/to-do-list/dom-based|Qué probar]]
-
-### 🔀 CORS
-> [!danger] 🚩 `ACAO` refleja tu `Origin` (o `null`) **+ `Allow-Credentials: true`**
-
-→ [[exam/to-do-list/cors|Qué probar]]
-
-### 📦 HTTP Request Smuggling
-> [!danger] 🚩 *Smuggle probe* (CL.TE antes que TE.CL; diferencial > timing)
-
-→ [[exam/to-do-list/http-request-smuggling|Qué probar]]
-
-### 🔓 Access Control (IDOR)
-> [!danger] 🚩 Peticiones con **`username`/`id`/GUID** manipulable → `/my-account?username=carlos`
-
-→ [[exam/to-do-list/access-control|Qué probar]]
-
-### 🔑 Authentication
-> [!danger] 🚩 Error de login distinto por usuario · rate limit en login · checkbox "stay logged in"
-
-→ [[exam/to-do-list/authentication|Qué probar]]
-
-### 🌐 Web Cache Poisoning
-> [!danger] 🚩 `X-Cache`/`Age`/`Vary`/`Cache-Control` en la respuesta
-
-→ [[exam/to-do-list/web-cache-poisoning|Qué probar]]
-
-### 🏠 HTTP Host Header
-> [!danger] 🚩 El `Host`/`X-Forwarded-Host` manipulado termina en el link del **mail de reset** (o reflejado en un `<script src>` **cacheable** → JS que roba la sesión del user)
-
-→ [[exam/to-do-list/host-header|Qué probar]] (S1: reset poisoning · dangling markup · cache poisoning → JS)
-
-### 🪪 OAuth
-> [!danger] 🚩 El login es **por OAuth** (si no, no aplica)
-
-→ [[exam/to-do-list/oauth|Qué probar]]
-
-### 🎫 JWT
-> [!danger] 🚩 La sesión **es un JWT** (no una cookie de sesión simple)
-
-→ [[exam/to-do-list/jwt|Qué probar]]
-
-### 🔎 Content Discovery
-→ [[exam/to-do-list/content-discovery|Qué probar]] (`robots.txt`, `/.git`, backups, endpoints ocultos)
+| Vulnerabilidad | 🚩 Señal detonante | Qué probar |
+|---|---|---|
+| 🗄️ **SQL Injection** | 🚩 Cookie **`TrackingId`** → casi seguro SQLi (suele ser **blind**) | [[exam/to-do-list/sql-injection\|Qué probar]] |
+| 🔓 **Access Control (IDOR)** | 🚩 Peticiones con **`username`/`id`/GUID** manipulable → `/my-account?username=carlos` | [[exam/to-do-list/access-control\|Qué probar]] |
+| 🔀 **CORS** | 🚩 `ACAO` refleja tu `Origin` (o `null`) **+ `Allow-Credentials: true`** | [[exam/to-do-list/cors\|Qué probar]] |
+| 🎫 **JWT** | 🚩 La sesión **es un JWT** (no una cookie de sesión simple) | [[exam/to-do-list/jwt\|Qué probar]] |
+| 🪪 **OAuth** | 🚩 El login es **por OAuth** (si no, no aplica) | [[exam/to-do-list/oauth\|Qué probar]] |
+| 🎣 **CSRF** | ⚠️ Casi siempre **Stage 2** — el CSRF no te loguea; en S1 (sin cuenta) saltalo salvo víctima logueada + cuenta propia | [[exam/to-do-list/csrf\|Qué probar]] |
+| 🖱️ **Clickjacking** | ⚠️ Casi siempre **Stage 2** — en S1 no hay víctima logueada cuyo clic robar | [[exam/to-do-list/clickjacking\|Qué probar]] |
 
 ---
 
