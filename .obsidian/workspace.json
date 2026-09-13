@@ -120,7 +120,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -284,12 +284,14 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "667b5df55e6297a0",
+  "active": "0f4c54496e17894d",
   "lastOpenFiles": [
+    "graphify-out/cache/stat-index.egucouex.tmp",
+    "vulnerabilities/018-jwt-attacks/examples/004-jwk-injection.md",
+    "vulnerabilities/018-jwt-attacks/examples/005-jku-injection.md",
     "vulnerabilities/018-jwt-attacks/examples/003-weak-signing-key.md",
     "vulnerabilities/018-jwt-attacks/examples/002-alg-none.md",
     "vulnerabilities/018-jwt-attacks/examples/001-unverified-signature.md",
-    "vulnerabilities/018-jwt-attacks/examples/004-jwk-injection.md",
     "vulnerabilities/018-jwt-attacks/examples/008-algorithm-confusion-no-exposed-key.md",
     "graphify-out/_finalize.py",
     "graphify-out/_label.py",
@@ -303,7 +305,6 @@
     "graphify-out/cache/semantic/pd5fd89c46bb5/c597160c1fc65989de2e1aee0e127036d0bcad219ce7f5da3da5c057d723a080.json",
     "vulnerabilities/018-jwt-attacks/examples/007-algorithm-confusion.md",
     "vulnerabilities/018-jwt-attacks/examples/006-kid-path-traversal.md",
-    "vulnerabilities/018-jwt-attacks/examples/005-jku-injection.md",
     "exam/to-do-list/sql-injection.md",
     "vulnerabilities/018-jwt-attacks/jwt-attacks.md",
     "exam/to-do-list/authentication.md",
