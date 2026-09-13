@@ -37,6 +37,9 @@ Content-Type: application/xml
 &lt;stockCheck&gt;&lt;productId&gt;1&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
 Si **no** da error de "archivo no encontrado" → existe → seguí.
 
+> [!tip] ¿No existe `docbookx.dtd`? Probá otras rutas
+> Recorré la [[vulnerabilities/006-xxe/resources/dtd_files|wordlist de DTDs locales]] (rutas conocidas de Linux/Java/JBoss/Tomcat + Windows) hasta dar con un DTD que exista; después redefinís una entidad **suya** en el paso 2.
+
 ### 2. El ataque — redefinir una entidad del DTD local
 En `docbookx.dtd` existe la entidad de parámetro `ISOamso`. La **redefinís**:
 <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -83,4 +86,4 @@ La respuesta trae el `FileNotFoundException` con `/etc/passwd` embebido (como [[
 - **`ISOamso` debe existir DENTRO de `docbookx.dtd`.** Al cargar el DTD local, tu redefinición gana y dispara el ataque. Con otro DTD local → redefinís una entidad **suya**.
 - **Escapado doble:** dentro de un valor de entidad que declara entidades, `%` = `&#x25;` y `&` = `&#x26;`. Por eso aparece `&#x26;#x25;` (un `%` doblemente escapado) y `&#x27;` (comilla simple).
 - **No usa exploit server ni Collaborator** — esa es la gracia: funciona con el server **aislado de internet**. Es el más rebuscado porque **nada de 001–007 aplicaba**.
-- `docbookx.dtd` es el candidato estándar (viene con `yelp`); hay otras rutas de DTD locales → [[vulnerabilities/006-xxe/resources/dtd_files|wordlist de DTDs locales]].
+- `docbookx.dtd` es el candidato estándar (viene con `yelp`); hay otras rutas de DTD locales (ver la wordlist referenciada en el paso 1).
