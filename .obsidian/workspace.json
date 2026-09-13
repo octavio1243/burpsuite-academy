@@ -4,305 +4,95 @@
     "type": "split",
     "children": [
       {
-        "id": "e092dbdd0822dabe",
+        "id": "c1795283feea0108",
         "type": "tabs",
         "children": [
           {
-            "id": "ab771443eef2c429",
+            "id": "2549dfe747a351e2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "exam/extensions-needed.md",
+                "file": "vulnerabilities/027-os-command-injection/examples/001-simple-in-band.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "extensions-needed"
+              "title": "001-simple-in-band"
             }
           },
           {
-            "id": "3df6d85d7643f9c8",
+            "id": "c86fee8284451303",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "exam/to-do-list/prototype-pollution.md",
+                "file": "vulnerabilities/027-os-command-injection/examples/002-blind-time-delay.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "prototype-pollution"
+              "title": "002-blind-time-delay"
             }
           },
           {
-            "id": "ec4d3d1421ed9921",
+            "id": "b8ad563c85d18a0e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "vulnerabilities/028-access-control/access-control.md",
+                "file": "vulnerabilities/027-os-command-injection/examples/003-blind-output-redirection.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "access-control"
+              "title": "003-blind-output-redirection"
             }
           },
           {
-            "id": "8a6b43de2a7a9923",
+            "id": "257be90944e2f5c7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "exam/to-do-list/access-control.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "access-control"
-            }
-          },
-          {
-            "id": "3ab01c2ec0c27f5f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "exam/to-do-list/api-testing.md",
+                "file": "vulnerabilities/027-os-command-injection/examples/004-blind-oob-interaction.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "api-testing"
+              "title": "004-blind-oob-interaction"
             }
           },
           {
-            "id": "7fa75046bf580f09",
+            "id": "da1b323fcc5dde2a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "exam/to-do-list/business-logic.md",
+                "file": "vulnerabilities/027-os-command-injection/examples/005-blind-oob-exfil.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "business-logic"
+              "title": "005-blind-oob-exfil"
             }
           },
           {
-            "id": "2585e2981cd0e43d",
+            "id": "6476262fc057069f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "vulnerabilities/005-cors/cors.md",
+                "file": "vulnerabilities/027-os-command-injection/examples/006-exfil-archivo-completo.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "cors"
-            }
-          },
-          {
-            "id": "52bf284fe0885cf3",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "exam/to-do-list/cors.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "cors"
-            }
-          },
-          {
-            "id": "30b178af7e2cfa04",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "001-leer-archivo-in-band"
-            }
-          },
-          {
-            "id": "4355ddd1c6a406aa",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "002-xxe-a-ssrf-metadata-cloud"
-            }
-          },
-          {
-            "id": "8b8869efede10086",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "003-xinclude-sin-controlar-el-xml"
-            }
-          },
-          {
-            "id": "527821456ba9ebde",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "004-xxe-por-subida-de-svg"
-            }
-          },
-          {
-            "id": "c7cfc26f52b08a32",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "005-xxe-ciego-callback-oob"
-            }
-          },
-          {
-            "id": "9bdaf70efc50cc00",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "006-xxe-ciego-exfiltrar-con-dtd-externo"
-            }
-          },
-          {
-            "id": "dbf6d11f1c1e3910",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "007-xxe-ciego-error-based-con-dtd-externo"
-            }
-          },
-          {
-            "id": "768a87a53ff49072",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/007-ssrf/examples/003-bypass-blacklist-variantes-localhost.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "003-bypass-blacklist-variantes-localhost"
-            }
-          },
-          {
-            "id": "df0bf18038a8c04f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "008-xxe-ciego-reutilizar-dtd-local"
-            }
-          },
-          {
-            "id": "f0583e8337016a55",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "exam/to-do-list/xxe.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "xxe"
-            }
-          },
-          {
-            "id": "86274d36b3b6202d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "exam/STAGE_1/STAGE_1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "STAGE_1"
-            }
-          },
-          {
-            "id": "a79c886cfe2e523f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "exam/STAGE_2/STAGE_2.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "STAGE_2"
-            }
-          },
-          {
-            "id": "3303b83a9d226b4f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "vulnerabilities/005-cors/examples/bypass-origin-null.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "bypass-origin-null"
+              "title": "006-exfil-archivo-completo"
             }
           }
         ],
-        "currentTab": 15
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -336,7 +126,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "2130706433",
+                "query": "file upload",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -466,8 +256,36 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "86fe36b081bc28dc",
+  "active": "6476262fc057069f",
   "lastOpenFiles": [
+    "vulnerabilities/027-os-command-injection/cheat-sheet.md",
+    "vulnerabilities/027-os-command-injection/examples/005-blind-oob-exfil.md",
+    "vulnerabilities/027-os-command-injection/examples/004-blind-oob-interaction.md",
+    "vulnerabilities/027-os-command-injection/examples/003-blind-output-redirection.md",
+    "vulnerabilities/027-os-command-injection/examples/002-blind-time-delay.md",
+    "vulnerabilities/027-os-command-injection/examples/001-simple-in-band.md",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/b2fb720eee42e7d440b8759d5264a1d4e5fb86511cff4f98926141eba885ec9a.json",
+    "graphify-out/cache/stat-index.5wg783d_.tmp",
+    "exam/extensions-needed.md",
+    "exam/to-do-list/api-testing.md",
+    "vulnerabilities/005-cors/examples/bypass-origin-null.md",
+    "exam/STAGE_2/STAGE_2.md",
+    "exam/STAGE_1/STAGE_1.md",
+    "exam/to-do-list/xxe.md",
+    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
+    "vulnerabilities/017-file-upload-vulnerabilities/file-upload-vulnerabilities.md",
+    "vulnerabilities/007-ssrf/examples/003-bypass-blacklist-variantes-localhost.md",
+    "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
+    "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
+    "vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob.md",
+    "vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg.md",
+    "vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml.md",
+    "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
+    "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
+    "exam/to-do-list/cors.md",
+    "vulnerabilities/005-cors/cors.md",
+    "exam/to-do-list/business-logic.md",
+    "graphify-out/cache/stat-index.mw0zfns8.tmp",
     "graphify-out/graph.json",
     "graphify-out/graph.json.bak-vendored-20260913",
     "graphify-out/cache/semantic/pd5fd89c46bb5/b9c0450cfe8dd985e637632740aa91faf30249c2b8e84c653693951ae7b8179f.json",
@@ -475,35 +293,7 @@
     "graphify-out/cache/semantic/pd5fd89c46bb5/59b3eece5ea37eeb94ccbf84dca33d35145124cfcde62cf737cff9178a48528c.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/da01a8043792df1f4a0b221087c7c3029bc5c06aec72e29b9fd4556901caa8c0.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/31dc3aaffd5426b5a772d692275259a402925daa8d1ba144fad38a48ed7aaf28.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/06407195951d3b2aa2823668abc3501db64458a4ed34c18ba8fbb5aaf2c7d577.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/7017d61acae3300f909af904972ad1fdc7395da5b89dd1a547653f81e11d9ac4.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/3fb872f32b884fa53cde73d49c1a18f8ddb42697411aaf5d60cd3db13e81c1e1.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/c7d33a85c4792a6f5cc87d1a4bff13641a0022d93d0fee62554117b03d497ced.json",
-    "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
-    "vulnerabilities/007-ssrf/examples/003-bypass-blacklist-variantes-localhost.md",
-    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
-    "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
-    "vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob.md",
-    "vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg.md",
-    "vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml.md",
-    "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
-    "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
     "vulnerabilities/006-xxe/resources/dtd_files.md",
-    "exam/to-do-list/xxe.md",
-    "exam/to-do-list/cors.md",
-    "vulnerabilities/005-cors/cors.md",
-    "vulnerabilities/005-cors/examples/bypass-origin-null.md",
-    "exam/STAGE_2/STAGE_2.md",
-    "exam/STAGE_1/STAGE_1.md",
-    "exam/to-do-list/business-logic.md",
-    "exam/to-do-list/api-testing.md",
-    "exam/to-do-list/access-control.md",
-    "vulnerabilities/014-information-disclousure/information-disclosure.md",
-    "vulnerabilities/015-business-logic/labs/README.md",
-    "vulnerabilities/028-access-control/labs/README.md",
-    "exam/shortcuts/host-headers.md",
-    "vulnerabilities/028-access-control/access-control.md",
-    "exam/to-do-list/prototype-pollution.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
