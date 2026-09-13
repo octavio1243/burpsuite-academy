@@ -15,6 +15,7 @@ básica que sirve para **identificar y explotar SSTI**.
 
 ## Índice
 
+- [Payloads de detección](#-payloads-de-detección-fuzz--identificar)
 - [Python](#-python)
 - [PHP](#-php)
 - [Node.js / JavaScript](#-nodejs--javascript)
@@ -27,6 +28,48 @@ básica que sirve para **identificar y explotar SSTI**.
 - [Payloads de RCE por motor](#-payloads-de-rce-por-motor)
 - [Herramientas](#-herramientas)
 - [Referencias](#-referencias)
+
+---
+
+## 🔍 Payloads de detección (fuzz → identificar)
+
+> El arranque de todo SSTI: primero **confirmás que hay un motor** (algo se evalúa o rompe), después **identificás la familia**. Orden: polyglot → aritmética por sintaxis → nombre inválido (que el error cante el motor) → [árbol](#-árbol-de-detección-de-ssti-metodología-portswigger).
+
+### 1) Polyglots rápidos (un disparo)
+
+Mezclan los delimitadores de todas las familias → si tirás uno y ves **error de plantilla** o **salida rara**, hay un motor interpretando:
+
+```
+${{<%[%'"}}%\.,
+}}{{7*7}}
+```
+
+- `${{<%[%'"}}%\.,` — junta `${}` · `{{}}` · `<% %>` · comillas · backslash → fuerza una **excepción de parseo** en casi cualquier motor. Sirve para **confirmar que existe SSTI**, no para identificar.
+- `}}{{7*7}}` — **breakout de code context**: si tu input ya cae **dentro** de una expresión (`{{ ... }}`), el `}}` inicial la **cierra** y `{{7*7}}` inyecta la tuya. Si ves `49`, era code context → labs 2 y 7.
+
+### 2) Aritmética por sintaxis (¿devuelve `49`?)
+
+Tirá cada uno; el que evalúe a **`49`** te parte el árbol de familias:
+
+| Payload | → `49` implica |
+| --- | --- |
+| `${7*7}` | Java EL · **Smarty** · **Mako** |
+| `{{7*7}}` | **Jinja2** o **Twig** → desempatá con `{{7*'7'}}` (`49`=Twig / `7777777`=Jinja2) |
+| `<%= 7*7 %>` | **ERB** (Ruby) · **EJS** (Node) |
+| `${{7*7}}` | atrapa `${}` **y** `{{}}` en un solo tiro (útil si no sabés cuál delimita) |
+| `#{7*7}` | **Pug** (Node) · interpolación **Ruby** |
+
+### 3) Nombre inválido → que el error cante el motor
+
+Si la aritmética no aclara, inyectá un identificador que **no existe**: muchos motores tiran un **stack trace que nombra el engine (y hasta la versión)** — es lo más rápido para identificar.
+
+| Payload | Para qué |
+| --- | --- |
+| `{{fuzzer}}` · `${fuzzer}` · `${{fuzzer}}` | variable inexistente en cada familia → observá: ¿tira **error**? ¿la **borra**? ¿la **refleja** cruda? Cada comportamiento descarta o sugiere familias |
+| `${foobar}` | expresión inválida → **error que nombra el motor** (clásico de **FreeMarker**) |
+| `{% debug %}` | **Django**: vuelca el **contexto entero** → confirma Django (que no evalúa `7*7`) y abre el camino a **fuga de info** (`{{ settings.SECRET_KEY }}`) |
+
+> Con la familia ya acotada, cerrá el **motor exacto** con el **[árbol de detección](#-árbol-de-detección-de-ssti-metodología-portswigger)** ▼ y pasá a explotación.
 
 ---
 
