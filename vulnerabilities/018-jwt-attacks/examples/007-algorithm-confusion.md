@@ -15,6 +15,20 @@ tags:
 ## Qué muestra
 El server firma con **RS256 (asimétrico)** pero **no fija el algoritmo** al verificar. Cambiás `alg` a **HS256** y firmás usando la **clave pública del server como secreto HMAC**.
 
+## JWT (original → modificado)
+
+**Original** (decodificado)
+```json
+{ "alg": "RS256", "kid": "…" }   // header
+{ "sub": "wiener" }              // payload
+```
+**Modificado**
+```json
+{ "alg": "HS256", "kid": "…" }   // header   ← cambiado
+{ "sub": "administrator" }       // payload  ← cambiado
+```
+> **Firma:** HMAC-SHA256 usando la **clave pública del server (PEM en Base64)** como secreto.
+
 ## Diagrama
 
 ```mermaid

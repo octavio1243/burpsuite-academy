@@ -15,6 +15,20 @@ tags:
 ## Qué muestra
 Igual que el 007, **pero la clave pública NO está publicada** (no hay `/jwks.json`). Se **reconstruye** matemáticamente a partir de **2 JWT** del mismo server con `sig2n`, y con esa pública se hace algorithm confusion.
 
+## JWT (original → modificado)
+
+**Original** (decodificado)
+```json
+{ "alg": "RS256", "kid": "…" }   // header
+{ "sub": "wiener" }              // payload
+```
+**Modificado**
+```json
+{ "alg": "HS256", "kid": "…" }   // header   ← cambiado
+{ "sub": "administrator" }       // payload  ← cambiado
+```
+> **Firma:** HMAC usando la clave pública **reconstruida** desde 2 tokens (`sig2n`) como secreto.
+
 ## Diagrama
 
 ```mermaid

