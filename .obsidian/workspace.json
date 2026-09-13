@@ -36,6 +36,146 @@
             }
           },
           {
+            "id": "f3f60a7198406174",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/018-jwt-attacks/jwt-attacks.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "jwt-attacks"
+            }
+          },
+          {
+            "id": "3b0bc3d3e55cad39",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/018-jwt-attacks/examples/001-unverified-signature.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "001-unverified-signature"
+            }
+          },
+          {
+            "id": "ce667fe16d74f934",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/018-jwt-attacks/examples/002-alg-none.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "002-alg-none"
+            }
+          },
+          {
+            "id": "13819fe5f6a6f0bc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/018-jwt-attacks/examples/003-weak-signing-key.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "003-weak-signing-key"
+            }
+          },
+          {
+            "id": "bcb32ab1d6f277d0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/018-jwt-attacks/examples/004-jwk-injection.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "004-jwk-injection"
+            }
+          },
+          {
+            "id": "9a36281138e0f7c2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/018-jwt-attacks/examples/005-jku-injection.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "005-jku-injection"
+            }
+          },
+          {
+            "id": "9984be8ad86d2a74",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/018-jwt-attacks/examples/006-kid-path-traversal.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "006-kid-path-traversal"
+            }
+          },
+          {
+            "id": "185ef90e9aa258b9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/018-jwt-attacks/examples/007-algorithm-confusion.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "007-algorithm-confusion"
+            }
+          },
+          {
+            "id": "411f10cf3288b0ea",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/018-jwt-attacks/examples/008-algorithm-confusion-no-exposed-key.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "008-algorithm-confusion-no-exposed-key"
+            }
+          },
+          {
+            "id": "a12d4554ae20fd6e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/018-jwt-attacks/labs/README.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "README"
+            }
+          },
+          {
             "id": "0e351e4eec6e62ce",
             "type": "leaf",
             "state": {
@@ -50,7 +190,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 10
       }
     ],
     "direction": "vertical"
@@ -214,19 +354,31 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "8b71dfad4cfabdb9",
+  "active": "411f10cf3288b0ea",
   "lastOpenFiles": [
+    "vulnerabilities/018-jwt-attacks/examples/007-algorithm-confusion.md",
+    "vulnerabilities/018-jwt-attacks/examples/006-kid-path-traversal.md",
+    "vulnerabilities/018-jwt-attacks/examples/005-jku-injection.md",
+    "vulnerabilities/018-jwt-attacks/examples/004-jwk-injection.md",
+    "vulnerabilities/018-jwt-attacks/examples/003-weak-signing-key.md",
+    "vulnerabilities/018-jwt-attacks/examples/002-alg-none.md",
+    "vulnerabilities/018-jwt-attacks/examples/001-unverified-signature.md",
     "vulnerabilities/018-jwt-attacks/jwt-attacks.md",
+    "vulnerabilities/018-jwt-attacks/examples/008-algorithm-confusion-no-exposed-key.md",
+    "vulnerabilities/018-jwt-attacks/examples/004-jwk-injection.md.tmp.165304.5448134e41c1",
+    "vulnerabilities/018-jwt-attacks/examples/001-unverified-signature.md.tmp.165304.fd21cb68e2cc",
+    "vulnerabilities/018-jwt-attacks/examples",
+    "vulnerabilities/018-jwt-attacks/labs/README.md",
+    "how-to-work/symmetric-vs-asymmetric.md",
+    "vulnerabilities/018-jwt-attacks/jwt-attacks.md.tmp.165304.08526ec55548",
+    "how-to-work/jwt.md",
+    "how-to-work/jwt.md.tmp.165304.5f50829f61ca",
+    "vulnerabilities/026-oauth/oauth.md",
     "graphify-out/cache/stat-index._rw2bp1_.tmp",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2.7z",
     "vulnerabilities/018-jwt-attacks/scripts/wddm_timeout_patch.reg",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/target/x86_64-pc-windows-gnu/release/generic_hash.dll",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/target/x86_64-pc-windows-gnu/release",
-    "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/target/release/libgeneric_hash.so",
-    "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/target/x86_64-pc-windows-gnu",
-    "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/src/lib.rs",
-    "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/target/release",
-    "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/src/interop.rs",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/tunings/README.md",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/docs/slow-candidates-mode.md",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/docs/releases_notes_v7.1.0.md",
@@ -240,18 +392,6 @@
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/docs/hashcat-example-hashes.md",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/docs/hashcat-help.md",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/docs/hashcat-assimilation-bridge.md",
-    "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/docs/hashcat-brain.md",
-    "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/docs/hashcat-assimilation-bridge-development.md",
-    "vulnerabilities/018-jwt-attacks/labs/README.md",
-    "vulnerabilities/026-oauth/examples/006-ssrf-dynamic-client-registration.md",
-    "vulnerabilities/026-oauth/examples/005-steal-token-proxy-page.md",
-    "vulnerabilities/026-oauth/examples/004-steal-token-open-redirect.md",
-    "vulnerabilities/026-oauth/examples/003-account-hijacking-redirect-uri.md",
-    "vulnerabilities/026-oauth/examples/002-forced-profile-linking-csrf.md",
-    "vulnerabilities/026-oauth/examples/001-implicit-flow-email-substitution.md",
-    "exam/STAGE_1/STAGE_1.md",
-    "vulnerabilities/026-oauth/labs/README.md",
-    "vulnerabilities/029-authentication/authentication.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",

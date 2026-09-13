@@ -10,7 +10,7 @@ tags:
 
 # JWT attacks — Labs de PortSwigger
 
-> 🧠 ¿Cómo funciona un JWT (formato, firma, `kid`/`jwk`/`jku`, JWS vs JWE)? → [[vulnerabilities/018-jwt-attacks/jwt-attacks|teoría / punto de entrada]].
+> 🧠 ¿Cómo funciona un JWT (formato, firma, simétrico vs asimétrico, `kid`/`jwk`/`jku`, JWS vs JWE)? → [[how-to-work/jwt|how-to-work/jwt]] · metodología/ataques → [[vulnerabilities/018-jwt-attacks/jwt-attacks|entry point]].
 
 Labs de la categoría **[JWT attacks](https://portswigger.net/web-security/jwt)**: **2 Apprentice + 4 Practitioner + 2 Expert** (8 en total). **El hilo común:** el server guarda tu identidad en un **JWT** (típicamente `sub: wiener`) y **confía en los claims** que van adentro. La firma existe justamente para que **no puedas tocar esos claims**… pero en cada lab la **verificación de la firma está rota** de una forma distinta. **El objetivo es siempre el mismo:** forjar un token con **`sub: administrator`** (a veces `role`/`isAdmin`), que el server lo acepte, entrar a **`/admin`** y **borrar a `carlos`**. Lo que cambia lab a lab es **por qué** el server acepta tu firma falsa.
 
@@ -21,6 +21,16 @@ Labs de la categoría **[JWT attacks](https://portswigger.net/web-security/jwt)*
 > - **Algorithm confusion (RS256 → HS256):** el server **firma con RSA** (asimétrico: clave privada firma, pública verifica) pero **no fija el algoritmo** al verificar → cambiás `alg` a HS256 y firmás con la **clave pública** (que es, del server) usada como **secreto HMAC**. Labs 7, 8.
 
 > **Herramienta central:** la extensión **JWT Editor** (BApp store). Agrega una pestaña para **decodificar/editar** el JWT en Repeater/Proxy y una pestaña **"JWT Editor Keys"** para crear claves (RSA / simétricas) y **firmar**. **Cómo leer las columnas:** **Qué falla en la verificación** = por qué el server traga tu token · **Técnica · qué necesitás** = cómo forjás la firma + herramientas · **Objetivo** = qué conseguís. Pasos completos → sección [Solución por lab](#solución-por-lab).
+
+> [!tip] 📈 Diagramas de secuencia (uno por lab — sin example no se entiende)
+> - Lab 1 → [[vulnerabilities/018-jwt-attacks/examples/001-unverified-signature|001 · unverified signature]]
+> - Lab 2 → [[vulnerabilities/018-jwt-attacks/examples/002-alg-none|002 · alg none]]
+> - Lab 3 → [[vulnerabilities/018-jwt-attacks/examples/003-weak-signing-key|003 · weak signing key (hashcat)]]
+> - Lab 4 → [[vulnerabilities/018-jwt-attacks/examples/004-jwk-injection|004 · jwk injection]]
+> - Lab 5 → [[vulnerabilities/018-jwt-attacks/examples/005-jku-injection|005 · jku injection]]
+> - Lab 6 → [[vulnerabilities/018-jwt-attacks/examples/006-kid-path-traversal|006 · kid path traversal]]
+> - Lab 7 → [[vulnerabilities/018-jwt-attacks/examples/007-algorithm-confusion|007 · algorithm confusion]]
+> - Lab 8 → [[vulnerabilities/018-jwt-attacks/examples/008-algorithm-confusion-no-exposed-key|008 · algorithm confusion sin clave]]
 
 ## Apprentice
 
