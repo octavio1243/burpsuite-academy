@@ -8,7 +8,7 @@ tags:
 
 # CSRF — Qué probar
 
-> Técnica → [[vulnerabilities/003-csrf/csrf|entry point]] · labs → [[vulnerabilities/003-csrf/labs/README|labs]]
+> Técnica → [[vulnerabilities/003-csrf/csrf|entry point]] · labs → [[vulnerabilities/003-csrf/labs/README|labs]] · ejemplos 001–004
 
 ## 🚩 Flags
 
@@ -27,9 +27,9 @@ tags:
 ## ♾️ Independiente del stage
 
 **Acciones a probar:** cambiar email · cambiar contraseña (sobre todo si NO pide la actual) · flujo de reset · cualquier acción con estado.
-- [ ] PoC con Burp → *Generate CSRF PoC* → entregar por exploit server.
-- [ ] **Si hay token:** ¿solo en POST? ¿solo si está presente? ¿no atado a la sesión? ¿atado a cookie seteable? ¿duplicado en cookie+body? → [[vulnerabilities/003-csrf/csrf#🔎 Puntos flojos a verificar (bypass de token)|puntos flojos]].
-- [ ] **SameSite** (enruta, no descarta): `None`/ausente → todo; `Lax` → GET top-level + `_method=POST`; `Strict` → redirect client-side / subdominio hermano.
+- [ ] PoC con Burp → *Generate CSRF PoC* → entregar por exploit server → caso base sin defensas [[vulnerabilities/003-csrf/examples/001-csrf-sin-defensas-auto-submit|001]].
+- [ ] **Si hay token:** ¿solo en POST? ([[vulnerabilities/003-csrf/examples/002-bypass-token-metodo|002]]) ¿solo si está presente? ¿no atado a la sesión? ([[vulnerabilities/003-csrf/examples/003-token-no-atado-a-sesion|003]]) ¿atado a cookie seteable? ¿duplicado en cookie+body? → [[vulnerabilities/003-csrf/csrf#🔎 Puntos flojos a verificar (bypass de token)|puntos flojos]].
+- [ ] **SameSite** (enruta, no descarta): `None`/ausente → todo; `Lax` → GET top-level + `_method=POST` ([[vulnerabilities/003-csrf/examples/004-bypass-samesite-lax-method-override|004]]); `Strict` → redirect client-side / subdominio hermano.
 - [ ] **API JSON:** probá pasar el body a `x-www-form-urlencoded`/`text/plain` (no dispara preflight).
 - [ ] **Token bien atado y sin bypass** → buscá **XSS** que lo lea, o **dangling markup** para exfiltrarlo.
 

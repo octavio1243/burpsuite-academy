@@ -27,7 +27,8 @@ tags:
 - [ ] **Robar `/my-account` del próximo** → colás para capturar su request / recibir su respuesta.
 - [ ] **XSS reflejado colado** (ej. `User-Agent`) → cae en la próxima víctima → [[vulnerabilities/008-http_smuggling/labs/README|lab 10]].
 - [ ] **Reveal front-end rewriting** → deducí qué header agrega el front (IP interna, rol) y **replicalo** para ser admin → [[vulnerabilities/008-http_smuggling/labs/README|lab 8]].
-- [ ] **Entrar directo a `/admin`** contrabandeando la 2ª petición → [[vulnerabilities/008-http_smuggling/examples/001-cl-te|CL.TE]] / [[vulnerabilities/008-http_smuggling/examples/002-te-cl|TE.CL]].
+- [ ] **Entrar directo a `/admin`** contrabandeando la 2ª petición → [[vulnerabilities/008-http_smuggling/examples/001-cl-te|CL.TE]] / [[vulnerabilities/008-http_smuggling/examples/002-te-cl|TE.CL]] · si ambos filtran `TE`, **ofuscá el header** → [[vulnerabilities/008-http_smuggling/examples/003-te-te|TE.TE]].
+- [ ] **HTTP/2 downgrade** → si el front habla HTTP/2 pero el back HTTP/1, colá vía longitud implícita → [[vulnerabilities/008-http_smuggling/examples/004-h2-cl|H2.CL]] / [[vulnerabilities/008-http_smuggling/examples/005-h2-te|H2.TE]].
 - [ ] **Envenenar caché** (JS del exploit) · **web cache deception** · **response queue poisoning** → [[vulnerabilities/008-http_smuggling/examples/007-response-queue-poisoning|007]].
 - [ ] **CL.0 hacia `/admin`** → posible pero **ciego** → [[vulnerabilities/008-http_smuggling/examples/006-cl-0|006]].
 

@@ -8,7 +8,7 @@ tags:
 
 # SSTI — Qué probar
 
-> Técnica → [[vulnerabilities/009-server-side-template-injection/server-side-template-injection|entry point]] · payload por motor → [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet|cheatsheet]] · labs → [[vulnerabilities/009-server-side-template-injection/labs/README|labs]]
+> Técnica → [[vulnerabilities/009-server-side-template-injection/server-side-template-injection|entry point]] · payload por motor → [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet|cheatsheet]] · ejemplos 001–004 · labs → [[vulnerabilities/009-server-side-template-injection/labs/README|labs]]
 
 ## 🚩 Flags
 
@@ -19,7 +19,7 @@ tags:
 - **RCE** → `cat /home/carlos/secret`; o **fuga de info** si el motor está sandboxeado.
 
 ## ♾️ Independiente del stage
-- [ ] **Identificar motor:** fuzz `${7*7}` · `{{7*7}}` · `<%= 7*7 %>` · `#{7*7}` → mirá cuál da `49` y el **error** → [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet#🔍 Payloads de detección (fuzz → identificar)|payloads de detección]] · [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet#🎯 Árbol de detección de SSTI (metodología PortSwigger)|árbol]].
+- [ ] **Identificar motor:** fuzz `${7*7}` · `{{7*7}}` · `<%= 7*7 %>` · `#{7*7}` → mirá cuál da `49` y el **error** → [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet#🔍 Payloads de detección (fuzz → identificar)|payloads de detección]] · [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet#🎯 Árbol de detección de SSTI (metodología PortSwigger)|árbol]]. Motor desconocido → identificalo por el **error** con el polyglot → [[vulnerabilities/009-server-side-template-injection/examples/003-identificar-a-ciegas-y-exploit-documentado-handlebars|003]].
 
   | Lenguaje | Motor típico |
   | --- | --- |
@@ -28,9 +28,9 @@ tags:
   | Java | FreeMarker |
   | Node | Handlebars |
 
-- [ ] **Según el motor** (payload en el cheatsheet): RCE → leer el secreto.
-- [ ] **Django / FreeMarker sandbox** → no dan RCE directo → fuga de info (`{% debug %}` → `settings.SECRET_KEY`) o reflection.
+- [ ] **Según el motor** (payload en el cheatsheet): RCE → leer el secreto. Plaintext directo (ERB) → [[vulnerabilities/009-server-side-template-injection/examples/001-deteccion-y-rce-erb-plaintext|001]] · motor conocido con doc (FreeMarker) → [[vulnerabilities/009-server-side-template-injection/examples/002-rce-freemarker-usando-documentacion|002]].
+- [ ] **Django / FreeMarker sandbox** → no dan RCE directo → fuga de info (`{% debug %}` → `settings.SECRET_KEY`) o reflection → [[vulnerabilities/009-server-side-template-injection/examples/004-sandbox-fuga-de-info-django|004]].
 - [ ] Ciego → confirmar por **OAST**.
 
 ## 🔗 Referencias
-- [[vulnerabilities/009-server-side-template-injection/server-side-template-injection|entry point]] · [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet|cheatsheet]] · [[vulnerabilities/009-server-side-template-injection/labs/README|labs]] · [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection)
+- [[vulnerabilities/009-server-side-template-injection/server-side-template-injection|entry point]] · [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet|cheatsheet]] · ejemplos [[vulnerabilities/009-server-side-template-injection/examples/001-deteccion-y-rce-erb-plaintext|001]] · [[vulnerabilities/009-server-side-template-injection/examples/002-rce-freemarker-usando-documentacion|002]] · [[vulnerabilities/009-server-side-template-injection/examples/003-identificar-a-ciegas-y-exploit-documentado-handlebars|003]] · [[vulnerabilities/009-server-side-template-injection/examples/004-sandbox-fuga-de-info-django|004]] · [[vulnerabilities/009-server-side-template-injection/labs/README|labs]] · [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection)

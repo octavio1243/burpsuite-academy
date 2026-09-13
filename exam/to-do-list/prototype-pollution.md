@@ -40,13 +40,14 @@ tags:
 
 ## ♾️ Independiente del stage
 
-- [ ] Inyectá una prop **basura** por la source: query `__proto__[foo]=bar` / `__proto__.foo=bar` ; JSON `"__proto__":{"foo":"bar"}`. Confirmá (`Object.prototype.foo` o reflexión).
-- [ ] **Client-side:** DOM Invader (Burp) → source→sink + "Scan for gadgets".
+- [ ] Inyectá una prop **basura** por la source: query `__proto__[foo]=bar` / `__proto__.foo=bar` ; JSON `"__proto__":{"foo":"bar"}`. Confirmá (`Object.prototype.foo` o reflexión). → [[vulnerabilities/020-prototype-pollution/examples/001-sources-y-confirmacion|001 · sources y confirmación]]
+- [ ] **Client-side:** DOM Invader (Burp) → source→sink + "Scan for gadgets". → [[vulnerabilities/020-prototype-pollution/examples/002-client-side-gadget-dom-xss|002 · gadget client-side DOM XSS]]
 - [ ] **Server-side:** si no se refleja, **override no destructivo** (`status`/`json spaces`/`charset` utf-7). **Nunca rompas el server de entrada** (la contaminación persiste toda la vida del proceso Node).
 - [ ] Filtran `__proto__` → `constructor.prototype` ; filtro **no recursivo** → `__pro__proto__to__`.
 
 ## 🔗 Referencias
 
 - [[vulnerabilities/020-prototype-pollution/prototype-pollution|entry point]] · [[vulnerabilities/020-prototype-pollution/labs/README|labs]]
+- ♾️ Base: [[vulnerabilities/020-prototype-pollution/examples/001-sources-y-confirmacion|001 sources y confirmación]] · [[vulnerabilities/020-prototype-pollution/examples/002-client-side-gadget-dom-xss|002 gadget client-side DOM XSS]]
 - 🔴 Stage 2: [[vulnerabilities/020-prototype-pollution/examples/004-server-side-escalada-isadmin|004 escalada isAdmin]] (apoyo: [[vulnerabilities/020-prototype-pollution/examples/003-server-side-deteccion-a-ciegas|003 detección]] · [[vulnerabilities/020-prototype-pollution/examples/005-bypass-constructor-y-sanitizacion|005 bypass]])
 - ⚫ Stage 3: [[vulnerabilities/020-prototype-pollution/examples/006-server-side-rce-execargv-fork|006 RCE fork/execArgv]] · [[vulnerabilities/020-prototype-pollution/examples/007-server-side-rce-exfil-execsync|007 RCE/exfil execSync]]

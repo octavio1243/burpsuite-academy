@@ -43,10 +43,10 @@ Chain (el path propio pasa el filtro → el 302 lo lleva al interno):
 - Pegarle a **`localhost:6566`** o leer **`/home/carlos/secret`** por `file://`.
 
 ## ♾️ Independiente del stage
-- [ ] Parámetro-URL → `http://localhost:6566/` · `file:///home/carlos/secret`.
-- [ ] **`Referer`** → puede haber analytics que lo visite (SSRF ciego) → Collaborator + Poll now → [[vulnerabilities/007-ssrf/examples/006-ssrf-ciego-deteccion-oob|006]].
+- [ ] Parámetro-URL → `http://localhost:6566/` · `file:///home/carlos/secret` → base directo [[vulnerabilities/007-ssrf/examples/001-ssrf-directo-localhost|001]] · escaneo red interna [[vulnerabilities/007-ssrf/examples/002-ssrf-escaneo-red-interna|002]].
+- [ ] **`Referer`** → puede haber analytics que lo visite (SSRF ciego) → Collaborator + Poll now → [[vulnerabilities/007-ssrf/examples/006-ssrf-ciego-deteccion-oob|006]] → escalar a RCE vía Shellshock [[vulnerabilities/007-ssrf/examples/007-ssrf-ciego-rce-shellshock|007]].
 - [ ] **Path traversal** en la URL interna hasta el fichero.
-- [ ] Bypass de filtros: IP encoding, redirect, `@`, `#`, DNS rebinding.
+- [ ] Bypass de filtros: IP encoding, redirect, `@`, `#`, DNS rebinding → blacklist / variantes de `localhost` [[vulnerabilities/007-ssrf/examples/003-bypass-blacklist-variantes-localhost|003]] · whitelist / credenciales embebidas + `#` [[vulnerabilities/007-ssrf/examples/004-bypass-whitelist|004]].
 - [ ] **Filtro que no cede → open redirect** (`next`/`returnUrl`/`path` que cae en `Location:`) → ver **🔴 Stage 2** arriba (chain a `localhost:6566`) · [[vulnerabilities/007-ssrf/examples/005-bypass-open-redirect|005]].
 
 ## 🔗 Referencias

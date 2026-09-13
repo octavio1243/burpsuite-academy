@@ -23,6 +23,7 @@ tags:
 
 ## ♾️ Independiente del stage
 - [ ] **Refleja** → entidad in-band `file:///home/carlos/secret` → [[vulnerabilities/006-xxe/examples/001-leer-archivo-in-band|001]].
+- [ ] **Subida de imagen (avatar)** → SVG es XML → XXE dentro del SVG (`gen_svg_xxe.py`) → [[vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg|004]].
 - [ ] **Ciego** → OOB ([[vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob|005]]) → exfil con **DTD externo** ([[vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo|006]]).
 - [ ] Rompe la exfil → **error-based** ([[vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo|007]]); sin salida → **DTD local** ([[vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local|008]]).
 - [ ] **No controlás el XML** → **XInclude** ([[vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml|003]]).

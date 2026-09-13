@@ -8,7 +8,7 @@ tags:
 
 # SQL Injection — Qué probar
 
-> Técnica → [[vulnerabilities/001-sql-injection/README|entry point]] · labs → [[vulnerabilities/001-sql-injection/labs/README|labs]] · [[vulnerabilities/001-sql-injection/cheat-sheet|cheat sheet]] · ofuscación → [[vulnerabilities/019-obfuscacion/README|obfuscacion]]
+> Técnica → [[vulnerabilities/001-sql-injection/README|entry point]] · labs → [[vulnerabilities/001-sql-injection/labs/README|labs]] · [[vulnerabilities/001-sql-injection/cheat-sheet|cheat sheet]] · ofuscación → [[vulnerabilities/019-obfuscacion/README|obfuscacion]] · ejemplos core → [[vulnerabilities/001-sql-injection/examples/001-login-bypass|001]] · [[vulnerabilities/001-sql-injection/examples/002-union-exfil-credenciales|002]] · [[vulnerabilities/001-sql-injection/examples/003-blind-boolean-cookie|003]] · [[vulnerabilities/001-sql-injection/examples/004-filter-bypass-xml-encoding|004]]
 
 ## 🚩 Flags
 
@@ -31,9 +31,9 @@ tags:
 
 ## 🟢 Stage 1 — foothold (entrar a una cuenta)
 
-- [ ] **Login (`username`):** bypass con `administrator'--` (o `' OR 1=1--` si no sabés el user). Si no bypassa, ¿enumera usuarios / difiere el error o el tiempo? → probá [[exam/to-do-list/authentication|enum + brute force]]. *(Lab 2)*
-- [ ] **Buscador / `?category=`:** WHERE inyectable → **UNION** para sacar la tabla de usuarios (user+pass) y loguearte. Mismo input reflejado sin sanitizar → probá [[exam/to-do-list/xss|XSS reflejado]] y [[exam/to-do-list/prototype-pollution|prototype pollution]]. *(Labs 1, 3-10)*
-- [ ] **Cookie `TrackingId` (sin login):** blind (boolean / error / time / OOB) → exfiltrá credenciales del **admin antes de entrar**. La misma cookie es puerta para [[exam/to-do-list/xss|robo de cookie]] / [[exam/to-do-list/insecure-deserialization|deser]]. *(Labs 11-17)*
+- [ ] **Login (`username`):** bypass con `administrator'--` (o `' OR 1=1--` si no sabés el user). Si no bypassa, ¿enumera usuarios / difiere el error o el tiempo? → probá [[exam/to-do-list/authentication|enum + brute force]]. *(Lab 2)* → [[vulnerabilities/001-sql-injection/examples/001-login-bypass|001]]
+- [ ] **Buscador / `?category=`:** WHERE inyectable → **UNION** para sacar la tabla de usuarios (user+pass) y loguearte. Mismo input reflejado sin sanitizar → probá [[exam/to-do-list/xss|XSS reflejado]] y [[exam/to-do-list/prototype-pollution|prototype pollution]]. *(Labs 1, 3-10)* → [[vulnerabilities/001-sql-injection/examples/002-union-exfil-credenciales|002]]
+- [ ] **Cookie `TrackingId` (sin login):** blind (boolean / error / time / OOB) → exfiltrá credenciales del **admin antes de entrar**. La misma cookie es puerta para [[exam/to-do-list/xss|robo de cookie]] / [[exam/to-do-list/insecure-deserialization|deser]]. *(Labs 11-17)* → [[vulnerabilities/001-sql-injection/examples/003-blind-boolean-cookie|003]]
 
 ## 🟠 Stage 2 — escalar a admin
 
@@ -57,10 +57,10 @@ tags:
 ## ♾️ Independiente del stage
 
 - [ ] **Detección:** `'` → error/cambio; `''` normaliza; `OR 1=1`.
-- [ ] **In-band:** `?category=` → WHERE / **UNION** (nº de columnas → columna texto → datos de otras tablas).
-- [ ] **Login bypass:** `administrator'--`.
-- [ ] **Blind:** condicional (respuesta true/false), **error-based**, **time-based** (`SLEEP`/`pg_sleep`/`WAITFOR`), o **OOB** si no refleja.
-- [ ] **WAF:** filter bypass con ofuscación (XML encoding en el stock-check, comentarios, case).
+- [ ] **In-band:** `?category=` → WHERE / **UNION** (nº de columnas → columna texto → datos de otras tablas). → [[vulnerabilities/001-sql-injection/examples/002-union-exfil-credenciales|002]]
+- [ ] **Login bypass:** `administrator'--`. → [[vulnerabilities/001-sql-injection/examples/001-login-bypass|001]]
+- [ ] **Blind:** condicional (respuesta true/false), **error-based**, **time-based** (`SLEEP`/`pg_sleep`/`WAITFOR`), o **OOB** si no refleja. → [[vulnerabilities/001-sql-injection/examples/003-blind-boolean-cookie|003]]
+- [ ] **WAF:** filter bypass con ofuscación (XML encoding en el stock-check, comentarios, case). → [[vulnerabilities/001-sql-injection/examples/004-filter-bypass-xml-encoding|004]]
 
 ## 🔗 Referencias
 - [[vulnerabilities/001-sql-injection/README|entry point]] · [[vulnerabilities/001-sql-injection/labs/README|labs]] · [[vulnerabilities/001-sql-injection/cheat-sheet|cheat sheet]] · [[vulnerabilities/019-obfuscacion/README|ofuscación]] · SSRF interno → [[vulnerabilities/007-ssrf/ssrf|SSRF]]

@@ -19,7 +19,7 @@ tags:
 > **Recon de key:** `Pragma: x-get-cache-key` (Akamai `akamai-x-get-cache-key`) → `X-Cache-Key` = keyed vs unkeyed.
 
 > [!tip] 💡 Gadgets que gritan WCP
-> **Idioma en URL** (`/en`, `?lang=`) · **scripts con callback** (geoloc `setCountryCookie(...)` → [[vulnerabilities/030-web-cache-poisoning/examples/009-parameter-cloaking|cloaking]]) · `<script src>`/`@import` que **refleja** un header/param.
+> **Idioma en URL** (`/en`, `?lang=`) · **scripts con callback** (geoloc `setCountryCookie(...)` → [[vulnerabilities/030-web-cache-poisoning/examples/009-parameter-cloaking|cloaking]]) · `<script src>`/`@import` que **refleja** un header/param → [[vulnerabilities/030-web-cache-poisoning/examples/011-dynamic-resource-imports-css|011 (CSS @import)]].
 
 ## 🎯 Stage 1 vs Stage 2
 
@@ -42,12 +42,12 @@ Ver los **headers de caché** del bloque de Flags. Confirmá `miss`→`hit` y, s
 ### 2) Encontrar el input unkeyed (el vector)
 | Input | ¿Unkeyed? | Rol |
 | --- | --- | --- |
-| `X-Forwarded-Host` | Sí (clásico) | **Vector rey** — reflejado en `<script src>`/import |
-| `X-Forwarded-Scheme` / `-Proto` | Suele | **Gatillo** (fuerza redirect) → se combina con XFH |
+| `X-Forwarded-Host` | Sí (clásico) | **Vector rey** — reflejado en `<script src>`/import → [[vulnerabilities/030-web-cache-poisoning/examples/002-xfh-script-import|002 (script src)]] · breakout en atributo → [[vulnerabilities/030-web-cache-poisoning/examples/001-xfh-breakout-meta-tag|001 (meta)]] |
+| `X-Forwarded-Scheme` / `-Proto` | Suele | **Gatillo** (fuerza redirect) → se combina con XFH → [[vulnerabilities/030-web-cache-poisoning/examples/003-multiples-headers|003]] |
 | `Cookie` | A veces | Vector solo si esa cookie es unkeyed (lab 2) |
 | `User-Agent` | Casi siempre **keyed** (`Vary`) | No es vector → sirve para **targetear** a la víctima |
-| `utm_content` (param) | Sí | Vector — los CDN lo excluyen a propósito |
-| **puerto** del `Host` | Sí | Pisa reflexiones (`Location`) → [[vulnerabilities/030-web-cache-poisoning/examples/006-unkeyed-port|006]] |
+| `utm_content` (param) | Sí | Vector — los CDN lo excluyen a propósito → [[vulnerabilities/030-web-cache-poisoning/examples/008-unkeyed-query-parameter|008]] |
+| **puerto** del `Host` | Sí | Pisa reflexiones (`Location`) → [[vulnerabilities/030-web-cache-poisoning/examples/006-unkeyed-port|006]] · Host reflejado en `Location` → [[vulnerabilities/030-web-cache-poisoning/examples/004-host-header-injection-redirect|004]] |
 
 ### 3) Cómo usar Param Miner
 1. Instalar del **BApp Store**.
@@ -77,6 +77,7 @@ Luego **cacheo** (sin buster) y confirmo `X-Cache: hit` en la request limpia.
 ### 6) Bypassear la codificación del navegador (probar desde Repeater)
 El browser **URL-encodea** solo `;`, `<`, `>`, comillas y espacios → desde el **Repeater** mandás los **bytes crudos** y llegás al gadget con el payload **literal** (por eso el testing de WCP se hace en Burp, no en el navegador).
 - **Cloak con `;`:** ⚠️ **NO "ignora todo lo que sigue"** siempre — es una **discrepancia de parseo**: el **caché** suele tratar lo que va tras `;` como **parte del param excluido** (no lo keyea), y el **backend** (p. ej. Rails) lo **separa** como parámetro nuevo y le da **precedencia al último**. Hay parsers que sí truncan en `;`. → **probá ambos comportamientos** ([[vulnerabilities/030-web-cache-poisoning/examples/009-parameter-cloaking|009]]).
+- **Fat GET (discrepancia caché vs backend):** un `GET` con **body** → el caché keyea la **URL** (`?param=innocent`) pero el backend lee el **cuerpo** (`param=bad`); a veces hace falta `X-HTTP-Method-Override` → [[vulnerabilities/030-web-cache-poisoning/examples/010-fat-get|010]].
 - ⚠️ **Cuidado con la key:** si el caché **keyea la forma codificada**, tu payload crudo (Repeater) puede **no coincidir** con lo que manda la **víctima** (que va encodeado por el browser) → mirá **normalized cache keys** en el [[vulnerabilities/030-web-cache-poisoning/web-cache-poisoning|entry point]] y confirmá con `X-Cache-Key`.
 
 ### 7) Referencias

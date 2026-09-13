@@ -33,10 +33,11 @@ tags:
 
 ## ♾️ Independiente del stage
 - [ ] Identificar el formato del objeto serializado.
-- [ ] **Escalada (Stage 2, barato):** editar atributos/tipos si la lógica lo permite (`admin`, `access_token`, rutas) → 001–003.
+- [ ] **Escalada (Stage 2, barato):** editar atributos/tipos si la lógica lo permite (`admin`, `access_token`, rutas) → 001–002; o **abusar una feature** de la app (apuntar una ruta al archivo víctima y que la borre) → [[vulnerabilities/013-insecure_deserialization/examples/003-usar-funcionalidad-app|003]].
 - [ ] **RCE (Stage 3):** **gadget chain** — **ysoserial** (Java, ej. CommonsCollections) / **phpggc** (PHP) / Marshal (Ruby).
 
 ## 🔗 Referencias
 - [[vulnerabilities/013-insecure_deserialization/insecure-deserialization|entry point + tabla maestra]] (lenguaje · codificación · herramienta por lab)
 - ⭐ con herramienta: [[vulnerabilities/013-insecure_deserialization/examples/005-java-apache-commons-ysoserial|005 Java·ysoserial]] · [[vulnerabilities/013-insecure_deserialization/examples/006-php-phpggc-symfony|006 PHP·phpggc]] · [[vulnerabilities/013-insecure_deserialization/examples/007-ruby-gadget-documentado|007 Ruby·Marshal]]
+- 🛠️ gadget propio / a mano (leyendo la fuente): [[vulnerabilities/013-insecure_deserialization/examples/004-object-injection-php|004 PHP object injection (`__destruct`→`unlink`)]] · [[vulnerabilities/013-insecure_deserialization/examples/008-java-custom-gadget-sqli|008 Java→SQLi (`readObject`)]] · [[vulnerabilities/013-insecure_deserialization/examples/009-php-custom-gadget|009 PHP→RCE (magic methods)]] · [[vulnerabilities/013-insecure_deserialization/examples/010-phar-deserialization|010 PHAR (`phar://`, polyglot)]]
 - cross-ref OSCi ysoserial → [[vulnerabilities/027-os-command-injection/examples/006-exfil-archivo-completo|006]]

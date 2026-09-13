@@ -24,6 +24,7 @@ tags:
 - [ ] Añadir `"isAdmin":true` / `"role":"admin"` / `"roleid":2` al JSON del perfil.
 - [ ] Métodos alternos (`PUT`/`PATCH`/`DELETE`) · **`Content-Type` swaps**.
 - [ ] Documentación / endpoints ocultos de la API.
+- Ejemplo: [[vulnerabilities/028-access-control/examples/003-mass-assignment-roleid|auto-escalada por `roleid`]]
 
 ## 🧬 Server-Side Parameter Pollution (query string)
 

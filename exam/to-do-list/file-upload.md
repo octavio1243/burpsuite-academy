@@ -8,7 +8,7 @@ tags:
 
 # File Upload → RCE — Qué probar ⭐
 
-> Técnica → carpeta `vulnerabilities/017-file-upload-vulnerabilities/` (shells listos + cheat-sheet de invocación)
+> Técnica → [[vulnerabilities/017-file-upload-vulnerabilities/file-upload-vulnerabilities|entry point]] · ejemplos 001–004 (shells listos + cheat-sheet de invocación)
 
 ## 🚩 Flags
 
@@ -19,11 +19,15 @@ tags:
 - Subir **web shell** → leer **`/home/carlos/secret`**.
 
 ## ♾️ Independiente del stage
-- [ ] Subir shell PHP y pedirlo por GET desde `/files/avatars/…`.
+- [ ] **Subida directa:** subir shell PHP y pedirlo por GET desde `/files/avatars/…` → [[vulnerabilities/017-file-upload-vulnerabilities/examples/001-web-shell-php-directo|001]].
 - [ ] Shells listos:
   - `example_best.php?command=cat%20/home/carlos/secret` (system, salida limpia)
   - `exploit.php` (file_get_contents, **sin parámetro**)
-- [ ] **Bypass** si filtran: extensión (blacklist), `Content-Type`, magic bytes, **polyglot**, path traversal en el nombre.
+- [ ] **Bypass** si filtran:
+  - `Content-Type` falso (`image/jpeg`) → [[vulnerabilities/017-file-upload-vulnerabilities/examples/002-bypass-content-type|002]].
+  - Extensión (blacklist) con `.htaccess` + `.l33t` → [[vulnerabilities/017-file-upload-vulnerabilities/examples/003-bypass-extension-htaccess|003]].
+  - Magic bytes / contenido → **polyglot** JPEG+PHP → [[vulnerabilities/017-file-upload-vulnerabilities/examples/004-polyglot-jpeg-php|004]].
+  - Doble extensión, NULL byte, path traversal en el nombre → ver [[vulnerabilities/017-file-upload-vulnerabilities/file-upload-vulnerabilities|entry point]].
 
 ## 🔗 Referencias
-- carpeta `vulnerabilities/017-file-upload-vulnerabilities/`
+- [[vulnerabilities/017-file-upload-vulnerabilities/file-upload-vulnerabilities|entry point]] · ejemplos [[vulnerabilities/017-file-upload-vulnerabilities/examples/001-web-shell-php-directo|001]]–[[vulnerabilities/017-file-upload-vulnerabilities/examples/004-polyglot-jpeg-php|004]]
