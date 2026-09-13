@@ -48,9 +48,51 @@
               "icon": "lucide-file",
               "title": "burp-labs-wordlist"
             }
+          },
+          {
+            "id": "36e11fa0f4583566",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/shortcuts/auto-submit-form.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "auto-submit-form"
+            }
+          },
+          {
+            "id": "3f3a9498eec83b11",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/shortcuts/exfil-oastify.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "exfil-oastify"
+            }
+          },
+          {
+            "id": "19191bcf823924ad",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/shortcuts/postmessage.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "postmessage"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -214,25 +256,32 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "09c2412a950d49f5",
+  "active": "19191bcf823924ad",
   "lastOpenFiles": [
-    "exam/to-do-list/content-discovery.md",
+    "exam/shortcuts/host-headers.md",
+    "exam/shortcuts/xss-contexto-js.md",
+    "exam/shortcuts/xss-basico.md",
+    "exam/shortcuts/exfil-oastify.md",
+    "exam/shortcuts/auto-submit-form.md",
     "vulnerabilities/014-information-disclousure/burp-labs-wordlist.md",
-    "vulnerabilities/014-information-disclousure/burp-labs-wordlist.txt",
-    "graphify-out/cache/stat-index.gtc9ks8u.tmp",
+    "exam/shortcuts/postmessage.md",
+    "vulnerabilities/020-prototype-pollution/labs/README.md",
+    "vulnerabilities/020-prototype-pollution/labs/README.md.tmp.146632.c04c89546e94",
+    "exam/shortcuts",
+    "vulnerabilities/020-prototype-pollution/labs",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/fb58d3e8748ae0fe99fed2576d0a6c89812c74b1ee42303f22acb6c128c60cf1.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/fe40028b8f058aca269230397d864ee1009fce261df390a6e0e31c62b1aad013.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/2078211f8eb97d0e1bb9632bae9a6f9d61896428949804547414a57a9da2046e.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/7c718cea0eb899fac4b66af604b73c59165059bdb8aaf960c66b41919a9774bf.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/1471e0d5b2856d22d2145052e2a82b33dba485b878ce97c5a6f64c2e3a85d9f8.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/d08aee4c445c38c9d02446fec0fe031e9e4420c22b64acb60070a71ea967ee25.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/4aebdac0ed16184c5a2c1a54ad02fc36fea027e500237fe168386238ad9d1754.json",
+    "exam/to-do-list/content-discovery.md",
     "exam/STAGE_1/STAGE_1.md",
     "vulnerabilities/014-information-disclousure/information-disclosure.md",
-    "vulnerabilities/014-information-disclousure/information-disclosure.md.tmp.165304.b0ef9e4d629c",
     "vulnerabilities/023-nosql-injection/nosql-injection.md",
-    "vulnerabilities/021-graphql/scripts/execute-graphql.py",
-    "vulnerabilities/021-graphql/scripts/brute-force-graphql.py",
-    "vulnerabilities/021-graphql/scripts",
-    "vulnerabilities/021-graphql/labs/README.md.tmp.165304.3297a7c0fd8d",
     "vulnerabilities/023-nosql-injection/labs/README.md",
-    "vulnerabilities/023-nosql-injection/labs/README.md.tmp.165304.e7a8f2bdb228",
     "vulnerabilities/014-information-disclousure/labs/README.md",
-    "vulnerabilities/023-nosql-injection/labs",
-    "vulnerabilities/014-information-disclousure/labs",
     "vulnerabilities/021-graphql/labs/README.md",
     "vulnerabilities/012-websockets/labs/README.md",
     "README.md",
@@ -245,13 +294,6 @@
     "vulnerabilities/026-oauth/examples/002-forced-profile-linking-csrf.md",
     "vulnerabilities/026-oauth/examples/001-implicit-flow-email-substitution.md",
     "vulnerabilities/018-jwt-attacks/examples/008-algorithm-confusion-no-exposed-key.md",
-    "vulnerabilities/018-jwt-attacks/examples/007-algorithm-confusion.md",
-    "vulnerabilities/018-jwt-attacks/examples/006-kid-path-traversal.md",
-    "vulnerabilities/018-jwt-attacks/examples/005-jku-injection.md",
-    "vulnerabilities/018-jwt-attacks/examples/004-jwk-injection.md",
-    "vulnerabilities/018-jwt-attacks/examples/003-weak-signing-key.md",
-    "vulnerabilities/018-jwt-attacks/examples/002-alg-none.md",
-    "vulnerabilities/018-jwt-attacks/examples/001-unverified-signature.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
