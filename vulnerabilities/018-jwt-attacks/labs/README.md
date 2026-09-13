@@ -10,6 +10,8 @@ tags:
 
 # JWT attacks — Labs de PortSwigger
 
+> 🧠 ¿Cómo funciona un JWT (formato, firma, `kid`/`jwk`/`jku`, JWS vs JWE)? → [[vulnerabilities/018-jwt-attacks/jwt-attacks|teoría / punto de entrada]].
+
 Labs de la categoría **[JWT attacks](https://portswigger.net/web-security/jwt)**: **2 Apprentice + 4 Practitioner + 2 Expert** (8 en total). **El hilo común:** el server guarda tu identidad en un **JWT** (típicamente `sub: wiener`) y **confía en los claims** que van adentro. La firma existe justamente para que **no puedas tocar esos claims**… pero en cada lab la **verificación de la firma está rota** de una forma distinta. **El objetivo es siempre el mismo:** forjar un token con **`sub: administrator`** (a veces `role`/`isAdmin`), que el server lo acepte, entrar a **`/admin`** y **borrar a `carlos`**. Lo que cambia lab a lab es **por qué** el server acepta tu firma falsa.
 
 > [!note] Cuatro "sabores" de JWT attack (según qué rompe la verificación)
