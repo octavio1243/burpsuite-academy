@@ -66,7 +66,7 @@ Labs de la categoría **[JWT attacks](https://portswigger.net/web-security/jwt)*
    ```
    hashcat -a 0 -m 16500 <JWT> jwt.secrets.list        # → recupera: secret1
    ```
-   > O usá el script del repo: pegá el JWT en `crack_jwt.py` y corré `python crack_jwt.py` (usa hashcat `-m 16500` + `jwt.secrets.list`). → `vulnerabilities/018-jwt-attacks/crack_jwt.py`
+   > O usá el script del repo: pegá el JWT en `crack_jwt.py` y corré `python crack_jwt.py` (usa hashcat `-m 16500` + `jwt.secrets.list`). → `vulnerabilities/018-jwt-attacks/scripts/crack_jwt.py`
 2. **JWT Editor Keys** → **New Symmetric Key** → Generate → reemplazá el `k` por el **Base64url de `secret1`**.
 3. En Repeater: `"sub":"administrator"` → **Sign** con esa clave (HS256).
 4. Enviá → `/admin` → borrar `carlos`.
@@ -132,6 +132,6 @@ Labs de la categoría **[JWT attacks](https://portswigger.net/web-security/jwt)*
 - **Otros claims a mirar** además de `sub`: `role`, `isAdmin`, `iss`, y **`exp`** (si expiró, el token válido deja de andar → generá uno nuevo).
 
 > [!note] Ver también
-> - **Scripts del repo:** `crack_jwt.py` (hashcat `-m 16500` + `jwt.secrets.list`) para el L3 → `vulnerabilities/018-jwt-attacks/`.
+> - **Scripts del repo:** `crack_jwt.py` (hashcat `-m 16500` + `jwt.secrets.list`) para el L3 → `vulnerabilities/018-jwt-attacks/scripts/`.
 > - **OAuth / OpenID:** el **`id_token`** de OpenID Connect **es un JWT firmado** → todo esto aplica si su validación es débil → [[vulnerabilities/026-oauth/oauth|oauth]] · [[vulnerabilities/026-oauth/labs/README|labs OAuth]].
 > - **Toma de cuenta / bypass de auth** en general → [[vulnerabilities/029-authentication/authentication|authentication]] · [[vulnerabilities/028-access-control/access-control|access control]].
