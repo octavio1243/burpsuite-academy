@@ -1,0 +1,36 @@
+/*- Bloques de payload con <mark> (los <pre class="payload"><code> de los examples) -*/
+/*  Obsidian no renderiza <mark> dentro de un fence ```, por eso van como
+    <pre class="payload"><code>…</code></pre>. Este snippet les devuelve la
+    "cajita" (fondo + borde + monoespaciado) de un code block normal. */
+
+pre.payload {
+  background: var(--code-background);
+  border: 1px solid var(--background-modifier-border);
+  border-left: 3px solid var(--interactive-accent);
+  border-radius: var(--radius-s);
+  padding: 0.8em 1em;
+  margin: 0.6em 0;
+  overflow-x: auto;
+  tab-size: 4;
+}
+
+pre.payload > code {
+  display: block;
+  font-family: var(--font-monospace);
+  font-size: var(--code-size, 0.85em);
+  line-height: 1.55;
+  white-space: pre;
+  color: var(--code-normal, var(--text-normal));
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+/* el resaltado: legible en claro y oscuro, sin comerse el texto */
+pre.payload mark {
+  background: var(--text-highlight-bg);
+  color: var(--text-normal);
+  padding: 0.05em 0.25em;
+  border-radius: 3px;
+  font-weight: 600;
+}

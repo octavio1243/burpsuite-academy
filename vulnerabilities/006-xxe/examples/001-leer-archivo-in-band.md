@@ -21,7 +21,7 @@ tags:
 > 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
 
 El "Check stock" manda XML (ojo al `Content-Type`):
-<pre><code>POST /product/stock HTTP/1.1
+<pre class="payload"><code>POST /product/stock HTTP/1.1
 Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 Content-Length: 134

