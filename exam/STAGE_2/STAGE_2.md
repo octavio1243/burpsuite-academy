@@ -30,93 +30,32 @@
 
 ---
 
-## ✅ Vulnerabilidades (Stage 2)
+## ✅ Vulnerabilidades (Stage 2) — por prioridad
 
-### 🗄️ SQL Injection
-> [!danger] 🚩 Hay **search/buscador** o input que consulta la BD
+| # | Vulnerabilidad | 🚩 Señal detonante | Qué probar |
+|---|---|---|---|
+| 1 | 🎣 **CSRF — Account Takeover** | 🚩 Existe una **acción relevante del admin** que forjar (cambiar email/password) | [[exam/to-do-list/csrf\|Qué probar]] |
+| 2 | 🔑 **Authentication / Password Reset** | 🚩 Hay **"recuperar contraseña"**; el reset/el cambio de password **mandan el `username`** → manipulable al admin | [[exam/to-do-list/authentication\|Qué probar]] |
+| 3 | 🗄️ **SQL Injection** | 🚩 Hay **search/buscador** o input que consulta la BD | [[exam/to-do-list/sql-injection\|Qué probar]] (UNION saca user+pass del admin; o UPDATE/stacked sube tu rol) |
+| 4 | 🎫 **JWT** | 🚩 La sesión **es un JWT** → cambiar `sub`/`role` a administrator | [[exam/to-do-list/jwt\|Qué probar]] |
+| 5 | 🧪 **Prototype Pollution (client-side)** | 🚩 **`__proto__`** en query/JSON cambia el comportamiento | [[exam/to-do-list/prototype-pollution\|Qué probar]] |
+| 6 | 🧩 **API Testing / Mass Assignment** | 🚩 Endpoints **API (JSON)** con update de perfil | [[exam/to-do-list/api-testing\|Qué probar]] (`"isAdmin":true`/`roleid=2` → auto-escalada) |
+| 7 | 🔓 **Access Control (IDOR)** | 🚩 Peticiones con **`username`/`id`/`role`** manipulable → vertical o horizontal→vertical | [[exam/to-do-list/access-control\|Qué probar]] |
+| 8 | 🕸️ **GraphQL API Endpoints** | 🚩 Endpoint **GraphQL** (InQL) | [[exam/to-do-list/graphql\|Qué probar]] |
+| 9 | 🔀 **CORS** | 🚩 `ACAO` refleja tu `Origin`/`null`/subdominio **+ `Allow-Credentials: true`** | [[exam/to-do-list/cors\|Qué probar]] |
 
-→ [[exam/to-do-list/sql-injection|Qué probar]] (S2: UNION saca user+pass del admin; o UPDATE/stacked sube tu rol)
+### 🔻 Menos relevante en Stage 2
 
-### 🧬 Cross-Site Scripting (XSS)
-> [!danger] 🚩 **`.js` nuevos** al estar logueado / en zonas del admin
-
-→ [[exam/to-do-list/xss|Qué probar]]
-
-### 🎣 CSRF
-> [!danger] 🚩 Existe una **acción relevante del admin** que forjar (cambiar email/password)
-
-→ [[exam/to-do-list/csrf|Qué probar]]
-
-### 🖱️ Clickjacking
-> [!danger] 🚩 Acción clickeable del admin **+ página enmarcable** (sin `X-Frame-Options`/`frame-ancestors`) **+ víctima**
-
-→ [[exam/to-do-list/clickjacking|Qué probar]]
-
-### 🌳 DOM-Based
-> [!danger] 🚩 `.js` nuevos contra el admin con `postMessage`/`eval`/`addEventListener("message"`
-
-→ [[exam/to-do-list/dom-based|Qué probar]]
-
-### 🔀 CORS
-> [!danger] 🚩 `ACAO` refleja tu `Origin`/`null`/subdominio **+ `Allow-Credentials: true`**
-
-→ [[exam/to-do-list/cors|Qué probar]]
-
-### 📦 HTTP Request Smuggling
-> [!danger] 🚩 *Smuggle probe*; la víctima activa suele ser el **admin**
-
-→ [[exam/to-do-list/http-request-smuggling|Qué probar]]
-
-### 🔓 Access Control (IDOR)
-> [!danger] 🚩 Peticiones con **`username`/`id`/`role`** manipulable → vertical o horizontal→vertical
-
-→ [[exam/to-do-list/access-control|Qué probar]]
-
-### 🔑 Authentication (incluye Password Reset)
-> [!danger] 🚩 Hay **"recuperar contraseña"**; el reset/el cambio de password **mandan el `username`** → manipulable al admin
-
-→ [[exam/to-do-list/authentication|Qué probar]]
-
-### 🌐 Web Cache Poisoning
-> [!danger] 🚩 `X-Cache`/`Age`/`Vary`/`Cache-Control` en la respuesta
-
-→ [[exam/to-do-list/web-cache-poisoning|Qué probar]]
-
-### 🏠 HTTP Host Header
-> [!danger] 🚩 Panel **"accesible solo localmente"** (`Host: localhost` lo abre) · **routing** al interno (`localhost:6566`, confirmá con Collaborator) · o **pisar el `Host`** del reset/cache-JS **contra el admin**
-
-→ [[exam/to-do-list/host-header|Qué probar]] (S2: auth bypass `localhost` · routing-based SSRF · delivered al admin)
-
-### 🪪 OAuth
-> [!danger] 🚩 El login **usa OAuth**
-
-→ [[exam/to-do-list/oauth|Qué probar]]
-
-### 🎫 JWT
-> [!danger] 🚩 La sesión **es un JWT** → cambiar `sub`/`role` a administrator
-
-→ [[exam/to-do-list/jwt|Qué probar]]
-
-### 🧩 API Testing / Mass Assignment
-> [!danger] 🚩 Endpoints **API (JSON)** con update de perfil
-
-→ [[exam/to-do-list/api-testing|Qué probar]] (`"isAdmin":true`/`roleid=2` → auto-escalada)
-
-### 🕸️ GraphQL
-> [!danger] 🚩 Endpoint **GraphQL** (InQL)
-
-→ [[exam/to-do-list/graphql|Qué probar]]
-
-### 🧪 Prototype Pollution (client-side)
-> [!danger] 🚩 **`__proto__`** en query/JSON cambia el comportamiento
-
-→ [[exam/to-do-list/prototype-pollution|Qué probar]]
-
-### 🧷 Insecure Deserialization *(último recurso)*
-> [!warning] ⚠️ La cookie de sesión es un **objeto serializado** (PHP `O:` · Java `rO0`) y **agotaste** lo normal
-> Reescribí atributos/tipos sin herramienta: `admin`→true / `access_token`→`i:0` (type juggling). Raro pero **posible y barato**.
-
-→ [[exam/to-do-list/insecure-deserialization|Qué probar (Stage 2)]]
+| Vulnerabilidad | 🚩 Señal detonante | Qué probar |
+|---|---|---|
+| 🧬 **XSS (Cross-Site Scripting)** | 🚩 **`.js` nuevos** al estar logueado / en zonas del admin | [[exam/to-do-list/xss\|Qué probar]] |
+| 🌳 **DOM-Based** | 🚩 `.js` nuevos contra el admin con `postMessage`/`eval`/`addEventListener("message"` | [[exam/to-do-list/dom-based\|Qué probar]] |
+| 🖱️ **Clickjacking** | 🚩 Acción clickeable del admin **+ página enmarcable** (sin `X-Frame-Options`/`frame-ancestors`) **+ víctima** | [[exam/to-do-list/clickjacking\|Qué probar]] |
+| 📦 **HTTP Request Smuggling** | 🚩 *Smuggle probe*; la víctima activa suele ser el **admin** | [[exam/to-do-list/http-request-smuggling\|Qué probar]] |
+| 🌐 **Web Cache Poisoning** | 🚩 `X-Cache`/`Age`/`Vary`/`Cache-Control` en la respuesta | [[exam/to-do-list/web-cache-poisoning\|Qué probar]] |
+| 🏠 **HTTP Host Header** | 🚩 Panel **"accesible solo localmente"** (`Host: localhost` lo abre) · **routing** al interno (`localhost:6566`) · o **pisar el `Host`** del reset/cache-JS **contra el admin** | [[exam/to-do-list/host-header\|Qué probar]] (auth bypass `localhost` · routing-based SSRF · delivered al admin) |
+| 🪪 **OAuth** | 🚩 El login **usa OAuth** | [[exam/to-do-list/oauth\|Qué probar]] |
+| 🧷 **Insecure Deserialization** *(último recurso)* | ⚠️ La cookie de sesión es un **objeto serializado** (PHP `O:` · Java `rO0`) y **agotaste** lo normal | [[exam/to-do-list/insecure-deserialization\|Qué probar (Stage 2)]] |
 
 ---
 

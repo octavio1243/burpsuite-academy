@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "STAGE_1"
             }
+          },
+          {
+            "id": "312259eda39e4901",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/to-do-list/content-discovery.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "content-discovery"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -185,8 +200,9 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "86fe36b081bc28dc",
+  "active": "312259eda39e4901",
   "lastOpenFiles": [
+    "exam/STAGE_1/STAGE_1.md",
     "vulnerabilities/014-information-disclousure/information-disclosure.md",
     "vulnerabilities/014-information-disclousure/information-disclosure.md.tmp.165304.b0ef9e4d629c",
     "vulnerabilities/023-nosql-injection/nosql-injection.md",
@@ -222,7 +238,6 @@
     "vulnerabilities/018-jwt-attacks/examples/001-unverified-signature.md",
     "vulnerabilities/018-jwt-attacks/jwt-attacks.md",
     "how-to-work/symmetric-vs-asymmetric.md",
-    "how-to-work/jwt.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",

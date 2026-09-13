@@ -25,52 +25,24 @@
 
 ---
 
-## ✅ Vulnerabilidades (Stage 3)
+## ✅ Vulnerabilidades (Stage 3) — por prioridad
 
-### 🗄️ SQL Injection
-> [!danger] 🚩 El admin tiene un **search**/consulta a BD → apuntá a lectura de fichero o `localhost:6566`
+| # | Vulnerabilidad | 🚩 Señal detonante | Qué probar |
+|---|---|---|---|
+| 1 | 📄 **XXE — XML entities & Injections** | 🚩 **Algo parsea XML** (stock check, SOAP, subida de **SVG/DOCX/XLSX**) | [[exam/to-do-list/xxe\|Qué probar]] (SVG avatar con `file:///home/carlos/secret` = el más jugoso) |
+| 2 | 🛰️ **SSRF — Server Side Request Forgery** | 🚩 Fetch server-side, Host header injection, o **`localhost:6566` responde** | [[exam/to-do-list/ssrf\|Qué probar]] |
+| 3 | 📐 **SSTI — Server Side Template Injection** | 🚩 Algo **editable que se renderiza** (preferred name / **descripción de producto**) → `7*7` | [[exam/to-do-list/ssti\|Qué probar]] |
+| 4 | 🧪 **SSPP — Server-Side Prototype Pollution** | 🚩 JSON con **`__proto__`** cambia el comportamiento server-side | [[exam/to-do-list/prototype-pollution\|Qué probar]] (escalar a RCE vía gadget del runtime) |
+| 5 | 📁 **LFI — File Path Traversal** | 🚩 Recurso con parámetro tipo **`fileName`** que el user normal no carga | [[exam/to-do-list/path-traversal\|Qué probar]] |
+| 6 | ⬆️ **File Uploads → RCE** ⭐ | 🚩 **Permite subir archivos** (típicamente solo el admin) | [[exam/to-do-list/file-upload\|Qué probar]] (shells listos → `cat /home/carlos/secret`) |
+| 7 | 🧷 **Deserialization** | 🚩 Aparece un **objeto serializado** (PHP `O:` · Java `rO0` · pickle) | [[exam/to-do-list/insecure-deserialization\|Qué probar]] |
+| 8 | 💻 **OS Command Injection** | 🚩 **Si el admin toca un parámetro, se prueba** (barato, premio = RCE) | [[exam/to-do-list/os-command-injection\|Qué probar]] |
 
-→ [[exam/to-do-list/sql-injection|Qué probar]] (`LOAD_FILE`/`pg_read_file`/`OPENROWSET`/Oracle-XXE + exfil OOB)
+### 🔻 Menos relevante en Stage 3
 
-### 📄 XXE
-> [!danger] 🚩 **Algo parsea XML** (stock check, SOAP, subida de **SVG/DOCX/XLSX**)
-
-→ [[exam/to-do-list/xxe|Qué probar]] (SVG avatar con `file:///home/carlos/secret` = el más jugoso)
-
-### 🛰️ SSRF
-> [!danger] 🚩 Fetch server-side, Host header injection, o **`localhost:6566` responde**
-
-→ [[exam/to-do-list/ssrf|Qué probar]]
-
-### 💻 OS Command Injection
-> [!danger] 🚩 **Si el admin toca un parámetro, se prueba** (barato, premio = RCE)
-
-→ [[exam/to-do-list/os-command-injection|Qué probar]]
-
-### 📐 SSTI
-> [!danger] 🚩 Algo **editable que se renderiza** (preferred name / **descripción de producto**) → `7*7`
-
-→ [[exam/to-do-list/ssti|Qué probar]]
-
-### 📁 Path Traversal / LFI
-> [!danger] 🚩 Recurso con parámetro tipo **`fileName`** que el user normal no carga
-
-→ [[exam/to-do-list/path-traversal|Qué probar]]
-
-### 🧷 Insecure Deserialization
-> [!danger] 🚩 Aparece un **objeto serializado** (PHP `O:` · Java `rO0` · pickle)
-
-→ [[exam/to-do-list/insecure-deserialization|Qué probar]]
-
-### ⬆️ File Upload → RCE ⭐
-> [!danger] 🚩 **Permite subir archivos** (típicamente solo el admin)
-
-→ [[exam/to-do-list/file-upload|Qué probar]] (shells listos → `cat /home/carlos/secret`)
-
-### 🧪 Server-Side Prototype Pollution (SSPP)
-> [!danger] 🚩 JSON con **`__proto__`** cambia el comportamiento server-side
-
-→ [[exam/to-do-list/prototype-pollution|Qué probar]] (escalar a RCE vía gadget del runtime)
+| Vulnerabilidad | 🚩 Señal detonante | Qué probar |
+|---|---|---|
+| 🗄️ **SQL Injection** | 🚩 El admin tiene un **search**/consulta a BD → apuntá a lectura de fichero o `localhost:6566` | [[exam/to-do-list/sql-injection\|Qué probar]] (`LOAD_FILE`/`pg_read_file`/`OPENROWSET`/Oracle-XXE + exfil OOB) |
 
 ---
 
