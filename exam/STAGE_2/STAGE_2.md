@@ -58,6 +58,7 @@
 | 🪪 **OAuth** | 🚩 El login **usa OAuth** | [[exam/to-do-list/oauth\|Qué probar]] |
 | 🧷 **Insecure Deserialization** *(último recurso)* | ⚠️ La cookie de sesión es un **objeto serializado** (PHP `O:` · Java `rO0`) y **agotaste** lo normal | [[exam/to-do-list/insecure-deserialization\|Qué probar (Stage 2)]] |
 | 🧪 **Prototype Pollution (server-side)** *(último recurso)* | ⚠️ Un **update de perfil/datos (JSON)** que mergea sin sanear y **agotaste** mass assignment/IDOR → probá `"__proto__":{"isAdmin":true}` / `role` | [[exam/to-do-list/prototype-pollution\|Qué probar (escalada)]] |
+| 🔎 **Information Disclosure (TRACE → header de auth)** *(caso borde)* | ⚠️ `/admin` restringido por **IP/header interno**: `TRACE /admin` refleja `X-Custom-IP-Authorization` → spoofealo a `127.0.0.1` | [[exam/to-do-list/content-discovery\|Qué probar]] · [lab](https://portswigger.net/web-security/information-disclosure/exploiting/lab-infoleak-authentication-bypass) |
 
 ---
 

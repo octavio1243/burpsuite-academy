@@ -38,6 +38,7 @@ tags:
 - [ ] **Cookie de rol** `Admin=false` → `true`.
 - [ ] **Mass assignment** → `roleid=2` / `role` / `isAdmin` en un update de perfil (auto-escalada).
 - [ ] **Bypass de plataforma:** `X-Original-URL`/`X-Rewrite-URL` a `/admin`; slash final; case; Spring `useSuffixPatternMatch` (`.anything`); `Referer: …/admin`.
+- [ ] **Header de auth interno vía TRACE (caso borde):** si `/admin` filtra por un **header interno** (ej. `X-Custom-IP-Authorization`), descubrilo con `TRACE /admin` y spoofealo a `127.0.0.1`. → [[vulnerabilities/014-information-disclousure/labs/README|info disclosure · lab #4]]
 
 ## 🔗 Referencias
 - [[vulnerabilities/028-access-control/access-control|entry point]] · [[vulnerabilities/028-access-control/labs/README|labs]]
