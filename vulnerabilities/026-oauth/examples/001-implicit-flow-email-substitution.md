@@ -27,7 +27,7 @@ sequenceDiagram
     OA-->>At: 302 redirect_uri#access_token=... (MI token)
     At->>C: POST /authenticate {email: MI email, token: MI token}
     Note over At,C: intercepto en Burp y cambio<br/>email → carlos@carlos-montoya.net
-    Note over C: confia en el email del body;<br/>NO valida que el token sea de carlos
+    Note over C: confia en el email del body<br/>NO valida que el token sea de carlos
     C-->>At: Set-Cookie: sesion de CARLOS
 ```
 

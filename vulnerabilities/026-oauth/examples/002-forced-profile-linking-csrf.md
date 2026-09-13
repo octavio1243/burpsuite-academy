@@ -30,7 +30,7 @@ sequenceDiagram
     OA-->>At: 302 /oauth-linking?code=AT_CODE
     Note over At: DROP de esa request<br/>(el code queda sin usar)
     Note over At,ES: FASE 2 — armar el CSRF
-    At->>ES: subo PoC: <iframe src=/oauth-linking?code=AT_CODE>
+    At->>ES: subo PoC: iframe a /oauth-linking?code=AT_CODE
     ES-->>V: el admin abre la pagina del exploit
     V->>C: GET /oauth-linking?code=AT_CODE (sin state que lo frene)
     Note over C: liga la cuenta social del ATACANTE<br/>a la cuenta del ADMIN
