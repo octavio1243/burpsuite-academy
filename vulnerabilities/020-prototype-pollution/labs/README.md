@@ -150,6 +150,7 @@ Labs de la categoría **[Prototype pollution](https://portswigger.net/web-securi
 
 > [!note] Ver también
 > - **Entry point de la categoría** (payloads de RCE, overrides, soluciones defensivas) → [[vulnerabilities/020-prototype-pollution/prototype-pollution|prototype pollution]].
+> - **Examples / PoCs por técnica** (sources, gadget DOM XSS, detección a ciegas, escalada, bypass, RCE fork/execSync) → [[vulnerabilities/020-prototype-pollution/examples/001-sources-y-confirmacion|carpeta examples]].
 > - **DOM-based XSS** (mismos sinks del lado cliente, `alert()` como objetivo) → [[vulnerabilities/025-dom-based/dom-based|DOM-based XSS]].
 > - **Insecure deserialization** (misma idea de "gadget chain" hasta RCE, otro mecanismo) → [[vulnerabilities/013-insecure_deserialization/insecure-deserialization|insecure deserialization]].
 > - **Access control** (escalada a admin → borrar usuario, mismo objetivo final) → [[vulnerabilities/028-access-control/access-control|access control]].
