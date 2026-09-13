@@ -84,7 +84,7 @@
               "type": "markdown",
               "state": {
                 "file": "vulnerabilities/018-jwt-attacks/examples/006-kid-path-traversal.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -120,7 +120,7 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 7
       }
     ],
     "direction": "vertical"
@@ -284,11 +284,14 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "0f4c54496e17894d",
+  "active": "cf72d37c60b2b406",
   "lastOpenFiles": [
+    "vulnerabilities/018-jwt-attacks/examples/007-algorithm-confusion.md",
+    "vulnerabilities/018-jwt-attacks/examples/006-kid-path-traversal.md",
+    "graphify-out/cache/stat-index.gq94glaj.tmp",
+    "vulnerabilities/018-jwt-attacks/examples/005-jku-injection.md",
     "graphify-out/cache/stat-index.egucouex.tmp",
     "vulnerabilities/018-jwt-attacks/examples/004-jwk-injection.md",
-    "vulnerabilities/018-jwt-attacks/examples/005-jku-injection.md",
     "vulnerabilities/018-jwt-attacks/examples/003-weak-signing-key.md",
     "vulnerabilities/018-jwt-attacks/examples/002-alg-none.md",
     "vulnerabilities/018-jwt-attacks/examples/001-unverified-signature.md",
@@ -301,10 +304,6 @@
     "graphify-out/cache/semantic/pd5fd89c46bb5/20c2995c9c233a630f0c79af7938805e8ec0bfa433ff948bafe952c2b1949d53.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/b08a2aecd064ee78e134e4880da3512ad173713a7bf8279b0609f4820e170164.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/4b4781db87962cf0b9db3e9c4254c85117ec6da9c0be41a2d794abef475ce130.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/9ed5d2e485a3718fa7b82aa3b82e06fe88efac62b1f6f82a921c403f394d82b8.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/c597160c1fc65989de2e1aee0e127036d0bcad219ce7f5da3da5c057d723a080.json",
-    "vulnerabilities/018-jwt-attacks/examples/007-algorithm-confusion.md",
-    "vulnerabilities/018-jwt-attacks/examples/006-kid-path-traversal.md",
     "exam/to-do-list/sql-injection.md",
     "vulnerabilities/018-jwt-attacks/jwt-attacks.md",
     "exam/to-do-list/authentication.md",
