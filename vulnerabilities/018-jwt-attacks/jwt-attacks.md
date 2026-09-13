@@ -12,125 +12,42 @@ tags:
 
 # JWT attacks — Punto de entrada
 
-> Documento **agnóstico**: *cómo funciona un JWT* (teoría mínima) para entender los ataques. La explotación lab por lab → [[vulnerabilities/018-jwt-attacks/labs/README|labs de JWT]].
+> Documento **agnóstico**: *cómo **explotar** JWT*. La explotación lab por lab → [[vulnerabilities/018-jwt-attacks/labs/README|labs de JWT]].
 
-## 🧠 Cómo funciona un JWT (how-to-work)
+> **Fundamentos** (formato, firma, simétrico vs asimétrico, `kid`/`jwk`/`jku`, JWS vs JWE) → [[how-to-work/jwt|Cómo funciona un JWT]].
 
-Un **JWT** es un token que lleva datos (claims) y una **firma** que prueba que nadie los tocó. Son **3 partes en Base64url separadas por puntos**:
+## 🎯 Cuándo hay JWT (condiciones)
 
+- La sesión viaja en un token de **3 partes Base64url separadas por `.`** que empieza en `eyJ...` (`eyJ` = `{"`). Decodificá header y payload.
+- El **objetivo** es siempre el mismo: **modificar un claim** (típico `sub → administrator`, o `isAdmin: true`) y lograr que la **firma valide igual** — porque no se verifica, es débil, o el server confía en key material que vos controlás (`kid`/`jwk`/`jku`).
+- **Herramienta central:** extensión **JWT Editor** (BApp store) — decodifica/edita en Repeater y crea/firma claves.
+
+## 🗺️ Mapa de vulnerabilidades (árbol de decisión)
+
+Qué probar según cómo el server verifica la firma. Cada hoja → su lab y su [[#💥 Ataques comunes (y ejemplos)|ataque]].
+
+```mermaid
+flowchart TD
+    T["JWT de sesión interceptado"] --> Q1{"¿El server verifica la firma?"}
+    Q1 -->|"No la verifica"| A1["Payload: tamper directo del claim · L1"]
+    Q1 -->|"Acepta alg:none"| A2["Header: alg none + borrar firma · L2"]
+    Q1 -->|"Sí, la verifica"| Q2{"¿Qué algoritmo usa?"}
+    Q2 -->|"HS256 simétrico"| A3["Signature: brute force del secreto con hashcat · L3"]
+    Q2 -->|"RS256 asimétrico"| Q3{"¿Confía en key material del header?"}
+    Q3 -->|"jwk embebido"| A4["Header: Embedded JWK · L4"]
+    Q3 -->|"jku URL"| A5["Header: JWKS en tu exploit server · L5"]
+    Q3 -->|"kid ruta"| A6["Header: kid path traversal a /dev/null · L6"]
+    Q3 -->|"No fija el alg"| Q4{"¿La clave pública está publicada?"}
+    Q4 -->|"Sí, en /jwks.json"| A7["Algorithm confusion RS256 a HS256 · L7"]
+    Q4 -->|"No está expuesta"| A8["Derivar la pública de 2 JWT con sig2n · L8"]
 ```
-<Header>.<Payload>.<Signature>
-```
-
-### Header
-JSON con **metadata del token**: qué algoritmo lo firma y (opcionalmente) **con qué clave** verificarlo.
-```json
-{ "typ": "JWT", "alg": "HS256" }
-```
-- `alg` → algoritmo de firma (`HS256`, `RS256`, …).
-- `typ` → tipo (casi siempre `JWT`).
-- **Selección de clave (opcional):** `kid`, `jwk`, `jku` (ver abajo — **acá viven los bugs de header injection**).
-
-### Payload
-JSON con los **claims** (los datos). **Base64url, NO cifrado → cualquiera lo lee.** La firma protege que no se **modifiquen**, no que no se **vean**.
-```json
-{ "sub": "wiener", "iss": "portswigger", "exp": 1786914938 }
-```
-- `sub` (usuario), `iss` (emisor), `exp` (expiración), `iat`… + custom (`role`, `isAdmin`).
-
-### Signature
-Garantiza **integridad**. Se calcula sobre `Base64url(Header) + "." + Base64url(Payload)`. Dos familias:
-- **Simétrica — `Hash(Header, Payload)` con secreto** (HMAC, `HS256`): `HMAC-SHA256(data, secreto)`. **El mismo secreto firma y verifica** → si el secreto es débil, se crackea.
-- **Asimétrica — `Encrypt(Hash(Header, Payload))`** (RSA/ECDSA, `RS256`): se hashea y el hash se **firma con la clave privada**; se **verifica con la pública**. Nunca deberías poder firmar… salvo bugs (algorithm confusion, key injection).
-
-## 🔐 Algoritmos: simétrico vs asimétrico
-
-Cómo se genera y verifica la firma depende del tipo de clave del `alg`:
-
-- **`HS256` (HMAC + SHA-256) → simétrico:** el server usa **una sola clave** (un secreto) para **firmar y verificar**. Quien tiene el secreto puede hacer ambas cosas.
-- **`RS256` (RSA + SHA-256) → asimétrico:** usa un **par de claves**. La **privada** (solo el server) **firma**; la **pública** (matemáticamente relacionada, y que puede ser conocida) solo **verifica**.
-
-| | **HS256** (simétrico) | **RS256** (asimétrico) |
-| --- | --- | --- |
-| Clave para **firmar** | el **secreto** compartido | clave **privada** |
-| Clave para **verificar** | el **mismo secreto** | clave **pública** |
-| ¿El que verifica puede firmar? | **Sí** (misma clave) | **No** (solo con la privada) |
-| Riesgo típico | secreto **débil → se crackea** | **algorithm confusion** / key injection |
-
-**Ejemplo (mismos claims, distinta firma):**
-```
-data = base64url(Header) + "." + base64url(Payload)
-
-HS256:  signature = HMAC_SHA256(data, secreto)          → verificar = recalcular con el MISMO secreto y comparar
-RS256:  signature = RSA_sign(SHA256(data), privateKey)  → verificar = RSA_verify(data, signature, publicKey)
-```
-
-> **Por qué importa para atacar:** en **HS256** basta conseguir/adivinar el secreto para forjar tokens (lab weak key). En **RS256** no podés forjar sin la privada… salvo que el server **confunda el algoritmo** y verifique un `HS256` usando la **clave pública como secreto** (algorithm confusion).
-
-## 🔑 `kid`, `jwk`, `jku` (cómo el server elige la clave)
-
-Son campos del **header** que le dicen al verificador **qué clave usar**. Si la app confía en ellos sin validar, vos controlás la clave → forjás tokens.
-
-- **`kid` (Key ID):** un **identificador** que apunta a la clave (índice en un JWKS, o a veces un **path/registro**). Bug: **path traversal** / SQLi si se usa sin sanitizar.
-  ```json
-  { "kid": "ed2Nf8sb-sD6ng0-scs5390g-fFD8sfxG", "typ": "JWT", "alg": "RS256" }
-  ```
-- **`jwk` (JSON Web Key):** la clave pública **embebida dentro del propio token**. Bug: el server verifica con la clave que **vos** metiste.
-  ```json
-  {
-    "kid": "ed2Nf8sb-sD6ng0-scs5390g-fFD8sfxG",
-    "typ": "JWT",
-    "alg": "RS256",
-    "jwk": {
-      "kty": "RSA",
-      "e": "AQAB",
-      "kid": "ed2Nf8sb-sD6ng0-scs5390g-fFD8sfxG",
-      "n": "yy1wpYmffgXBxhAUJzHHocCuJolwDqql75ZWuCQ_cb33K2vh9m"
-    }
-  }
-  ```
-- **`jku` (JWK Set URL):** una **URL** que apunta a un **JWK Set** (un `{ "keys": [...] }` con varias claves públicas). Bug: si no valida el dominio, apuntás el `jku` a **tu** server.
-  ```json
-  {
-    "keys": [
-      {
-        "kty": "RSA",
-        "e": "AQAB",
-        "kid": "75d0ef47-af89-47a9-9061-7c02a610d5ab",
-        "n": "o-yy1wpYmffgXBxhAUJzHHocCuJolwDqql75ZWuCQ_cb33K2vh9mk6GPM9gNN4Y_qTVX67WhsN3JvaFYw-fhvsWQ"
-      },
-      {
-        "kty": "RSA",
-        "e": "AQAB",
-        "kid": "d8fDFo-fS9-faS14a9-ASf99sa-7c1Ad5abA",
-        "n": "fc3f-yy1wpYmffgXBxhAUJzHql79gNNQ_cb33HocCuJolwDqmk6GPM4Y_qTVX67WhsN3JvaFYw-dfg6DH-asAScw"
-      }
-    ]
-  }
-  ```
-  > El `kid` del token **elige cuál** de las claves del `keys[]` se usa para verificar.
-
-## 🔀 JWT vs JWS vs JWE
-
-- **JWT (JSON Web Token):** el estándar del **token con claims**. Es el "qué". En la práctica, un JWT casi siempre está implementado como un **JWS**.
-- **JWS (JSON Web Signature):** contenido **firmado** → da **integridad/autenticidad**. El payload es **legible** (Base64url, no cifrado). **3 partes.** Es lo que ves normalmente.
-- **JWE (JSON Web Encryption):** contenido **cifrado** → da **confidencialidad**. El payload **no se puede leer**. **5 partes.**
-
-| | **JWS** (lo normal) | **JWE** |
-| --- | --- | --- |
-| Qué aporta | Firma (integridad) | Cifrado (confidencialidad) |
-| ¿Se lee el payload? | **Sí** (Base64url) | **No** |
-| Nº de partes | **3** (`h.p.s`) | **5** |
-| Se ataca por… | firma mal verificada / key injection | mucho más raro en labs |
-
-> **Regla práctica:** casi todos los JWT que vas a atacar son **JWS**. El objetivo del atacante es **modificar un claim** (`sub → administrator`) y lograr que la **firma se valide igual** — porque no se verifica, es débil, o el server confía en `kid`/`jwk`/`jku` que vos controlás.
 
 ## 💥 Ataques comunes (y ejemplos)
 
-Todos buscan lo mismo: **tocar un claim** (típico `sub → administrator`) y que la **firma valide igual**. Se agrupan según qué parte del JWT abusás.
+Se agrupan según qué parte del JWT abusás. Cada uno tiene su **example con diagrama** → [[vulnerabilities/018-jwt-attacks/examples/001-unverified-signature|carpeta examples]].
 
 ### En el Header
-- **`alg: none` + borrar la firma** — el server acepta tokens "sin firmar". Ponés `"alg":"none"`, editás el payload y dejás el token como `header.payload.` (**con el punto final**, firma vacía). → labs [L2].
+- **`alg: none` + borrar la firma** — el server acepta tokens "sin firmar". Ponés `"alg":"none"`, editás el payload y dejás el token como `header.payload.` (**con el punto final**, firma vacía). → [L2].
 - **`jwk` injection (self-signed JWT)** — embebés **tu** clave pública en el header `jwk`; si la implementación **le da prioridad a la clave que viene en el token**, verifica con la tuya. Firmás vos con tu privada. → [L4].
 - **`jku` injection (self-signed JWT)** — apuntás `jku` a un **JWK Set en tu server**; si no valida el dominio, el server descarga tu clave y verifica con ella. → [L5].
 - **`kid` injection (self-signed JWT)** — si `kid` es una **referencia a un archivo**, hacés **path traversal** a uno de contenido predecible (ej. `/dev/null` → vacío) y firmás con esa clave "conocida":
@@ -160,6 +77,7 @@ Todos buscan lo mismo: **tocar un claim** (típico `sub → administrator`) y qu
 > Los `[Lx]` remiten a la tabla de [[vulnerabilities/018-jwt-attacks/labs/README|labs de JWT]], donde está la solución paso a paso de cada uno.
 
 > [!note] Seguir
+> - **Fundamentos** (formato, firma, algoritmos, `kid`/`jwk`/`jku`, JWS/JWE) → [[how-to-work/jwt|Cómo funciona un JWT]].
 > - **Labs** (8, con objetivo y solución paso a paso) → [[vulnerabilities/018-jwt-attacks/labs/README|labs de JWT]].
 > - **Scripts** (crackear HMAC débil con hashcat) → `vulnerabilities/018-jwt-attacks/scripts/`.
 > - El **`id_token`** de OpenID Connect es un JWT → [[vulnerabilities/026-oauth/oauth|oauth]].
