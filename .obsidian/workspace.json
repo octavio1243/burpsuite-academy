@@ -34,9 +34,23 @@
               "icon": "lucide-file",
               "title": "content-discovery"
             }
+          },
+          {
+            "id": "09c2412a950d49f5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/014-information-disclousure/burp-labs-wordlist.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "burp-labs-wordlist"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -200,8 +214,12 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "312259eda39e4901",
+  "active": "09c2412a950d49f5",
   "lastOpenFiles": [
+    "exam/to-do-list/content-discovery.md",
+    "vulnerabilities/014-information-disclousure/burp-labs-wordlist.md",
+    "vulnerabilities/014-information-disclousure/burp-labs-wordlist.txt",
+    "graphify-out/cache/stat-index.gtc9ks8u.tmp",
     "exam/STAGE_1/STAGE_1.md",
     "vulnerabilities/014-information-disclousure/information-disclosure.md",
     "vulnerabilities/014-information-disclousure/information-disclosure.md.tmp.165304.b0ef9e4d629c",
@@ -216,8 +234,6 @@
     "vulnerabilities/023-nosql-injection/labs",
     "vulnerabilities/014-information-disclousure/labs",
     "vulnerabilities/021-graphql/labs/README.md",
-    "vulnerabilities/021-graphql/labs/README.md.tmp.165304.13839a6acd9f",
-    "vulnerabilities/021-graphql/labs",
     "vulnerabilities/012-websockets/labs/README.md",
     "README.md",
     "exam/STAGE_3/STAGE_3.md",
@@ -236,8 +252,6 @@
     "vulnerabilities/018-jwt-attacks/examples/003-weak-signing-key.md",
     "vulnerabilities/018-jwt-attacks/examples/002-alg-none.md",
     "vulnerabilities/018-jwt-attacks/examples/001-unverified-signature.md",
-    "vulnerabilities/018-jwt-attacks/jwt-attacks.md",
-    "how-to-work/symmetric-vs-asymmetric.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
