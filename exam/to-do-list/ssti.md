@@ -19,7 +19,7 @@ tags:
 - **RCE** → `cat /home/carlos/secret`; o **fuga de info** si el motor está sandboxeado.
 
 ## ♾️ Independiente del stage
-- [ ] **Identificar motor:** fuzz `${7*7}` · `{{7*7}}` · `<%= 7*7 %>` · `#{7*7}` → mirá cuál da `49` y el **error** → [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet#🎯 Árbol de detección de SSTI (metodología PortSwigger)|árbol de detección]].
+- [ ] **Identificar motor:** fuzz `${7*7}` · `{{7*7}}` · `<%= 7*7 %>` · `#{7*7}` → mirá cuál da `49` y el **error** → [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet#🔍 Payloads de detección (fuzz → identificar)|payloads de detección]] · [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet#🎯 Árbol de detección de SSTI (metodología PortSwigger)|árbol]].
 
   | Lenguaje | Motor típico |
   | --- | --- |

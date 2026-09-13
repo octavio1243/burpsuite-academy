@@ -51,7 +51,7 @@ Primero, **¿tu input se evalúa server-side?** Dependе del **contexto**:
   ```
   ${{<%[%'"}}%\
   ```
-  Un error de plantilla ya te dice que **hay un motor interpretando**.
+  Un error de plantilla ya te dice que **hay un motor interpretando**. Batería completa de polyglots + probes → [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet#🔍 Payloads de detección (fuzz → identificar)|payloads de detección]].
 
 ### 2) Identificar el motor
 - **Por error:** una expresión inválida (`${foobar}`, `<%= foobar %>`) suele tirar un **stack trace que nombra el motor** (y hasta la versión). Es lo más rápido.

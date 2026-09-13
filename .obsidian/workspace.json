@@ -468,6 +468,7 @@
   },
   "active": "86fe36b081bc28dc",
   "lastOpenFiles": [
+    "graphify-out/cache/stat-index.5hp514xg.tmp",
     "exam/STAGE_2/STAGE_2.md.tmp.112324.c3c650345963",
     "graphify-out/cache/stat-index.9eodgdya.tmp",
     "graphify-out/cache/semantic/pd5fd89c46bb5/a8edd656d41ff51617f1ee2fe47cf33cc50900235c6251d2eea986cece23b94a.json",
@@ -478,7 +479,6 @@
     "graphify-out/cache/semantic/pd5fd89c46bb5/5ae1f29cdf4ae7049b172cfcf8d364260eb04f3ca44ef35baa88bd2fad2790dd.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/1b48caccc1cb78fe3dff9c921bca0a480bfda1e56fadcc33b621efe904b2074d.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/b888365ca20bbb57f07ae3fbf4d257919ec51d410add63ac1893ad81995e04c2.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/720c1d72bbafed6092f8a1daeee7275455fc575c79b3dafae4370615dc5189b7.json",
     "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
     "vulnerabilities/007-ssrf/examples/003-bypass-blacklist-variantes-localhost.md",
     "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
