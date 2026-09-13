@@ -17,17 +17,15 @@ El server verifica con la **clave pública embebida en el propio token** (`jwk`)
 
 ## JWT (original → modificado)
 
-**Original** (decodificado)
-```json
-{ "kid": "…", "alg": "RS256" }                        // header
-{ "sub": "wiener" }                                   // payload
-```
-**Modificado**
-```json
-{ "kid": "…", "alg": "RS256", "jwk": { …tu pública RSA… } }   // header   ← agregado
-{ "sub": "administrator" }                                    // payload  ← cambiado
-```
-> **Firma:** **re-firmada** con tu clave privada RSA; el server valida con el `jwk` embebido.
+Las 3 partes decodificadas. <mark style="background:#a5d6a7;color:#111">🎯 objetivo</mark> = lo que querés · <mark style="background:#ffcc80;color:#111">⚙️ consecuencia</mark> = lo que cambia para que valide.
+
+| Parte | Original | Modificado |
+| --- | --- | --- |
+| **header** | { "kid": "…", "alg": "RS256" } | { "kid": "…", "alg": "RS256", <mark style="background:#ffcc80;color:#111">"jwk": { …tu pública RSA… }</mark> } |
+| **payload** | { "sub": "wiener" } | { "sub": <mark style="background:#a5d6a7;color:#111">"administrator"</mark> } |
+| **signature** | RSA (clave privada del server) | <mark style="background:#ffcc80;color:#111">re-firmada con TU clave privada RSA</mark> |
+
+> **🎯 Objetivo:** `sub → administrator`. **⚙️ Consecuencia:** embeber tu `jwk` en el header y **re-firmar** con tu clave privada RSA (el server valida con esa pública).
 
 ## Diagrama
 

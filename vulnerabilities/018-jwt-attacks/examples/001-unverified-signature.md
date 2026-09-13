@@ -17,17 +17,15 @@ El server **decodifica los claims pero NO verifica la firma**. Cambiás `sub` a 
 
 ## JWT (original → modificado)
 
-**Original** (decodificado)
-```json
-{ "kid": "…", "alg": "RS256" }   // header
-{ "sub": "wiener" }              // payload
-```
-**Modificado**
-```json
-{ "kid": "…", "alg": "RS256" }   // header   (sin cambios)
-{ "sub": "administrator" }       // payload  ← cambiado
-```
-> **Firma:** se deja la original → queda **inválida**, pero el server no la verifica.
+Las 3 partes decodificadas. <mark style="background:#a5d6a7;color:#111">🎯 objetivo</mark> = lo que querés · <mark style="background:#ffcc80;color:#111">⚙️ consecuencia</mark> = lo que cambia para que valide.
+
+| Parte | Original | Modificado |
+| --- | --- | --- |
+| **header** | { "kid": "…", "alg": "RS256" } | { "kid": "…", "alg": "RS256" } (sin cambios) |
+| **payload** | { "sub": "wiener" } | { "sub": <mark style="background:#a5d6a7;color:#111">"administrator"</mark> } |
+| **signature** | RSA válida (clave del server) | <mark style="background:#ffcc80;color:#111">la misma firma → ahora inválida</mark> (el server no la verifica) |
+
+> **🎯 Objetivo:** `sub → administrator`. **⚙️ Consecuencia:** la firma queda **inválida**, pero el server no la verifica → alcanza sin tocar el header.
 
 ## Diagrama
 

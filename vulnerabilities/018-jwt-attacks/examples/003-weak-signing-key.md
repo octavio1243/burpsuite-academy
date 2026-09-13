@@ -17,17 +17,15 @@ El JWT usa **HS256 (simétrico)** con un **secreto débil**. Lo **crackeás** co
 
 ## JWT (original → modificado)
 
-**Original** (decodificado)
-```json
-{ "alg": "HS256", "kid": "…" }   // header
-{ "sub": "wiener" }              // payload
-```
-**Modificado**
-```json
-{ "alg": "HS256", "kid": "…" }   // header   (sin cambios)
-{ "sub": "administrator" }       // payload  ← cambiado
-```
-> **Firma:** **re-firmada** con el secreto crackeado (`secret1`, hashcat -m 16500 / `crack_jwt.py`).
+Las 3 partes decodificadas. <mark style="background:#a5d6a7;color:#111">🎯 objetivo</mark> = lo que querés · <mark style="background:#ffcc80;color:#111">⚙️ consecuencia</mark> = lo que cambia para que valide.
+
+| Parte | Original | Modificado |
+| --- | --- | --- |
+| **header** | { "alg": "HS256", "kid": "…" } | { "alg": "HS256", "kid": "…" } (sin cambios) |
+| **payload** | { "sub": "wiener" } | { "sub": <mark style="background:#a5d6a7;color:#111">"administrator"</mark> } |
+| **signature** | HMAC con el secreto del server (desconocido) | <mark style="background:#ffcc80;color:#111">re-firmada con el secreto crackeado</mark> (`secret1`, hashcat -m 16500) |
+
+> **🎯 Objetivo:** `sub → administrator`. **⚙️ Consecuencia (acá está el cambio real):** **re-firmar** con el secreto crackeado (`secret1`, hashcat -m 16500 / `crack_jwt.py`) para que el nuevo `sub` valide.
 
 ## Diagrama
 

