@@ -216,6 +216,7 @@
   },
   "active": "8b71dfad4cfabdb9",
   "lastOpenFiles": [
+    "graphify-out/cache/stat-index.s70b66b7.tmp",
     "vulnerabilities/018-jwt-attacks/labs/README.md",
     "vulnerabilities/018-jwt-attacks/labs",
     "graphify-out/cache/stat-index.lora62mp.tmp",
@@ -251,7 +252,6 @@
     "vulnerabilities/013-insecure_deserialization/examples/002-modificar-tipos-php.md",
     "vulnerabilities/013-insecure_deserialization/examples/001-modificar-objeto-php.md",
     "exam/to-do-list/insecure-deserialization.md",
-    "vulnerabilities/013-insecure_deserialization/examples/010-phar-deserialization.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",

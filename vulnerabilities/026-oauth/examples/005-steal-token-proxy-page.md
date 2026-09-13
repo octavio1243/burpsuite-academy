@@ -25,7 +25,7 @@ sequenceDiagram
     participant V as Admin — victima
     participant OA as OAuth service
     participant C as Cliente / proxy page
-    At->>ES: subo pagina: <iframe OAuth> + window.onmessage
+    At->>ES: subo pagina: iframe del flujo OAuth + window.onmessage
     ES-->>V: el admin abre la pagina del exploit
     Note over ES,V: el iframe corre el flujo OAuth en la sesion del admin
     V->>OA: /auth?response_type=token&redirect_uri=CLIENT/oauth-callback (exacto → PASA)
