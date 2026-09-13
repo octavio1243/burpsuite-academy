@@ -10,6 +10,8 @@ tags:
 
 # GraphQL API attacks — Labs de PortSwigger
 
+> 🔎 Recon/metodología (identificar endpoint, introspection, utilidades) → [[vulnerabilities/021-graphql/graphql|entry point de GraphQL]].
+
 Labs de la categoría **[GraphQL API vulnerabilities](https://portswigger.net/web-security/graphql)**: **2 Apprentice + 3 Practitioner** (5 en total). **El hilo común:** GraphQL expone **un solo endpoint** donde el cliente pide **exactamente los campos que quiere**. El servidor casi siempre **valida mal el acceso por campo/objeto** (podés pedir datos que no deberías), **el schema es consultable** (introspection → mapa completo de la API), **los alias permiten batchear** muchas operaciones en un request (rompe rate-limits), y el endpoint suele **aceptar POST form-urlencoded sin CSRF token**. Lo que cambia lab a lab: **qué control falla** (autz por campo → endpoint oculto → rate-limit → CSRF).
 
 > [!note] Cuatro "sabores" de GraphQL attack
@@ -118,7 +120,7 @@ mutation {
 - **Objetivos típicos:** leer datos ocultos (posts/credenciales), **borrar `carlos`** vía `delete*`, o **cambiar el email** de la víctima vía CSRF.
 
 > [!note] Ver también
-> - **Scripts del repo:** `execute-graphql.py` (correr mutation, ej. `deleteOrganizationUser`) · `brute-force-graphql.py` (alias brute force) → `vulnerabilities/021-graphql/`.
+> - **Scripts del repo:** `execute-graphql.py` (correr mutation, ej. `deleteOrganizationUser`) · `brute-force-graphql.py` (alias brute force) → `vulnerabilities/021-graphql/scripts/`.
 > - **CSRF** (el L5 es CSRF sobre una mutation) → [[vulnerabilities/003-csrf/csrf|csrf]].
 > - **Brute force** (el L4 lo hace batcheando con alias) → `vulnerabilities/011-brute-force/`.
 > - **Access control / IDOR** (autz por campo/objeto rota) → [[vulnerabilities/028-access-control/access-control|access control]].
