@@ -39,6 +39,7 @@ tags:
 
 - [ ] Cambiá el `Host` por basura y mirá si **cambia algo** (200 igual, reflejo, redirect, error interno) → si acepta cualquiera, terreno fértil.
 - [ ] Si el `Host` está validado, probá **override headers**: `X-Forwarded-Host` · `X-Host` · `X-Forwarded-Server` · `Forwarded` · **doble `Host`** · **URL absoluta** · **line wrapping**.
+- [ ] **`invalid hostname` con tu Collaborator solo:** si `Host: xxx.oastify.com` es rechazado (el server exige que aparezca el dominio del target), colgá el target como query para que el validador lo vea pero la request salga a tu Collaborator: `Host: xxx.oastify.com?TARGET.net` (o `xxx.oastify.com#TARGET.net` / `xxx.oastify.com/TARGET.net`).
 - [ ] *(Stage 3)* Inyectá `Host`/`X-Forwarded-Host` para que el server se pegue a su **servicio interno** o a un oastify (SSRF) → [[vulnerabilities/007-ssrf/ssrf|SSRF]].
 
 ## 🔗 Referencias
