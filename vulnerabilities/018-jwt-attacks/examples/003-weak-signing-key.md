@@ -15,6 +15,20 @@ tags:
 ## Qué muestra
 El JWT usa **HS256 (simétrico)** con un **secreto débil**. Lo **crackeás** con hashcat y, como en simétrico *firmar = verificar*, firmás vos tokens válidos.
 
+## JWT (original → modificado)
+
+**Original** (decodificado)
+```json
+{ "alg": "HS256", "kid": "…" }   // header
+{ "sub": "wiener" }              // payload
+```
+**Modificado**
+```json
+{ "alg": "HS256", "kid": "…" }   // header   (sin cambios)
+{ "sub": "administrator" }       // payload  ← cambiado
+```
+> **Firma:** **re-firmada** con el secreto crackeado (`secret1`, hashcat -m 16500 / `crack_jwt.py`).
+
 ## Diagrama
 
 ```mermaid

