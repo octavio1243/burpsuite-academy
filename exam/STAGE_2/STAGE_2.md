@@ -43,6 +43,7 @@
 | 7 | 🔓 **Access Control (IDOR)** | 🚩 Peticiones con **`username`/`id`/`role`** manipulable → vertical o horizontal→vertical | [[exam/to-do-list/access-control\|Qué probar]] |
 | 8 | 🕸️ **GraphQL API Endpoints** | 🚩 Endpoint **GraphQL** (InQL) | [[exam/to-do-list/graphql\|Qué probar]] |
 | 9 | 🔀 **CORS** | 🚩 `ACAO` refleja tu `Origin`/`null`/subdominio **+ `Allow-Credentials: true`** | [[exam/to-do-list/cors\|Qué probar]] |
+| 10 | 🧠 **Business Logic** | 🚩 Un **flujo multipaso** (registro/login/checkout) o un **endpoint de doble uso** → saltar pasos, cambiar `username`, o email del **dominio admin** | [[exam/to-do-list/business-logic\|Qué probar]] (state machine · weak isolation · email dominio admin) |
 
 ### 🔻 Menos relevante en Stage 2
 

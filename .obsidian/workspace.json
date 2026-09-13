@@ -11,13 +11,88 @@
             "id": "ab771443eef2c429",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "exam/extensions-needed.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nueva pestaña"
+              "title": "extensions-needed"
+            }
+          },
+          {
+            "id": "3df6d85d7643f9c8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/to-do-list/prototype-pollution.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "prototype-pollution"
+            }
+          },
+          {
+            "id": "ec4d3d1421ed9921",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/028-access-control/access-control.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "access-control"
+            }
+          },
+          {
+            "id": "8a6b43de2a7a9923",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/to-do-list/access-control.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "access-control"
+            }
+          },
+          {
+            "id": "3ab01c2ec0c27f5f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/to-do-list/api-testing.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "api-testing"
+            }
+          },
+          {
+            "id": "7fa75046bf580f09",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "exam/to-do-list/business-logic.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "business-logic"
             }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -51,7 +126,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "path:\"vulnerabilities/013-insecure_deserialization/PHP/phpggc/\" ",
+                "query": "TRACE",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -181,8 +256,20 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "ab771443eef2c429",
+  "active": "7fa75046bf580f09",
   "lastOpenFiles": [
+    "exam/to-do-list/api-testing.md",
+    "exam/to-do-list/access-control.md",
+    "vulnerabilities/014-information-disclousure/information-disclosure.md",
+    "exam/to-do-list/business-logic.md",
+    "exam/to-do-list/business-logic.md.tmp.164320.3388d7dc6839",
+    "vulnerabilities/015-business-logic/labs/README.md",
+    "vulnerabilities/015-business-logic/labs",
+    "vulnerabilities/028-access-control/labs/README.md",
+    "exam/shortcuts/host-headers.md",
+    "vulnerabilities/028-access-control/access-control.md",
+    "exam/to-do-list/prototype-pollution.md",
+    "exam/extensions-needed.md",
     "graphify-out/cache/semantic/pd5fd89c46bb5/1c36eed2fe57aad8f950e742a19a013bae158fb83779ad8272377cfaf9ae5239.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/eadbd374de40cbcde97ab31dd5788cc65741da37b855fad9fe683971fd6b7ee1.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/4c60cb9cb974e216cf14e9130aac11013b13c219e3ad7b2691896f403c24d8c1.json",
@@ -191,9 +278,6 @@
     "graphify-out/cache/semantic/pd5fd89c46bb5/1b5086d8413eb6b7f7d846a5c54826da3c99c44d3d5034092d3bc686ffdc45cd.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/f26778f992d392c7dd46c8c0ef558962fa1b6f2a2ae911a4a5181a4aca250610.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/d18ea6961f2c047b46ac1dc9fc0737706c9b361cfc33cdd17afaacb8cab4c3bd.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/9735ff005b3aa1bb313e5bdee3b9d75d51d331e745d5a152ded63f240bbcde2b.json",
-    "exam/to-do-list/prototype-pollution.md.tmp.164320.e9447c9ed43c",
-    "graphify-out/cache/stat-index.2yqcg1n0.tmp",
     "vulnerabilities/020-prototype-pollution/examples/007-server-side-rce-exfil-execsync.md",
     "vulnerabilities/020-prototype-pollution/examples/006-server-side-rce-execargv-fork.md",
     "vulnerabilities/020-prototype-pollution/examples/005-bypass-constructor-y-sanitizacion.md",
@@ -210,15 +294,6 @@
     "vulnerabilities/018-jwt-attacks/examples/002-alg-none.md",
     "vulnerabilities/018-jwt-attacks/examples/001-unverified-signature.md",
     "exam/to-do-list/sql-injection.md",
-    "vulnerabilities/018-jwt-attacks/jwt-attacks.md",
-    "exam/to-do-list/authentication.md",
-    "exam/to-do-list/access-control.md",
-    "vulnerabilities/008-http_smuggling/examples/004-h2-cl.md",
-    "exam/shortcuts/websocket-exfil.md",
-    "exam/extensions-needed.md",
-    "exam/shortcuts/postmessage.md",
-    "exam/shortcuts/fetch-then-exfil.md",
-    "exam/shortcuts/host-headers.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
