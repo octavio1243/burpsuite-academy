@@ -120,6 +120,118 @@
             }
           },
           {
+            "id": "30b178af7e2cfa04",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "001-leer-archivo-in-band"
+            }
+          },
+          {
+            "id": "4355ddd1c6a406aa",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "002-xxe-a-ssrf-metadata-cloud"
+            }
+          },
+          {
+            "id": "8b8869efede10086",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "003-xinclude-sin-controlar-el-xml"
+            }
+          },
+          {
+            "id": "527821456ba9ebde",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "004-xxe-por-subida-de-svg"
+            }
+          },
+          {
+            "id": "c7cfc26f52b08a32",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "005-xxe-ciego-callback-oob"
+            }
+          },
+          {
+            "id": "9bdaf70efc50cc00",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "006-xxe-ciego-exfiltrar-con-dtd-externo"
+            }
+          },
+          {
+            "id": "dbf6d11f1c1e3910",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "007-xxe-ciego-error-based-con-dtd-externo"
+            }
+          },
+          {
+            "id": "df0bf18038a8c04f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "008-xxe-ciego-reutilizar-dtd-local"
+            }
+          },
+          {
             "id": "f0583e8337016a55",
             "type": "leaf",
             "state": {
@@ -176,7 +288,7 @@
             }
           }
         ],
-        "currentTab": 7
+        "currentTab": 15
       }
     ],
     "direction": "vertical"
@@ -238,7 +350,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 291.5
+    "width": 375.5
   },
   "right": {
     "id": "864674b63a34bca2",
@@ -340,8 +452,19 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "52bf284fe0885cf3",
+  "active": "df0bf18038a8c04f",
   "lastOpenFiles": [
+    "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
+    "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
+    "vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob.md",
+    "vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg.md",
+    "vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml.md",
+    "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
+    "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
+    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md.tmp.162736.fb3de2d962f2",
+    "vulnerabilities/006-xxe/resources/dtd_files.md",
+    "vulnerabilities/006-xxe/resources",
+    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
     "exam/to-do-list/xxe.md",
     "exam/to-do-list/cors.md",
     "vulnerabilities/005-cors/cors.md",
@@ -357,8 +480,6 @@
     "graphify-out/cache/semantic/pd5fd89c46bb5/68dae8a71e9856eba4caddd3535b3bd4ee4511d0a7ead042c709a821716669c0.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/5a193f50e8a7eb23f3698b59bb256f8efbd3b5a69a542fa4d21b6d02ff4869ef.json",
     "graphify-out/cache/semantic/pd5fd89c46bb5/f24d903af5a6ee837c4f7658c66214a30faeaf9f99370df692879889a0cb0554.json",
-    "graphify-out/cache/stat-index.v_o0fee_.tmp",
-    "graphify-out/cache/stat-index.t98fh5kq.tmp",
     "exam/to-do-list/api-testing.md",
     "exam/to-do-list/access-control.md",
     "vulnerabilities/014-information-disclousure/information-disclosure.md",
@@ -369,15 +490,6 @@
     "exam/to-do-list/prototype-pollution.md",
     "exam/extensions-needed.md",
     "vulnerabilities/020-prototype-pollution/examples/007-server-side-rce-exfil-execsync.md",
-    "vulnerabilities/020-prototype-pollution/examples/006-server-side-rce-execargv-fork.md",
-    "vulnerabilities/020-prototype-pollution/examples/005-bypass-constructor-y-sanitizacion.md",
-    "vulnerabilities/020-prototype-pollution/examples/004-server-side-escalada-isadmin.md",
-    "vulnerabilities/020-prototype-pollution/examples/003-server-side-deteccion-a-ciegas.md",
-    "vulnerabilities/020-prototype-pollution/examples/002-client-side-gadget-dom-xss.md",
-    "vulnerabilities/020-prototype-pollution/examples/001-sources-y-confirmacion.md",
-    "vulnerabilities/018-jwt-attacks/examples/008-algorithm-confusion-no-exposed-key.md",
-    "vulnerabilities/018-jwt-attacks/examples/007-algorithm-confusion.md",
-    "vulnerabilities/018-jwt-attacks/examples/006-kid-path-traversal.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",

