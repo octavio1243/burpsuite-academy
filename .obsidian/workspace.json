@@ -120,7 +120,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -284,7 +284,7 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "e037a91b43e1ead8",
+  "active": "667b5df55e6297a0",
   "lastOpenFiles": [
     "vulnerabilities/018-jwt-attacks/examples/003-weak-signing-key.md",
     "vulnerabilities/018-jwt-attacks/examples/002-alg-none.md",
