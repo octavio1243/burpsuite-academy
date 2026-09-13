@@ -216,6 +216,8 @@
   },
   "active": "8b71dfad4cfabdb9",
   "lastOpenFiles": [
+    "vulnerabilities/018-jwt-attacks/jwt-attacks.md",
+    "graphify-out/cache/stat-index._rw2bp1_.tmp",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2.7z",
     "vulnerabilities/018-jwt-attacks/scripts/wddm_timeout_patch.reg",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/target/x86_64-pc-windows-gnu/release/generic_hash.dll",
@@ -225,8 +227,6 @@
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/src/lib.rs",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/target/release",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/src/interop.rs",
-    "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/src/hashcat_types.h",
-    "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/Rust/generic_hash/src/generic_hash.rs",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/tunings/README.md",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/docs/slow-candidates-mode.md",
     "vulnerabilities/018-jwt-attacks/scripts/hashcat-7.1.2/docs/releases_notes_v7.1.0.md",
