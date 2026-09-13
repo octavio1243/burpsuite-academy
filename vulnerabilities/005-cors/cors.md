@@ -28,21 +28,14 @@ tags:
 
 ## 🎯 Condiciones para que exista (la FLAG real)
 
-Para **robar datos autenticados** (la API key del admin, su `/my-account`) se tienen que cumplir **las tres** cosas:
+Para **robar datos autenticados** se cumplen **las 3 juntas** (en la respuesta del endpoint de datos):
 
-1. **`Access-Control-Allow-Credentials: true`** en la respuesta → el server acepta que el navegador mande **cookies** cross-origin. Sin esto, el `fetch` con `credentials:'include'` no expone la respuesta. **Es necesario** para robar cualquier cosa detrás de sesión.
-2. **`Access-Control-Allow-Origin` (ACAO) confía en un origen que vos controlás.** Casos:
-   - **Refleja tu `Origin` arbitrario** → mandás `Origin: https://evil.com` y la respuesta trae `Access-Control-Allow-Origin: https://evil.com`. **Este es el bug de "reflejo".**
-   - **Confía en `Origin: null`** → generás un origen `null` (iframe *sandboxed*, `data:`, redirect) y lo refleja.
-   - **Confía en subdominios** (incluso por HTTP) → si controlás un subdominio (XSS/HTTP) atacás desde ahí.
-3. **Tu JS manda `fetch(..., {credentials:'include'})`** (equivalente viejo: `req.withCredentials = true`) para que viajen las cookies de la víctima.
+1. **`Access-Control-Allow-Credentials: true`** — sin esto no hay robo de sesión.
+2. **ACAO confía en un origen que controlás** — refleja tu `Origin` (mandás `Origin: https://evil.com` y vuelve igual) · acepta `Origin: null` · o confía en **subdominios** (incl. HTTP).
+3. Tu JS hace **`fetch(..., {credentials:'include'})`** (para que viajen las cookies de la víctima).
 
-> [!danger] 🚩 El caso de `ACAO: *` — por qué NO sirve para robar la sesión
-> Confirmando tu intuición: **sí, `Access-Control-Allow-Origin: *` es "el otro caso"**, pero es **inofensivo para datos autenticados**. La spec **prohíbe** `*` junto con credenciales: si ACAO es `*`, el navegador **bloquea** cualquier respuesta que use `credentials:'include'`. Por eso:
-> - **`ACAO: *`** → solo podés leer datos **públicos / sin sesión** (o recursos de intranet sin credenciales). **No** te da la API key del admin.
-> - **Robar sesión** → necesitás **ACAO = tu origen específico (reflejado) o `null`** + **`Allow-Credentials: true`**. El `*` **no** convive con `Allow-Credentials: true`.
->
-> Regla: **`*` sin credenciales = data pública. Reflejo/`null` + `Allow-Credentials: true` = robo de cuenta.**
+> [!warning] 🚩 `ACAO: *` NO sirve para robar sesión
+> `*` no convive con credenciales: el navegador **bloquea** la respuesta con `credentials:'include'` → solo data **pública/intranet**. Para robar cuenta necesitás **reflejo / `null` + `Allow-Credentials: true`**.
 
 ## 🧪 Cómo cazarlo (metodología)
 
