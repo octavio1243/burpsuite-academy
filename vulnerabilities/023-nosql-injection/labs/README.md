@@ -10,6 +10,8 @@ tags:
 
 # NoSQL injection — Labs de PortSwigger
 
+> 🔎 Metodología (detección, fuzz string, syntax vs operator, extracción, timing) → [[vulnerabilities/023-nosql-injection/nosql-injection|entry point de NoSQL]].
+
 Labs de la categoría **[NoSQL injection](https://portswigger.net/web-security/nosql-injection)**: **2 Apprentice + 2 Practitioner** (4 en total, todos **MongoDB**). **El hilo común:** la app arma queries de MongoDB con **input sin sanitizar**, y hay **dos formas** de inyectar: **(A) syntax injection** —rompés la sintaxis de un string con `'` e inyectás **JavaScript** (como SQLi)— y **(B) operator injection** —metés **operadores** de Mongo (`$ne`, `$regex`, `$where`, `$gt`) donde la app espera un string, típico en **bodies JSON**—. Lo que cambia lab a lab: **qué estilo** usás y **para qué** (revelar datos ocultos → bypass de login → extraer password → extraer campos desconocidos).
 
 > [!note] Los dos estilos de inyección (la clave de toda la categoría)
