@@ -17,17 +17,15 @@ Igual que el 007, **pero la clave pública NO está publicada** (no hay `/jwks.j
 
 ## JWT (original → modificado)
 
-**Original** (decodificado)
-```json
-{ "alg": "RS256", "kid": "…" }   // header
-{ "sub": "wiener" }              // payload
-```
-**Modificado**
-```json
-{ "alg": "HS256", "kid": "…" }   // header   ← cambiado
-{ "sub": "administrator" }       // payload  ← cambiado
-```
-> **Firma:** HMAC usando la clave pública **reconstruida** desde 2 tokens (`sig2n`) como secreto.
+Las 3 partes decodificadas. <mark style="background:#a5d6a7;color:#111">🎯 objetivo</mark> = lo que querés · <mark style="background:#ffcc80;color:#111">⚙️ consecuencia</mark> = lo que cambia para que valide.
+
+| Parte | Original | Modificado |
+| --- | --- | --- |
+| **header** | { "alg": "RS256", "kid": "…" } | { "alg": <mark style="background:#ffcc80;color:#111">"HS256"</mark>, "kid": "…" } |
+| **payload** | { "sub": "wiener" } | { "sub": <mark style="background:#a5d6a7;color:#111">"administrator"</mark> } |
+| **signature** | RSA (clave privada del server) | <mark style="background:#ffcc80;color:#111">HMAC con la pública reconstruida (sig2n) como secreto</mark> |
+
+> **🎯 Objetivo:** `sub → administrator`. **⚙️ Consecuencia:** `alg → HS256` y firmar con la clave pública **reconstruida** (`sig2n`) como secreto HMAC.
 
 ## Diagrama
 

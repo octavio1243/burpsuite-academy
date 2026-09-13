@@ -17,17 +17,15 @@ El server **acepta tokens "sin firmar"** cuando `alg` es `none`. Ponés `alg:non
 
 ## JWT (original → modificado)
 
-**Original** (decodificado)
-```json
-{ "alg": "HS256", "typ": "JWT" }   // header
-{ "sub": "wiener" }                // payload
-```
-**Modificado**
-```json
-{ "alg": "none", "typ": "JWT" }    // header   ← cambiado
-{ "sub": "administrator" }         // payload  ← cambiado
-```
-> **Firma:** **eliminada** → el token queda `header.payload.` (3ª parte vacía).
+Las 3 partes decodificadas. <mark style="background:#a5d6a7;color:#111">🎯 objetivo</mark> = lo que querés · <mark style="background:#ffcc80;color:#111">⚙️ consecuencia</mark> = lo que cambia para que valide.
+
+| Parte | Original | Modificado |
+| --- | --- | --- |
+| **header** | { "alg": "HS256", "typ": "JWT" } | { "alg": <mark style="background:#ffcc80;color:#111">"none"</mark>, "typ": "JWT" } |
+| **payload** | { "sub": "wiener" } | { "sub": <mark style="background:#a5d6a7;color:#111">"administrator"</mark> } |
+| **signature** | HMAC-SHA256 (secreto del server) | <mark style="background:#ffcc80;color:#111">eliminada</mark> → token `header.payload.` |
+
+> **🎯 Objetivo:** `sub → administrator`. **⚙️ Consecuencia:** `alg → none` y **firma eliminada** (`header.payload.`) para que el claim forjado sea aceptado.
 
 ## Diagrama
 
