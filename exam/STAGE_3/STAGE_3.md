@@ -32,7 +32,7 @@
 | 1 | 📄 **XXE — XML entities & Injections** | 🚩 **Algo parsea XML** (stock check, SOAP, subida de **SVG/DOCX/XLSX**) | [[exam/to-do-list/xxe\|Qué probar]] (SVG avatar con `file:///home/carlos/secret` = el más jugoso) |
 | 2 | 🛰️ **SSRF — Server Side Request Forgery** | 🚩 Fetch server-side, Host header injection, o **`localhost:6566` responde** | [[exam/to-do-list/ssrf\|Qué probar]] |
 | 3 | 📐 **SSTI — Server Side Template Injection** | 🚩 Algo **editable que se renderiza** (preferred name / **descripción de producto**) → `7*7` | [[exam/to-do-list/ssti\|Qué probar]] |
-| 4 | 🧪 **SSPP — Server-Side Prototype Pollution** | 🚩 JSON con **`__proto__`** cambia el comportamiento server-side | [[exam/to-do-list/prototype-pollution\|Qué probar]] (escalar a RCE vía gadget del runtime) |
+| 4 | 🧪 **SSPP — Server-Side Prototype Pollution** | 🚩 JSON con **`__proto__`** cambia el comportamiento server-side | [[exam/to-do-list/prototype-pollution\|Qué probar]] (RCE vía `child_process`: `execArgv`/`fork` o `shell`+`input`/`execSync`) |
 | 5 | 📁 **LFI — File Path Traversal** | 🚩 Recurso con parámetro tipo **`fileName`** que el user normal no carga | [[exam/to-do-list/path-traversal\|Qué probar]] |
 | 6 | ⬆️ **File Uploads → RCE** ⭐ | 🚩 **Permite subir archivos** (típicamente solo el admin) | [[exam/to-do-list/file-upload\|Qué probar]] (shells listos → `cat /home/carlos/secret`) |
 | 7 | 🧷 **Deserialization** | 🚩 Aparece un **objeto serializado** (PHP `O:` · Java `rO0` · pickle) | [[exam/to-do-list/insecure-deserialization\|Qué probar]] |
