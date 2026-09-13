@@ -1,0 +1,179 @@
+# All Scans — Burp Suite issue types
+
+> Lista completa de tipos de issue que Burp puede reportar (escaneo activo + pasivo + DOM-based).
+> Referencia maestra para el examen. Total: **174** entradas.
+
+- XPath injection
+- XML injection
+- XML external entity injection
+- XML entity expansion
+- WebSocket URL poisoning (stored DOM-based)
+- WebSocket URL poisoning (reflected DOM-based)
+- WebSocket URL poisoning (DOM-based)
+- Web cache poisoning
+- Web cache deception
+- Vulnerable JavaScript dependency
+- User agent-dependent response
+- Unidentified code injection
+- Unencrypted communications
+- TLS cookie without secure flag set
+- TLS certificate
+- Suspicious input transformation (stored)
+- Suspicious input transformation (reflected)
+- Strict transport security not enforced
+- Spoofable client IP address
+- Source code disclosure
+- Social security numbers disclosed
+- Silverlight cross-domain policy
+- Session token in URL
+- Server-side template injection
+- Server-side JavaScript code injection
+- Serialized object in HTTP message
+- SSI injection
+- SQL statement in request parameter
+- SQL injection (second order)
+- SQL injection
+- SMTP header injection
+- Ruby code injection
+- Robots.txt file
+- Request URL override
+- Referer-dependent response
+- React Server Components remote code execution (React2Shell)
+- Python code injection
+- Private key disclosed
+- Private IP addresses disclosed
+- Perl code injection
+- Path-relative style sheet import
+- Password value set in cookie
+- Password submitted using GET method
+- Password returned in later response
+- Password returned in URL query string
+- PHP code injection
+- Out-of-band resource load (HTTP)
+- OpenAPI definition found (passive scan check)
+- OpenAPI definition found (active scan check)
+- Open redirection (stored)
+- Open redirection (stored DOM-based)
+- Open redirection (reflected)
+- Open redirection (reflected DOM-based)
+- Open redirection (DOM-based)
+- OS command injection
+- Multiple content types specified
+- Mixed content
+- Long redirection response
+- Local file path manipulation (stored DOM-based)
+- Local file path manipulation (reflected DOM-based)
+- Local file path manipulation (DOM-based)
+- Link manipulation (stored)
+- Link manipulation (stored DOM-based)
+- Link manipulation (reflected)
+- Link manipulation (reflected DOM-based)
+- Link manipulation (DOM-based)
+- LDAP injection
+- Json Web Key Set disclosed
+- JavaScript injection (stored DOM-based)
+- JavaScript injection (reflected DOM-based)
+- JavaScript injection (DOM-based)
+- JWT weak HMAC secret
+- JWT signature not verified
+- JWT self-signed JWK header supported
+- JWT private key disclosed
+- JWT none algorithm supported
+- JWT arbitrary x5u header supported
+- JWT arbitrary jku header supported
+- Input returned in response (stored)
+- Input returned in response (reflected)
+- Hidden HTTP 2
+- HTTP response header injection
+- HTTP request smuggling
+- HTTP TRACE method is enabled
+- HTTP PUT method is enabled
+- HTML5 web message manipulation (stored DOM-based)
+- HTML5 web message manipulation (reflected DOM-based)
+- HTML5 web message manipulation (DOM-based)
+- HTML5 storage manipulation (stored DOM-based)
+- HTML5 storage manipulation (reflected DOM-based)
+- HTML5 storage manipulation (DOM-based)
+- HTML uses unrecognized charset
+- HTML does not specify charset
+- GraphQL suggestions enabled
+- GraphQL introspection enabled
+- GraphQL endpoint found
+- GraphQL endpoint discovered
+- GraphQL content type not validated
+- Frameable response (potential Clickjacking)
+- Form action hijacking (stored)
+- Form action hijacking (reflected)
+- Flash cross-domain policy
+- File upload functionality
+- File path traversal
+- File path manipulation
+- External service interaction (SMTP)
+- External service interaction (HTTP)
+- External service interaction (DNS)
+- Expression Language injection
+- Email addresses disclosed
+- Duplicate cookies set
+- Document domain manipulation (stored DOM-based)
+- Document domain manipulation (reflected DOM-based)
+- Document domain manipulation (DOM-based)
+- Directory listing
+- Denial of service (stored DOM-based)
+- Denial of service (reflected DOM-based)
+- Denial of service (DOM-based)
+- Database connection string disclosed
+- DOM data manipulation (stored DOM-based)
+- DOM data manipulation (reflected DOM-based)
+- DOM data manipulation (DOM-based)
+- Cross-site scripting (stored)
+- Cross-site scripting (stored DOM-based)
+- Cross-site scripting (reflected)
+- Cross-site scripting (reflected DOM-based)
+- Cross-site scripting (DOM-based)
+- Cross-site request forgery
+- Cross-origin resource sharing: unencrypted origin trusted
+- Cross-origin resource sharing: arbitrary origin trusted
+- Cross-origin resource sharing: all subdomains trusted
+- Cross-origin resource sharing
+- Cross-domain script include
+- Cross-domain Referer leakage
+- Cross-domain POST
+- Credit card numbers disclosed
+- Cookie without HttpOnly flag set
+- Cookie scoped to parent domain
+- Cookie manipulation (stored DOM-based)
+- Cookie manipulation (reflected DOM-based)
+- Cookie manipulation (DOM-based)
+- Content type is not specified
+- Content type incorrectly stated
+- Content security policy: not enforced
+- Content security policy: malformed syntax
+- Content security policy: allows untrusted style execution
+- Content security policy: allows untrusted script execution
+- Content security policy: allows form hijacking
+- Content security policy: allows clickjacking
+- Content security policy: allowlisted script resources
+- Client-side template injection
+- Client-side prototype pollution
+- Client-side desync
+- Client-side XPath injection (stored DOM-based)
+- Client-side XPath injection (reflected DOM-based)
+- Client-side XPath injection (DOM-based)
+- Client-side JSON injection (stored DOM-based)
+- Client-side JSON injection (reflected DOM-based)
+- Client-side JSON injection (DOM-based)
+- Client-side HTTP parameter pollution (stored)
+- Client-side HTTP parameter pollution (reflected)
+- Cleartext submission of password
+- Cacheable HTTPS response
+- CSS injection (stored)
+- CSS injection (reflected)
+- Broken access control
+- Base64-encoded data in parameter
+- Backup file
+- Ajax request header manipulation (stored DOM-based)
+- Ajax request header manipulation (reflected DOM-based)
+- Ajax request header manipulation (DOM-based)
+- ASP.NET tracing enabled
+- ASP.NET debugging enabled
+- ASP.NET ViewState without MAC enabled

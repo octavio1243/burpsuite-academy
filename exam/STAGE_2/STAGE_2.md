@@ -30,6 +30,12 @@
 
 ---
 
+## 🛰️ Escaneo (issues a activar)
+
+> Config de Burp separada → **[[exam/STAGE_2/STAGE_2-scanners|🛰️ Escaneo — Stage 2]]** (issues ON, manual, ruido OFF, cómo armar `BSCP-Stage-2`).
+
+---
+
 ## ✅ Vulnerabilidades (Stage 2) — por prioridad
 
 | # | Vulnerabilidad | 🚩 Señal detonante | Qué probar |
