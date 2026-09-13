@@ -218,6 +218,20 @@
             }
           },
           {
+            "id": "768a87a53ff49072",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "vulnerabilities/007-ssrf/examples/003-bypass-blacklist-variantes-localhost.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "003-bypass-blacklist-variantes-localhost"
+            }
+          },
+          {
             "id": "df0bf18038a8c04f",
             "type": "leaf",
             "state": {
@@ -288,7 +302,7 @@
             }
           }
         ],
-        "currentTab": 13
+        "currentTab": 15
       }
     ],
     "direction": "vertical"
@@ -322,7 +336,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "TRACE",
+                "query": "2130706433",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -452,21 +466,29 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "9bdaf70efc50cc00",
+  "active": "86fe36b081bc28dc",
   "lastOpenFiles": [
+    "exam/STAGE_2/STAGE_2.md.tmp.112324.c3c650345963",
+    "graphify-out/cache/stat-index.9eodgdya.tmp",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/a8edd656d41ff51617f1ee2fe47cf33cc50900235c6251d2eea986cece23b94a.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/18a7a8954f6c09920f4f9f191074791de14da7af1db5536c566e219e422ec9ca.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/04931d377c090f4eae61e34853ab0001298f85a0bdf404575f3e76a78a941aa2.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/2e60885ba9f070290f910dbc1f16811196d11545a8f2df31f97a6a922a11f14e.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/8e10ce400577c0d1983f3dbc6c428371d907ce5358ff568727e255bd0b7c1470.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/5ae1f29cdf4ae7049b172cfcf8d364260eb04f3ca44ef35baa88bd2fad2790dd.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/1b48caccc1cb78fe3dff9c921bca0a480bfda1e56fadcc33b621efe904b2074d.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/b888365ca20bbb57f07ae3fbf4d257919ec51d410add63ac1893ad81995e04c2.json",
+    "graphify-out/cache/semantic/pd5fd89c46bb5/720c1d72bbafed6092f8a1daeee7275455fc575c79b3dafae4370615dc5189b7.json",
+    "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
+    "vulnerabilities/007-ssrf/examples/003-bypass-blacklist-variantes-localhost.md",
+    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
+    "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
     "vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob.md",
     "vulnerabilities/006-xxe/examples/004-xxe-por-subida-de-svg.md",
     "vulnerabilities/006-xxe/examples/003-xinclude-sin-controlar-el-xml.md",
     "vulnerabilities/006-xxe/examples/002-xxe-a-ssrf-metadata-cloud.md",
     "vulnerabilities/006-xxe/examples/001-leer-archivo-in-band.md",
-    "vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo.md",
-    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md",
-    "vulnerabilities/006-xxe/examples/006-xxe-ciego-exfiltrar-con-dtd-externo.md",
-    "graphify-out/cache/stat-index.eb4h7wwi.tmp",
-    "graphify-out/cache/stat-index.oa63sk0f.tmp",
-    "vulnerabilities/006-xxe/examples/008-xxe-ciego-reutilizar-dtd-local.md.tmp.162736.fb3de2d962f2",
     "vulnerabilities/006-xxe/resources/dtd_files.md",
-    "vulnerabilities/006-xxe/resources",
     "exam/to-do-list/xxe.md",
     "exam/to-do-list/cors.md",
     "vulnerabilities/005-cors/cors.md",
@@ -474,12 +496,6 @@
     "exam/STAGE_2/STAGE_2.md",
     "exam/STAGE_1/STAGE_1.md",
     "exam/to-do-list/business-logic.md",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/7f921bfc0e6fdaf8c06a72b5ee9b813260606b92e49a35c7d1bffaba0bd9546d.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/f49c2076a65a5a8626f6096872de87276f15d7a3f77b65d643b6daaee163839b.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/b803947f4352286a63f2533b81995143b6b290facefa31a1fb62188521de245d.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/21c866a92ecb427eb89bd936a4644d0bb12983ba54ce4d09e1c9f017f65c605c.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/2d24d8d5dd3a9395432aec52197cdf921039099a157068202abc7a46e4033104.json",
-    "graphify-out/cache/semantic/pd5fd89c46bb5/68dae8a71e9856eba4caddd3535b3bd4ee4511d0a7ead042c709a821716669c0.json",
     "exam/to-do-list/api-testing.md",
     "exam/to-do-list/access-control.md",
     "vulnerabilities/014-information-disclousure/information-disclosure.md",
@@ -488,7 +504,6 @@
     "exam/shortcuts/host-headers.md",
     "vulnerabilities/028-access-control/access-control.md",
     "exam/to-do-list/prototype-pollution.md",
-    "exam/extensions-needed.md",
     "vulnerabilities/006-xxe/bitso.0whvrzxl.oti8.svg",
     "vulnerabilities/017-file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",
     "vulnerabilities/file-upload-vulnerabilities/polyglot-web-shell-rce/base.jpg",

