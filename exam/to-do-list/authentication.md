@@ -16,6 +16,7 @@ tags:
 > - **Error de login distinto** por usuario → **enumeración** (`Invalid username` vs `Incorrect password`, o diff sutil / timing). Test: `carlos` existe, `carlosasdf` no → comparar.
 > - **Rate limit en el login** → la vía intencionada es **fuerza bruta**.
 > - **Checkbox "stay logged in"** → cookie `base64(user:md5(pass))` = vector de brute force **fuera de `/login`**.
+> - **Reset con lógica rota** → el `POST /forgot-password` lleva `temp-forgot-password-token` + `username`: si **borrás el token** (o el param entero) y cambiás `username` a la víctima, la password se resetea igual → tomás la cuenta **sin token**.
 
 > [!danger] 🚩 ¿Está? (Stage 2)
 > - Hay **"recuperar contraseña"** (el reset es el flanco flojo).
@@ -26,7 +27,7 @@ tags:
 | Aspecto | 🟢 Stage 1 | 🔴 Stage 2 |
 | --- | --- | --- |
 | **Objetivo** | entrar a la cuenta de la víctima | escalar a **admin** |
-| **Caminos** | fuerza bruta, bypass 2FA, brute de stay-logged-in cookie | reset poisoning al admin, tokens cruzados, brute vía cambio de password, brute por cookie |
+| **Caminos** | fuerza bruta, bypass 2FA, brute de stay-logged-in cookie, **reset con lógica rota** (token no validado) | reset poisoning al admin, tokens cruzados, brute vía cambio de password, brute por cookie |
 
 ## ♾️ Independiente del stage
 
@@ -39,6 +40,7 @@ tags:
 - [ ] **Lógica rota:** cookie/param `verify=<víctima>` → brute del código (4 dígitos).
 
 **Reset / cambio de password:**
+- [ ] **Lógica rota (Stage 1):** en el `POST /forgot-password`, **borrá el valor del `temp-forgot-password-token`** (o el param entero) y cambiá `username` a la víctima → si el server no valida el token, la password se resetea igual. → [Password reset broken logic](https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-broken-logic).
 - [ ] **Reset poisoning:** `X-Forwarded-Host: TU-collab` en el forgot → el token de la víctima te llega.
 - [ ] **Tokens cruzados:** tu token válido + cambiar `username` al admin en el POST final.
 - [ ] **Brute vía cambio de password:** 2 new-passwords distintas + `username` del admin → `New passwords do not match` delata el correcto sin lockear.
