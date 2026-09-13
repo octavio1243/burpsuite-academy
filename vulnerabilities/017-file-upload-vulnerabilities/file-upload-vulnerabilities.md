@@ -80,8 +80,16 @@ curl 'https://LAB-ID.web-security-academy.net/files/avatars/exploit.php?cmd=cat%
 | URL encoding              | `exploit%2Ephp`     | y **doble**: `%252E`                           |
 | Punto y coma (IIS)        | `exploit.asp;.jpg`  | IIS ejecuta hasta el `;`                       |
 | **NULL byte**             | `exploit.asp%00.jpg`| trunca en el `%00` → `exploit.asp`             |
+| Otros delimitadores       | `exploit.php%0a.jpg`| `%0a` LF · `%0d` CR · `%09` tab · `#` · espacio → mismo principio que `%00`/`;`: corta en el delimitador → guarda `exploit.php` |
+| CRLF combinado            | `exploit.php%0d%0a.jpg` | el salto de línea (`\x0d\x0a`) parte el nombre antes de la ext. permitida |
 | Overlong UTF-8            | `xC0 x2E`, `xC0 xAE`| algunas decodifican a `.`                      |
 | Reemplazo ingenuo         | `exploit.p.phphp`   | si el filtro borra `.php` una vez → queda `.php` |
+
+> [!note] El mismo truco vale para `.svg`/`.html`
+> No es solo para RCE con `.php`: estos bypasses también sirven para colar un `.svg`/`.html` y disparar **Stored XSS** o **XXE** (ver *Otros impactos* ▼).
+
+- [ ] **Empty filename** — subir con el nombre base **vacío** y solo la extensión (`.php` / `.svg`): algunos validadores parsean mal el "sin nombre" y lo dejan pasar o lo guardan con un default ejecutable.
+- [ ] **Truncado por largo máximo** — rellená el nombre hasta el límite del filesystem/app (típico **255 bytes**) para que la extensión **permitida** quede cortada y sobreviva la **ejecutable**: `AAA…A.php.jpg` → truncado → `…A.php`.
 
 ### 4. Cambiar la ruta de guardado
 
