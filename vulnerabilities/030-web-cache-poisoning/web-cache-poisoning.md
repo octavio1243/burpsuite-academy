@@ -96,3 +96,4 @@ Hosteás en tu **exploit server** el JS que la página envenenada va a importar,
 > - **XSS** — WCP es el **canal de entrega**; el payload es XSS → carpeta `vulnerabilities/002-xss/`.
 > - **DOM-based** — varios labs contaminan un JSON que cae en un **sink DOM** → carpeta `vulnerabilities/025-dom-based/`.
 > - **Request smuggling** — otra forma de envenenar caché / entregar a la próxima víctima → carpeta `vulnerabilities/008-http_smuggling/`.
+> - **Web Cache Deception** — misma raíz (discrepancia caché ↔ origen) pero **objetivo inverso**: en vez de **escribir** mi payload en la respuesta de otros, **leo** el contenido privado de la víctima que la caché guardó por error → [[vulnerabilities/031-web-cache-deception/web-cache-deception|WCD]].
