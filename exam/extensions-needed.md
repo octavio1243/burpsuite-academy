@@ -69,7 +69,7 @@ tags:
 | **Paramalyzer** | Recon / [[to-do-list/content-discovery\|content discovery]] transversal | **Analiza TODOS los params ya vistos** en el tráfico: marca los **reflejados** (candidatos XSS/SSRF/open-redirect), agrupa por nombre, decodifica valores y **flaggea entropía alta** (tokens/secretos). Complementa a Param Miner (Miner *adivina* params ocultos; Paramalyzer *analiza* los que ya pasaron) | Navegás el sitio → pestaña **Paramalyzer → Analyze**. **Cuándo:** fase de recon, para no leer params a ojo request por request |
 | **Turbo Intruder** | Race conditions, brute force | Envío masivo/paralelo (**single-packet attack**) que Intruder normal no da | Click derecho → *Send to turbo intruder* + script Python |
 | **DOM Invader** (built-in, Burp Browser) | [[to-do-list/dom-based\|DOM XSS]], [[to-do-list/prototype-pollution\|Prototype Pollution]], postMessage | Encuentra sources/sinks y **prototype pollution** automáticamente | Activar en **Burp Browser → extensión DOM Invader** |
-| **InQL Scanner** | [[to-do-list/graphql\|GraphQL]] | Introspection + genera queries/mutations listas | Click derecho → *Send to InQL* |
+| **InQL Scanner** | [[to-do-list/graphql\|GraphQL]] | **Descubre el endpoint** (prueba paths típicos), corre **introspection** y **genera queries/mutations listas** para editar en Repeater | Click derecho → *Send to InQL* → pestaña **InQL** |
 | **Collaborator Everywhere** | [[to-do-list/ssrf\|SSRF]], [[to-do-list/host-header\|Host header]] | Inyecta payloads de Collaborator en headers de todo el tráfico → pesca SSRF/host ciegos | Pasivo: navegás y revisás interactions |
 | **Upload Scanner** | [[to-do-list/file-upload\|File Upload]] | Automatiza pruebas de bypass de tipo/extensión | Click derecho → *Active scan (Upload Scanner)* |
 
@@ -96,6 +96,25 @@ Ambos usan **double-submit / token atado a cookie no-de-sesión** → el gadget 
 > <!-- lab 2: cambiá csrf= por csrfKey=TU-KEY -->
 > ```
 > Plantilla completa (setea cookie → `setTimeout` → submit) → [[vulnerabilities/003-csrf/csrf#3) CRLF → Set-Cookie|PoC CRLF del entry point]] · [[shortcuts/auto-submit-form|auto-submit]].
+
+### InQL Scanner
+El paso que más tiempo te ahorra en GraphQL: **encontrar el endpoint** y **mapear el schema** sin escribir queries a mano.
+
+| Lab | Qué probar | Rol de la extensión |
+| --- | --- | --- |
+| [Find the GraphQL endpoint](https://portswigger.net/web-security/graphql/lab-graphql-find-the-endpoint) | El endpoint no está en `/graphql`: hay que descubrirlo (`/api`), correr introspection y usar la mutation para borrar a `carlos` | **Send to InQL** prueba los paths típicos, detecta el endpoint, corre la **introspection** y te deja las **queries/mutations generadas** (incluida `deleteOrganizationUser`) listas para enviar a Repeater |
+
+> [!tip] 💡 Flujo en el lab
+> 1. Mandá cualquier request del sitio a **InQL** (click derecho → *Send to InQL*) o pegá la URL en la pestaña **InQL → Scanner**.
+> 2. InQL prueba `/graphql`, `/api`, `/api/graphql`… y **marca el que responde** → acá el endpoint real es **`/api`**.
+> 3. Con introspection habilitada, InQL **lista tipos, queries y mutations** en el árbol → doble click genera la query en Repeater.
+> 4. Sacás el `id` de `carlos` con la query de usuarios y disparás la **mutation** `deleteOrganizationUser`.
+
+> [!danger] 🚩 Dónde InQL NO alcanza → lo hacés a mano
+> - Si InQL **no pega el path**, probá la **query universal** `query{__typename}` contra cada path del wordlist (Intruder) → cualquier endpoint GraphQL responde `{"data":{"__typename":"query"}}`.
+> - Si **`POST` está filtrado**, reintentá como **`GET`** con la query URL-encoded.
+> - Si la **introspection está deshabilitada/filtrada**, usá los bypasses (newline tras `__schema`, probe como GET) → [[vulnerabilities/021-graphql/graphql#Bypasses si la introspection está filtrada|entry point §Bypasses]].
+> - Detalle completo de identificación e introspection → [[vulnerabilities/021-graphql/graphql#🔍 Identificar un endpoint GraphQL|entry point §Identificar endpoint]].
 
 ## 🔗 Checklist de instalación (pre-examen)
 - [ ] Param Miner
