@@ -33,16 +33,16 @@
 
 ## ✅ Vulnerabilidades (Stage 1) — por prioridad
 
-| # | Vulnerabilidad | 🚩 Señal detonante | Qué probar |
-|---|---|---|---|
-| 1 | 🔎 **Content Discovery** | Siempre — arranque de recon | [[exam/to-do-list/content-discovery\|Qué probar]] (`robots.txt`, `/.git`, backups, endpoints ocultos) |
-| 2 | 🌳 **DOM-Based (DOM-XSS)** | 🚩 `.js` con `addEventListener("message"` / `postMessage(` / `eval(` | [[exam/to-do-list/dom-based\|Qué probar]] |
-| 3 | 🧬 **XSS (Cross-Site Scripting)** | 🚩 Se **importan `.js`** en la página (inyección/robo de cookie) | [[exam/to-do-list/xss\|Qué probar]] |
-| 4 | 🌐 **Web Cache Poisoning** | 🚩 `X-Cache`/`Age`/`Vary`/`Cache-Control` en la respuesta | [[exam/to-do-list/web-cache-poisoning\|Qué probar]] |
-| 5 | 🏠 **HTTP Host Header** | 🚩 El `Host`/`X-Forwarded-Host` manipulado termina en el link del **mail de reset** (o reflejado en un `<script src>` **cacheable** → JS que roba la sesión) | [[exam/to-do-list/host-header\|Qué probar]] (reset poisoning · dangling markup · cache poisoning → JS) |
-| 6 | 📦 **HTTP Request Smuggling** | 🚩 *Smuggle probe* (CL.TE antes que TE.CL; diferencial > timing) | [[exam/to-do-list/http-request-smuggling\|Qué probar]] |
-| 7 | 🔑 **Authentication** | 🚩 Error de login distinto por usuario · rate limit en login · checkbox "stay logged in" | [[exam/to-do-list/authentication\|Qué probar]] |
-| 8 | 🕸️ **GraphQL (alias brute force)** | 🚩 El **login es una mutation GraphQL** con rate limit → batcheás cientos de intentos con **alias** en 1 request | [[exam/to-do-list/graphql\|Qué probar]] (crackear `carlos`) · [lab](https://portswigger.net/web-security/graphql/lab-graphql-brute-force-protection-bypass) |
+| #   | Vulnerabilidad                      | 🚩 Señal detonante                                                                                                                                           | Qué probar                                                                                                                                                  |
+| --- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 🔎 **Content Discovery**            | Siempre — arranque de recon                                                                                                                                  | [[exam/to-do-list/content-discovery\|Qué probar]] (`robots.txt`, `/.git`, backups, endpoints ocultos)                                                       |
+| 2   | 🌳 **DOM-Based (DOM-XSS)**          | 🚩 `.js` con `addEventListener("message"` / `postMessage(` / `eval(`                                                                                         | [[exam/to-do-list/dom-based\|Qué probar]]                                                                                                                   |
+| 3   | 🧬 **XSS (Cross-Site Scripting)**   | 🚩 Se **importan `.js`** en la página (inyección/robo de cookie)                                                                                             | [[exam/to-do-list/xss\|Qué probar]]                                                                                                                         |
+| 4   | 🌐 **Web Cache Poisoning**          | 🚩 `X-Cache`/`Age`/`Vary`/`Cache-Control` en la respuesta                                                                                                    | [[exam/to-do-list/web-cache-poisoning\|Qué probar]]                                                                                                         |
+| 5   | 🏠 **HTTP Host Header**             | 🚩 El `Host`/`X-Forwarded-Host` manipulado termina en el link del **mail de reset** (o reflejado en un `<script src>` **cacheable** → JS que roba la sesión) | [[exam/to-do-list/host-header\|Qué probar]] (reset poisoning · dangling markup · cache poisoning → JS)                                                      |
+| 6   | 📦 **HTTP Request Smuggling**       | 🚩 *Smuggle probe* (CL.TE antes que TE.CL; diferencial > timing)                                                                                             | [[exam/to-do-list/http-request-smuggling\|Qué probar]]                                                                                                      |
+| 7   | 🔑 **Authentication**               | 🚩 Error de login distinto por usuario · rate limit en login · checkbox "stay logged in"                                                                     | [[exam/to-do-list/authentication\|Qué probar]]                                                                                                              |
+| 8   | 🕸️ **GraphQL (alias brute force)** | 🚩 El **login es una mutation GraphQL** con rate limit → batcheás cientos de intentos con **alias** en 1 request                                             | [[exam/to-do-list/graphql\|Qué probar]] (crackear `carlos`) · [lab](https://portswigger.net/web-security/graphql/lab-graphql-brute-force-protection-bypass) |
 
 ### 🔻 Menos relevante en Stage 1
 
