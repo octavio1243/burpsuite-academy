@@ -51,3 +51,6 @@ desktop.ini
 *.pem
 *.key
 .env
+
+# ===== Obsidian (config local del vault, no versionar) =====
+.obsidian/
