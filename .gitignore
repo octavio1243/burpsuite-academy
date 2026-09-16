@@ -56,3 +56,6 @@ desktop.ini
 
 # ===== Obsidian (config local del vault, no versionar) =====
 .obsidian/
+
+# ===== Postmortem del examen (local, no versionar) =====
+exam/postmortem/
