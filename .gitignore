@@ -14,10 +14,11 @@ env/
 ENV/
 
 # ===== Herramientas descargadas (re-descargables, pesadas) =====
-exiftool-13.59_64/
+# Patrones no anclados: matchean la herramienta en cualquier ubicacion del repo.
+**/phpggc/
+**/hashcat-*/
+**/exiftool_files/
 exiftool-13.59_64.zip
-vulnerabilities/jwt-attacks/hashcat-7.1.2/
-vulnerabilities/insecure_deserialization/PHP/phpggc/
 
 # ===== Salidas / resultados generados =====
 template/responses/
@@ -37,6 +38,7 @@ graphify-out/
 *.bin
 *.iso
 *.dmg
+*.jar
 
 # ===== Sistema / editor =====
 .DS_Store
