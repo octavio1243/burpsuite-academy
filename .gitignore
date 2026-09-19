@@ -59,3 +59,9 @@ desktop.ini
 
 # ===== Postmortem del examen (local, no versionar) =====
 exam/postmortem/
+
+# ===== sqlmap wrapper (salida de corridas y requests de Burp) =====
+# Carpeta de salida que genera sqlmap_docker_detect.py
+sqlmap-output/
+# Requests crudos exportados de Burp: llevan cookies/tokens de sesión vivos
+*.req
