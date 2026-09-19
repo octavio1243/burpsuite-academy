@@ -19,6 +19,7 @@ tags:
 
 - 🧪 **Laboratorios** — 18 labs, orden oficial + foco de cada uno: [labs/README.md](labs/README.md)
 - 📄 **Cheat sheet** — sintaxis por motor (concat, substring, comentarios, versión, contenidos, errores condicionales, time delays, DNS/OAST…): [cheat-sheet.md](cheat-sheet.md)
+- 🎯 **Wordlist de detección y oráculos** — payloads ordenados de más a menos probable, con variables genéricas (`{OAST}`, `{COND}`…) y `.txt` para Intruder: [wordlists/README.md](wordlists/README.md)
 - 🕶️ **Ofuscación SQL** (bypass de WAF): [[vulnerabilities/019-obfuscacion/sql-obfuscation|sql-obfuscation]]
 
 ## 🗂️ Tipos de SQLi (mapa)
@@ -128,6 +129,13 @@ Exfiltrar (el dato viaja en el **subdominio** de la petición DNS):
 
 ## 🐍 Scripts de ayuda
 
-- Blind por errores condicionales → [blind-sql-conditional-errors.py](blind-sql-conditional-errors.py)
-- Blind por retardos de tiempo → [blind-sql-using-delay.py](blind-sql-using-delay.py)
-- Fuerza bruta de password extraído → [brute-force-password.py](brute-force-password.py)
+Genéricos por método (labs estándar):
+
+- Blind por error condicional → [scripts/blind-conditional-error.py](scripts/blind-conditional-error.py)
+- Blind por retardo de tiempo → [scripts/blind-time-delay.py](scripts/blind-time-delay.py)
+- Blind booleano + fuerza bruta → [scripts/blind-boolean-bruteforce.py](scripts/blind-boolean-bruteforce.py)
+
+Del examen de práctica (multihilo, adaptados al target del examen):
+
+- Error condicional (multihilo) → [scripts/examen/blind-conditional-error.py](scripts/examen/blind-conditional-error.py)
+- Retardo de tiempo (multihilo) → [scripts/examen/blind-time-delay.py](scripts/examen/blind-time-delay.py)

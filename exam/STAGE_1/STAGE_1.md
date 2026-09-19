@@ -44,6 +44,10 @@
 | 7   | 🔑 **Authentication**               | 🚩 Error de login distinto por usuario · rate limit en login · checkbox "stay logged in"                                                                     | [[exam/to-do-list/authentication\|Qué probar]]                                                                                                              |
 | 8   | 🕸️ **GraphQL (alias brute force)** | 🚩 El **login es una mutation GraphQL** con rate limit → batcheás cientos de intentos con **alias** en 1 request                                             | [[exam/to-do-list/graphql\|Qué probar]] (crackear `carlos`) · [lab](https://portswigger.net/web-security/graphql/lab-graphql-brute-force-protection-bypass) |
 
+> [!tip] Por qué parecía **Web Cache Poisoning** (filas 4 y 5), no solo Host Header injection
+> Poder inyectar el `Host`/`X-Forwarded-Host` **no alcanza** para creer que es cache poisoning. Lo que lo hacía *evidente* era que la respuesta devolvía un **HTML con un `<script src>` apuntando a mi host malicioso**: el `Host` reflejado terminaba dentro de un `<script>` **cacheable**. Si esa respuesta envenenada se sirve a otros usuarios, se vuelve XSS/robo de sesión vía caché.
+> **El detonante real no es la inyección en sí, sino la reflexión del host dentro de un `<script src>`** → ahí se confirma el camino *host header → cache poisoning → JS*. Sin esa reflexión en `<script>`, la inyección de Host suele quedar en *reset poisoning* (fila 5), no en cache poisoning.
+
 ### 🔻 Menos relevante en Stage 1
 
 | Vulnerabilidad | 🚩 Señal detonante | Qué probar |

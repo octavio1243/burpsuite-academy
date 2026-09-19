@@ -31,7 +31,7 @@ Cuando la condición acierta el char, vuelve "Welcome back" → registrás la le
 
 ## Verificación
 - Reconstruís la contraseña del **administrator** char a char, te logueás y resolvés el lab.
-- Automatizalo con [[vulnerabilities/001-sql-injection/blind-sql-conditional-errors.py|el script blind]] o con Intruder (cluster bomb: posición × charset).
+- Automatizalo con [[vulnerabilities/001-sql-injection/scripts/blind-conditional-error.py|el script blind]] o con Intruder (cluster bomb: posición × charset).
 
 ## Detalles que se pasan por alto
 - Si **no hay** diferencia booleana visible, escalá el oráculo en orden: **error condicional** → **tiempo** (`pg_sleep`) → **OOB / Collaborator**. Mismo patrón `SUBSTRING`, distinto canal.
