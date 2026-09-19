@@ -60,6 +60,9 @@ desktop.ini
 # ===== Postmortem del examen (local, no versionar) =====
 exam/postmortem/
 
+# ===== Red herrings / lista de último recurso (local, no versionar) =====
+exam/red-herrings.md
+
 # ===== sqlmap wrapper (salida de corridas y requests de Burp) =====
 # Carpeta de salida que genera sqlmap_docker_detect.py
 sqlmap-output/
