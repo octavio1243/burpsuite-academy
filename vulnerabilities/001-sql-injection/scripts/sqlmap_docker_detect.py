@@ -7,7 +7,9 @@ Edit the CONFIG block below, drop request.req in this folder, then:
 """
 
 import argparse
+import base64
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -15,8 +17,8 @@ import sys
 # ============================ CONFIG (edit) ============================
 REQUEST_FILE = "request.req"   # raw request from Burp, in the current folder
 TARGET_URL   = ""              # optional: use a URL instead of REQUEST_FILE
-PARAMS       = []              # only test these, e.g. ["TrackingId", "username"]
-DBMS         = ["postgresql"]  # motors to try; e.g. ["postgresql", "mysql"]
+PARAMS       = ["q"]              # only test these, e.g. ["TrackingId", "username"]
+DBMS         = ["postgresql", "mysql"]  # motors to try; e.g. ["postgresql", "mysql"]
 FORCE_HTTPS  = True            # BSCP targets are HTTPS
 BURP_HOST    = "127.0.0.1"
 BURP_PORT    = "8080"
@@ -36,6 +38,7 @@ IMAGE        = "parrotsec/sqlmap"
 # SCOPE is cumulative: COOKIE also covers URL_BODY, HEADER covers everything.
 SCOPE_TO_LEVEL = {"URL_BODY": 1, "COOKIE": 2, "HEADER": 3}
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CONTAINER_TO_HOST = "host.docker.internal"
 LOCAL_ALIASES = {"127.0.0.1", "localhost", "0.0.0.0", "::1"}
 OUTPUT_DIRNAME = "sqlmap-output"
@@ -74,20 +77,57 @@ def resolve_proxy_host(host: str) -> str:
     return host
 
 
+def prepare_raw_request(path):
+    """Return a path to a RAW HTTP request usable by sqlmap -r.
+
+    If `path` is a Burp XML export ("Save item"), extract the first request
+    (base64 or plain) and write it as a raw .req next to it. Otherwise return
+    `path` unchanged.
+    """
+    with open(path, "rb") as fh:
+        head = fh.read(4096).lstrip()
+    if not (head.startswith(b"<?xml") or b"<request base64" in head):
+        return path  # already a raw request
+
+    text = open(path, encoding="utf-8", errors="replace").read()
+    m = re.search(r'<request base64="(true|false)">'
+                  r'<!\[CDATA\[(.*?)\]\]></request>', text, re.S)
+    if not m:
+        die(f"'{os.path.basename(path)}' looks like Burp XML but no <request> "
+            "found. Export with right-click -> Copy to file (raw request).")
+    if len(re.findall(r"<request base64=", text)) > 1:
+        print("[!] Multiple items in the export; using the first one.")
+
+    encoded, body = m.group(1), m.group(2)
+    raw = base64.b64decode(body) if encoded == "true" else body.encode("utf-8")
+
+    raw_path = os.path.join(os.path.dirname(path),
+                            os.path.basename(path) + ".raw.req")
+    with open(raw_path, "wb") as fh:
+        fh.write(raw)
+    print(f"[*] Burp XML detected; extracted raw request -> "
+          f"{os.path.basename(raw_path)}")
+    return raw_path
+
+
 def build_command(args, dbms):
     target_url = args.url or TARGET_URL
 
     if target_url:
         input_args = ["-u", target_url]
-        work_dir = os.getcwd()
+        work_dir = SCRIPT_DIR
         print(f"[*] Input mode: URL -> {target_url}")
     else:
-        request_path = os.path.abspath(args.request or REQUEST_FILE)
+        name = args.request or REQUEST_FILE
+        # Relative names resolve next to the script, not the current directory.
+        request_path = name if os.path.isabs(name) else os.path.join(SCRIPT_DIR, name)
+        request_path = os.path.abspath(request_path)
         if not os.path.isfile(request_path):
             die(f"Request file not found: {request_path}")
         work_dir = os.path.dirname(request_path)
-        input_args = ["-r", f"/work/{os.path.basename(request_path)}"]
         print(f"[*] Input mode: request file -> {request_path}")
+        raw_path = prepare_raw_request(request_path)
+        input_args = ["-r", f"/work/{os.path.basename(raw_path)}"]
 
     output_host_dir = os.path.join(work_dir, OUTPUT_DIRNAME)
     os.makedirs(output_host_dir, exist_ok=True)
@@ -108,6 +148,9 @@ def build_command(args, dbms):
     sqlmap_args = input_args + [
         "--proxy", proxy_url,
         "--batch",
+        # In Docker sqlmap runs without a TTY; without this it treats the empty
+        # container STDIN as the targets list and silently ignores -r/-u.
+        "--ignore-stdin",
         "--technique", args.technique,
         f"--level={args.level}",
         f"--risk={args.risk}",
