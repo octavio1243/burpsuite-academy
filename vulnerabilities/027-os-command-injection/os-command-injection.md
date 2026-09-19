@@ -18,12 +18,27 @@ tags:
 > [!abstract] La idea en una línea
 > Una feature del server **arma un comando del sistema operativo con datos que vos controlás** (un ping, un `nslookup`, un conversor de imágenes, un mail…) y lo pasa a una **shell**. Si metés un **separador de comandos**, la shell ejecuta **tu** comando pegado al de la app → **RCE** con los privilegios del proceso web.
 
+> [!danger] El error del desarrollador — la causa raíz
+> El bug nace cuando el código del server **construye un comando concatenando tu input y lo entrega a una shell** (`/bin/sh -c "..."`). Estas son las funciones que **invocan una shell** — por eso interpretan metacaracteres — y usarlas con datos del usuario sin sanear es lo que abre la inyección:
+>
+> | Lenguaje | Funciones peligrosas (pasan por shell) | Alternativa segura (sin shell) |
+> | --- | --- | --- |
+> | **PHP** | `system()`, `exec()`, `shell_exec()`, `passthru()`, `popen()`, `` `backticks` `` | `escapeshellarg()` sobre cada arg, o evitar la shell |
+> | **Python** | `os.system()`, `os.popen()`, `subprocess.*(shell=True)` | `subprocess.run([...], shell=False)` (args como lista) |
+> | **Java** | `Runtime.getRuntime().exec("sh -c …")`, `ProcessBuilder` con shell | `new ProcessBuilder(List<String>)` sin shell |
+> | **Node.js** | `child_process.exec()`, `execSync()` | `execFile()` / `spawn()` con array de args |
+> | **Ruby** | `system("… #{x}")`, `` `backticks` ``, `%x[]`, `open("\|…")` | `system(cmd, arg1, arg2)` (forma multi-argumento) |
+> | **Perl / C** | `system()`, `open(FH, "cmd\|")`, `popen()` | `system(LIST)` / no pasar por `/bin/sh` |
+>
+> **El patrón común:** tu dato viaja hasta un `/bin/sh -c "<comando_de_la_app> <tu_input>"`. La shell ve tus metacaracteres (`; & | $()`) como **sintaxis**, no como texto → ejecuta lo tuyo. Si el mismo dato se pasara como **argumento aislado** (array de args, sin shell), la shell nunca lo interpreta y no hay inyección. Toda la explotación de abajo depende de que el server haya cometido este error.
+
 ## 📚 Referencias rápidas
 
 - 🐍 **Ejemplos / PoCs** (del más simple al más ciego, cada uno con su "por qué"):
     - [[vulnerabilities/027-os-command-injection/examples/001-simple-in-band|001 · caso simple (in-band)]] · [[vulnerabilities/027-os-command-injection/examples/002-blind-time-delay|002 · ciego por time delay]]
     - [[vulnerabilities/027-os-command-injection/examples/003-blind-output-redirection|003 · redirección de salida]] · [[vulnerabilities/027-os-command-injection/examples/004-blind-oob-interaction|004 · OOB por DNS]]
     - Exfil: [[vulnerabilities/027-os-command-injection/examples/005-blind-oob-exfil|005 · OOB por DNS ⭐]] · [[vulnerabilities/027-os-command-injection/examples/006-exfil-archivo-completo|006 · archivo entero (POST) ⭐]]
+- 🎯 **Wordlists de detección** (listas para Intruder): separadores + payloads por canal — reflejado (`/etc/passwd` → `root:x:0:0:`), ciego por tiempo, OOB con `{OAST}`: [wordlists/README.md](wordlists/README.md)
 - 🔗 **OAST/Collaborator:** mismo canal que el [[vulnerabilities/007-ssrf/ssrf|SSRF ciego]].
 
 ## 🎯 Cuándo hay command injection (condiciones)
