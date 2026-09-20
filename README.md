@@ -54,3 +54,10 @@ to-do-list/<vuln>  ó  STAGE_x   →   entry point (cómo explotar)
 - **Ver casos y diagramas** → `labs/` y `examples/`.
 
 > **Regla de oro (separación de capas):** `exam/` = *dónde/negocio* · `vulnerabilities/` = *cómo/explotación* · `how-to-work/` = *qué es/teoría*. No se duplican: se enlazan.
+
+## 📚 Referencias externas
+
+- [pawlokk/burp-exam-notes](https://github.com/pawlokk/burp-exam-notes/tree/main) — notas de examen BSCP (bypass de XSS, WebSockets, etc.); fuente de varios payloads y referencias de este vault.
+- [ChrisM-X/PortSwigger-Academy-CheatSheets](https://github.com/ChrisM-X/PortSwigger-Academy-CheatSheets) — cheat sheets por categoría de la PortSwigger Web Security Academy.
+- [DingyShark/BurpSuiteCertifiedPractitioner](https://github.com/DingyShark/BurpSuiteCertifiedPractitioner) — notas y guía de preparación para el BSCP.
+- [botesjuan/Burp-Suite-Certified-Practitioner-Exam-Study](https://github.com/botesjuan/Burp-Suite-Certified-Practitioner-Exam-Study/tree/main) — guía de estudio detallada para el examen BSCP.
