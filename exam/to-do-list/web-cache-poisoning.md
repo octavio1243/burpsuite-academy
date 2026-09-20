@@ -25,14 +25,14 @@ tags:
 
 > **Misma técnica; sólo cambia a quién le robás la sesión.** El "cómo" (detección, vector, Param Miner, explotación) está abajo en **Independiente del stage**.
 
-| Aspecto            | 🟢 Stage 1                                        | 🔴 Stage 2                                                          |
-| ------------------ | ------------------------------------------------- | ------------------------------------------------------------------ |
-| **Objetivo**       | entrar a la cuenta de **una víctima**             | **escalar a admin**                                                |
-| **A quién le pega** | cualquiera que navegue                            | el **admin** (pasa por la home)                                    |
-| **Flag extra**     | hay caché **+ víctimas navegando**                | hay caché **+ el admin navega la home**                            |
-| **Qué hago**       | envenenar home/`.js` → todo visitante recibe mi JS | **lo mismo**, el que cae es el admin                               |
-| **Payload**        | `document.cookie` → mi Collaborator → su sesión   | igual → **sesión del admin**                                       |
-| **Extra**          | —                                                 | **targeting**: si `User-Agent` ∈ `Vary`, replicá el del admin para envenenar **su** copia |
+| Aspecto | 🟢 Stage 1 | 🔴 Stage 2 |
+| --- | --- | --- |
+| **Objetivo** | entrar a la cuenta de **una víctima** | **escalar a admin** |
+| **A quién le pega** | cualquiera que navegue | el **admin** (pasa por la home) |
+| **Flag extra** | hay caché **+ víctimas navegando** | hay caché **+ el admin navega la home** |
+| **Qué hago** | envenenar home/`.js` → todo visitante recibe mi JS | **lo mismo**, el que cae es el admin |
+| **Payload** | `document.cookie` → mi Collaborator → su sesión | igual → **sesión del admin** |
+| **Extra** | — | **targeting**: si `User-Agent` ∈ `Vary`, replicá el del admin para envenenar **su** copia |
 
 ## ♾️ Independiente del stage (el "cómo" — sirve para los dos)
 
@@ -42,12 +42,12 @@ Ver los **headers de caché** del bloque de Flags. Confirmá `miss`→`hit` y, s
 ### 2) Encontrar el input unkeyed (el vector)
 | Input | ¿Unkeyed? | Rol |
 | --- | --- | --- |
-| `X-Forwarded-Host` | Sí (clásico) | **Vector rey** — reflejado en `<script src>`/import → [[vulnerabilities/030-web-cache-poisoning/examples/002-xfh-script-import|002 (script src)]] · breakout en atributo → [[vulnerabilities/030-web-cache-poisoning/examples/001-xfh-breakout-meta-tag|001 (meta)]] |
-| `X-Forwarded-Scheme` / `-Proto` | Suele | **Gatillo** (fuerza redirect) → se combina con XFH → [[vulnerabilities/030-web-cache-poisoning/examples/003-multiples-headers|003]] |
+| `X-Forwarded-Host` | Sí (clásico) | **Vector rey** — reflejado en `<script src>`/import → [[vulnerabilities/030-web-cache-poisoning/examples/002-xfh-script-import\|002 (script src)]] · breakout en atributo → [[vulnerabilities/030-web-cache-poisoning/examples/001-xfh-breakout-meta-tag\|001 (meta)]] |
+| `X-Forwarded-Scheme` / `-Proto` | Suele | **Gatillo** (fuerza redirect) → se combina con XFH → [[vulnerabilities/030-web-cache-poisoning/examples/003-multiples-headers\|003]] |
 | `Cookie` | A veces | Vector solo si esa cookie es unkeyed (lab 2) |
 | `User-Agent` | Casi siempre **keyed** (`Vary`) | No es vector → sirve para **targetear** a la víctima |
-| `utm_content` (param) | Sí | Vector — los CDN lo excluyen a propósito → [[vulnerabilities/030-web-cache-poisoning/examples/008-unkeyed-query-parameter|008]] |
-| **puerto** del `Host` | Sí | Pisa reflexiones (`Location`) → [[vulnerabilities/030-web-cache-poisoning/examples/006-unkeyed-port|006]] · Host reflejado en `Location` → [[vulnerabilities/030-web-cache-poisoning/examples/004-host-header-injection-redirect|004]] |
+| `utm_content` (param) | Sí | Vector — los CDN lo excluyen a propósito → [[vulnerabilities/030-web-cache-poisoning/examples/008-unkeyed-query-parameter\|008]] |
+| **puerto** del `Host` | Sí | Pisa reflexiones (`Location`) → [[vulnerabilities/030-web-cache-poisoning/examples/006-unkeyed-port\|006]] · Host reflejado en `Location` → [[vulnerabilities/030-web-cache-poisoning/examples/004-host-header-injection-redirect\|004]] |
 
 ### 3) Cómo usar Param Miner
 1. Instalar del **BApp Store**.
