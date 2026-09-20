@@ -26,9 +26,9 @@ tags:
 | **Objetivo** | robar cookie / actuar en su sesión | robar cookie del admin / actuar como él |
 
 ## ♾️ Independiente del stage
-- [ ] Grepear sinks → rastrear **source → sink** (DOM Invader).
+- [ ] Grepear sinks → rastrear **source → sink** (DOM Invader). → [[vulnerabilities/025-dom-based/dom-based|entry point]]
 - [ ] **`postMessage`/`addEventListener('message')` sin chequeo de `origin`** → `<iframe>` que hace `postMessage` en `onload` → [[vulnerabilities/025-dom-based/examples/001-web-message-innerhtml|001 · web message → innerHTML]].
-- [ ] **`eval`/`Function`/`setTimeout(str)`** → ejecución directa (reflected DOM).
+- [ ] **`eval`/`Function`/`setTimeout(str)`** → ejecución directa (reflected DOM). → [[vulnerabilities/025-dom-based/sinks|sinks & sources]]
 - [ ] **DOM open-redirect** (`location.href` con param `url`) → robar `token`/`code` en OAuth → [[vulnerabilities/025-dom-based/examples/002-open-redirection-dom|002 · open redirect DOM]].
 - [ ] **Cookie manipulation** (`document.cookie`) → [[vulnerabilities/025-dom-based/examples/003-cookie-manipulation-dom|003 · cookie manipulation]] · **DOM clobbering** (`window.x || {}` + HTML con `id`/`name`) → [[vulnerabilities/025-dom-based/examples/004-dom-clobbering-cid|004 · clobbering + cid]].
 

@@ -21,7 +21,7 @@ tags:
 ## ♾️ Independiente del stage
 - [ ] `../../../../home/carlos/secret` en el parámetro → [[vulnerabilities/010-path-transversal/examples/001-traversal-simple-etc-passwd|001 · traversal simple]].
 - [ ] **Bypass:** ruta **absoluta** ([[vulnerabilities/010-path-transversal/examples/002-bypass-ruta-absoluta|002]]) · `....//` (strip no recursivo → [[vulnerabilities/010-path-transversal/examples/003-bypass-secuencias-strippeadas|003]]) · encoding `%2e` / doble `%252e` · **null byte** `%00.png` ([[vulnerabilities/010-path-transversal/examples/004-bypass-extension-null-byte|004]]) · **prefijo** `/var/www/images/` si valida el inicio.
-- [ ] Orden: directo → absoluto → `....//` → URL/doble URL → UTF-8 overlong → `%00`/prefijo según filtro.
+- [ ] Orden: directo → absoluto → `....//` → URL/doble URL → UTF-8 overlong → `%00`/prefijo según filtro. → [[vulnerabilities/010-path-transversal/path-transversal|entry point]]
 
 ## 🔗 Referencias
 - [[vulnerabilities/010-path-transversal/path-transversal|entry point]] · [[vulnerabilities/010-path-transversal/labs/README|labs]] · [[vulnerabilities/019-obfuscacion/encodings|encodings]]

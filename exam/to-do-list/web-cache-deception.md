@@ -26,7 +26,7 @@ tags:
 
 ## 🎯 En qué stage aparece
 
-> **Deception necesita una víctima que navegue** (le entregás el link y su respuesta queda cacheada). Por eso encaja como **entrega client-side** → normalmente **Stage 2** (escalar a admin), no en el arranque no autenticado. Ver [[bscp-exam-structure]].
+> **Deception necesita una víctima que navegue** (le entregás el link y su respuesta queda cacheada). Por eso encaja como **entrega client-side** → normalmente **Stage 2** (escalar a admin), no en el arranque no autenticado. Ver [[exam/STAGE_2/STAGE_2|Stage 2]].
 
 | Aspecto            | 🔴 Stage 2 (típico)                                              |
 | ------------------ | --------------------------------------------------------------- |

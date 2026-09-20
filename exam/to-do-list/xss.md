@@ -32,9 +32,9 @@ tags:
 **Dónde probar (recon):**
 - [ ] **Reflexión en el buscador** → romper contexto HTML con `<>` (`"><svg onload=...>`). Caso base → [[vulnerabilities/002-xss/examples/001-reflected-stored-basico-exfil-cookie|001]].
 - [ ] **Contexto atributo / string JS** (`<>` encodeados) → breakout con comilla → [[vulnerabilities/002-xss/examples/002-breakout-atributo-string-js|002]].
-- [ ] **Stored en comentarios** → probar también el campo **website/URL** (va a un `href`).
+- [ ] **Stored en comentarios** → probar también el campo **website/URL** (va a un `href`). → [[vulnerabilities/002-xss/examples/001-reflected-stored-basico-exfil-cookie|001]]
 - [ ] **DOM:** `document.write` · `location.search/hash` · `innerHTML` (DOM Invader) → source→sink en [[vulnerabilities/002-xss/examples/003-dom-xss-source-sink|003]].
-- [ ] **jQuery** (¿versión? sinks `$()`, `.html()`, `attr('href')`) · **`ng-app`/AngularJS** (`{{...}}`) · **`eval`** (reflected DOM).
+- [ ] **jQuery** (¿versión? sinks `$()`, `.html()`, `attr('href')`) · **`ng-app`/AngularJS** (`{{...}}`) · **`eval`** (reflected DOM). → [[vulnerabilities/002-xss/examples/003-dom-xss-source-sink|003]]
 
 **Qué hacer con él:**
 - [ ] **Exfiltrar cookies** al exploit server → [[vulnerabilities/002-xss/examples/001-reflected-stored-basico-exfil-cookie|001]] · [[vulnerabilities/002-xss/exfil-payloads.js|exfil-payloads.js]].

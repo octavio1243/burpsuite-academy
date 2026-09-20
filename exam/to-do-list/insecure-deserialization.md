@@ -32,9 +32,9 @@ tags:
 > Es raro (normalmente la deser aparece para RCE en Stage 3), **pero totalmente posible** y **barato**: no necesitás gadget ni herramienta, solo decodificar → editar → re-encodear.
 
 ## ♾️ Independiente del stage
-- [ ] Identificar el formato del objeto serializado.
+- [ ] Identificar el formato del objeto serializado. → [[vulnerabilities/013-insecure_deserialization/insecure-deserialization|entry point]]
 - [ ] **Escalada (Stage 2, barato):** editar atributos/tipos si la lógica lo permite (`admin`, `access_token`, rutas) → 001–002; o **abusar una feature** de la app (apuntar una ruta al archivo víctima y que la borre) → [[vulnerabilities/013-insecure_deserialization/examples/003-usar-funcionalidad-app|003]].
-- [ ] **RCE (Stage 3):** **gadget chain** — **ysoserial** (Java, ej. CommonsCollections) / **phpggc** (PHP) / Marshal (Ruby).
+- [ ] **RCE (Stage 3):** **gadget chain** — **ysoserial** (Java, ej. CommonsCollections) / **phpggc** (PHP) / Marshal (Ruby). → [[vulnerabilities/013-insecure_deserialization/examples/005-java-apache-commons-ysoserial|005 ysoserial]] · [[vulnerabilities/013-insecure_deserialization/examples/006-php-phpggc-symfony|006 phpggc]] · [[vulnerabilities/013-insecure_deserialization/examples/007-ruby-gadget-documentado|007 Marshal]]
 
 ## 🔗 Referencias
 - [[vulnerabilities/013-insecure_deserialization/insecure-deserialization|entry point + tabla maestra]] (lenguaje · codificación · herramienta por lab)

@@ -33,10 +33,10 @@ tags:
 
 ## ♾️ Independiente del stage
 
-- [ ] **Máquina de estados:** interceptá el flujo (login/registro/checkout) y **dropeá/reordená** requests → ¿el server asume un default (admin)?
-- [ ] **Endpoint de doble uso:** quitá params "de seguridad" (`current-password`) y apuntá `username`/`email` a la víctima.
-- [ ] **Email del dominio admin:** registro o cambio de email a `@<dominio-admin>`; probá también **truncado** (emails largos) y parsing raro.
-- [ ] **Client-side controls (Stage 1):** tamperear `price`/`quantity` (negativos, overflow), apilar cupones, saltar el pago.
+- [ ] **Máquina de estados:** interceptá el flujo (login/registro/checkout) y **dropeá/reordená** requests → ¿el server asume un default (admin)? → [[vulnerabilities/015-business-logic/examples/lab-logic-flaws-authentication-bypass-via-flawed-state-machine|state machine]]
+- [ ] **Endpoint de doble uso:** quitá params "de seguridad" (`current-password`) y apuntá `username`/`email` a la víctima. → [[vulnerabilities/015-business-logic/examples/lab-logic-flaws-weak-isolation-on-dual-use-endpoint|weak isolation]]
+- [ ] **Email del dominio admin:** registro o cambio de email a `@<dominio-admin>`; probá también **truncado** (emails largos) y parsing raro. → [[vulnerabilities/015-business-logic/examples/lab-logic-flaws-inconsistent-security-controls|inconsistent controls]] · [[vulnerabilities/015-business-logic/examples/lab-logic-flaws-inconsistent-handling-of-exceptional-input|email truncado]]
+- [ ] **Client-side controls (Stage 1):** tamperear `price`/`quantity` (negativos, overflow), apilar cupones, saltar el pago. → [[vulnerabilities/015-business-logic/business-logic|entry point]]
 
 ## 🔗 Referencias
 

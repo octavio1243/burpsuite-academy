@@ -30,7 +30,7 @@ tags:
 
 - [ ] **Según el motor** (payload en el cheatsheet): RCE → leer el secreto. Plaintext directo (ERB) → [[vulnerabilities/009-server-side-template-injection/examples/001-deteccion-y-rce-erb-plaintext|001]] · motor conocido con doc (FreeMarker) → [[vulnerabilities/009-server-side-template-injection/examples/002-rce-freemarker-usando-documentacion|002]].
 - [ ] **Django / FreeMarker sandbox** → no dan RCE directo → fuga de info (`{% debug %}` → `settings.SECRET_KEY`) o reflection → [[vulnerabilities/009-server-side-template-injection/examples/004-sandbox-fuga-de-info-django|004]].
-- [ ] Ciego → confirmar por **OAST**.
+- [ ] Ciego → confirmar por **OAST**. → [[vulnerabilities/009-server-side-template-injection/server-side-template-injection|entry point]]
 
 ## 🔗 Referencias
 - [[vulnerabilities/009-server-side-template-injection/server-side-template-injection|entry point]] · [[vulnerabilities/009-server-side-template-injection/ssti-cheatsheet|cheatsheet]] · ejemplos [[vulnerabilities/009-server-side-template-injection/examples/001-deteccion-y-rce-erb-plaintext|001]] · [[vulnerabilities/009-server-side-template-injection/examples/002-rce-freemarker-usando-documentacion|002]] · [[vulnerabilities/009-server-side-template-injection/examples/003-identificar-a-ciegas-y-exploit-documentado-handlebars|003]] · [[vulnerabilities/009-server-side-template-injection/examples/004-sandbox-fuga-de-info-django|004]] · [[vulnerabilities/009-server-side-template-injection/labs/README|labs]] · [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection)

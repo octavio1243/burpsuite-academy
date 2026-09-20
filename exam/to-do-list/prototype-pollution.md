@@ -42,8 +42,8 @@ tags:
 
 - [ ] Inyectá una prop **basura** por la source: query `__proto__[foo]=bar` / `__proto__.foo=bar` ; JSON `"__proto__":{"foo":"bar"}`. Confirmá (`Object.prototype.foo` o reflexión). → [[vulnerabilities/020-prototype-pollution/examples/001-sources-y-confirmacion|001 · sources y confirmación]]
 - [ ] **Client-side:** DOM Invader (Burp) → source→sink + "Scan for gadgets". → [[vulnerabilities/020-prototype-pollution/examples/002-client-side-gadget-dom-xss|002 · gadget client-side DOM XSS]]
-- [ ] **Server-side:** si no se refleja, **override no destructivo** (`status`/`json spaces`/`charset` utf-7). **Nunca rompas el server de entrada** (la contaminación persiste toda la vida del proceso Node).
-- [ ] Filtran `__proto__` → `constructor.prototype` ; filtro **no recursivo** → `__pro__proto__to__`.
+- [ ] **Server-side:** si no se refleja, **override no destructivo** (`status`/`json spaces`/`charset` utf-7). **Nunca rompas el server de entrada** (la contaminación persiste toda la vida del proceso Node). → [[vulnerabilities/020-prototype-pollution/examples/003-server-side-deteccion-a-ciegas|003]]
+- [ ] Filtran `__proto__` → `constructor.prototype` ; filtro **no recursivo** → `__pro__proto__to__`. → [[vulnerabilities/020-prototype-pollution/examples/005-bypass-constructor-y-sanitizacion|005]]
 
 ## 🔗 Referencias
 

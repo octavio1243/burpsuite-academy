@@ -44,7 +44,7 @@ tags:
 
 **Reset / cambio de password:**
 - [ ] **Lógica rota (Stage 1):** en el `POST /forgot-password`, **borrá el valor del `temp-forgot-password-token`** (o el param entero) y cambiá `username` a la víctima → si el server no valida el token, la password se resetea igual. → [[vulnerabilities/029-authentication/examples/004-password-reset-logica-rota|ejemplo 004]] · [Password reset broken logic](https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-broken-logic).
-- [ ] **Reset poisoning:** en el `POST /forgot-password` inyectá tu host (`TU-collab`) para que el link del mail apunte a vos → el token de la víctima te llega. Probá estos headers (uno por uno, y también combinados):
+- [ ] **Reset poisoning:** en el `POST /forgot-password` inyectá tu host (`TU-collab`) para que el link del mail apunte a vos → el token de la víctima te llega. Probá estos headers (uno por uno, y también combinados): → [[vulnerabilities/016-host-header-injection/examples/002-password-reset-poisoning|host header · 002]]
 	- `X-Forwarded-Host: TU-collab` (el clásico, vía middleware).
 	- `X-Forwarded-For: TU-collab` (por si el back arma el link desde este).
 	- `X-Host: TU-collab` (variante que respetan algunos frameworks).

@@ -14,7 +14,7 @@ tags:
 ## 🚩 Flags
 
 > [!danger] 🚩 ¿Está?
-> Extensión **HTTP Request Smuggler** → *smuggle probe*. Orden: **CL.TE primero (no contamina), TE.CL después**. Preferí detección **diferencial (404)** al timing → [[vulnerabilities/008-http_smuggling/http-smuggling#🧪-cómo-detectarlo|cómo detectar]].
+> Extensión **HTTP Request Smuggler** → *smuggle probe*. Orden: **CL.TE primero (no contamina), TE.CL después**. Preferí detección **diferencial (404)** al timing → [[vulnerabilities/008-http_smuggling/http-smuggling#🧪 Cómo detectarlo|cómo detectar]].
 
 ## 🎯 Por stage
 
@@ -24,7 +24,7 @@ tags:
 | **Objetivo** | robar sesión/datos del próximo user, o envenenar caché | robar cookie del admin, deducir header de admin, o entrar directo a `/admin` |
 
 ## ♾️ Independiente del stage
-- [ ] **Robar `/my-account` del próximo** → colás para capturar su request / recibir su respuesta.
+- [ ] **Robar `/my-account` del próximo** → colás para capturar su request / recibir su respuesta. → [[vulnerabilities/008-http_smuggling/examples/007-response-queue-poisoning|007]]
 - [ ] **XSS reflejado colado** (ej. `User-Agent`) → cae en la próxima víctima → [[vulnerabilities/008-http_smuggling/labs/README|lab 10]].
 - [ ] **Reveal front-end rewriting** → deducí qué header agrega el front (IP interna, rol) y **replicalo** para ser admin → [[vulnerabilities/008-http_smuggling/labs/README|lab 8]].
 - [ ] **Entrar directo a `/admin`** contrabandeando la 2ª petición → [[vulnerabilities/008-http_smuggling/examples/001-cl-te|CL.TE]] / [[vulnerabilities/008-http_smuggling/examples/002-te-cl|TE.CL]] · si ambos filtran `TE`, **ofuscá el header** → [[vulnerabilities/008-http_smuggling/examples/003-te-te|TE.TE]].

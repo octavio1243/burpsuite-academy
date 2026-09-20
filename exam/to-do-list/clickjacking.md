@@ -24,7 +24,7 @@ tags:
 - Clic ciego del admin sobre un botón con estado → cambiar su email → reset → tu bandeja.
 
 ## ♾️ Independiente del stage
-- [ ] Iframe del target casi transparente (`opacity` baja) + `<div>` señuelo sobre el botón (alineá con `0.1`, entregá con `~0.0001`).
+- [ ] Iframe del target casi transparente (`opacity` baja) + `<div>` señuelo sobre el botón (alineá con `0.1`, entregá con `~0.0001`). → [[vulnerabilities/004-clickjacking/examples/prefill-email-grid-overlay|prefill + grilla]]
 - [ ] **Prellená** inputs por query params; si hay **frame buster** → `sandbox="allow-forms"`. Con **grilla de señuelos** que tapiza la pantalla → [[vulnerabilities/004-clickjacking/examples/prefill-email-grid-overlay|prefill + grilla]].
 - [ ] **¿No sabés la resolución del admin?** beacon `<img>` con `screen`/`innerWidth`/`dpr` al Collaborator → recalculá `top`/`left` → [[vulnerabilities/004-clickjacking/clickjacking#6) Beacon de resolución/layout (para alinear a ciegas)|PoC beacon]].
 - [ ] Señuelos típicos: `Delete account`(+`Yes` multistep) · `Update email` · `Submit feedback` (si dispara DOM XSS). El label real lo ves **registrando tu cuenta**. Multistep (dos clics + beacon de layout) → [[vulnerabilities/004-clickjacking/examples/multistep-delete-account|multistep delete]].

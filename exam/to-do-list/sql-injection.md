@@ -37,7 +37,7 @@ tags:
 
 ## 🟠 Stage 2 — escalar a admin
 
-- [ ] **Buscador autenticado:** **UNION** saca `password`/`roleId` del admin, o **UPDATE / stacked** para subir tu propio `roleId`.
+- [ ] **Buscador autenticado:** **UNION** saca `password`/`roleId` del admin, o **UPDATE / stacked** para subir tu propio `roleId`. → [[vulnerabilities/001-sql-injection/examples/002-union-exfil-credenciales|002]]
 - [ ] **Cookie `TrackingId` de tu sesión:** blind para leer/mutar datos de otros usuarios. Si la cookie es un **objeto serializado** → [[exam/to-do-list/insecure-deserialization|deserialización]] (hay gadget que encadena deser→SQLi).
 - [ ] **Vecino del login:** si conseguiste creds pero no admin, revisá [[exam/to-do-list/authentication|auth]] / [[exam/to-do-list/jwt|JWT]] para forjar rol o sesión.
 
@@ -56,7 +56,7 @@ tags:
 
 ## ♾️ Independiente del stage
 
-- [ ] **Detección:** `'` → error/cambio; `''` normaliza; `OR 1=1`.
+- [ ] **Detección:** `'` → error/cambio; `''` normaliza; `OR 1=1`. → [[vulnerabilities/001-sql-injection/cheat-sheet|cheat sheet]]
 - [ ] **In-band:** `?category=` → WHERE / **UNION** (nº de columnas → columna texto → datos de otras tablas). → [[vulnerabilities/001-sql-injection/examples/002-union-exfil-credenciales|002]]
 - [ ] **Login bypass:** `administrator'--`. → [[vulnerabilities/001-sql-injection/examples/001-login-bypass|001]]
 - [ ] **Blind:** condicional (respuesta true/false), **error-based**, **time-based** (`SLEEP`/`pg_sleep`/`WAITFOR`), o **OOB** si no refleja. → [[vulnerabilities/001-sql-injection/examples/003-blind-boolean-cookie|003]]
