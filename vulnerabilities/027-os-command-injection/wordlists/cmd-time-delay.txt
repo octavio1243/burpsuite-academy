@@ -18,3 +18,8 @@ $(sleep 10)
 1||ping -c 10 127.0.0.1||
 ||ping -n 10 127.0.0.1||
 & ping -n 10 127.0.0.1 &
+1;sleep 10 #
+1|sleep 10 #
+1||sleep 10 #
+1&sleep 10 #
+1&&sleep 10 #
