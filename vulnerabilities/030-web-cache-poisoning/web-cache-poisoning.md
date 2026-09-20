@@ -55,10 +55,31 @@ El vehículo **siempre es ejecución de JS** (nunca CSS/imagen como fin). Lo que
 6. **Confirmá el hit** — reenviá la request "limpia" y verificá que vuelve tu respuesta envenenada (`X-Cache: hit`).
 
 ### 🧨 El cache buster (probar sin esperar ni ensuciar)
-Si el input es unkeyed, cambiarlo **no genera una entrada nueva** → el caché te da la copia vieja. Necesitás algo que **sí** cambie la key para testear fresco (detalle → [[vulnerabilities/030-web-cache-poisoning/examples/007-unkeyed-query-string-cachebuster|007]]):
-- **Headers keyed inofensivos:** `Accept-Encoding: gzip, deflate, cachebuster` · `Accept: */*, text/cachebuster` · `Cookie: cachebuster=1` · `Origin: https://cachebuster.vulnerable-website.com`.
-- **Param Miner:** opciones *Add static/dynamic cache buster* e *Include cache busters in headers*.
-- ⚠️ El buster es **para vos**; al atacar hay que **quitarlo** para pegarle a la key real.
+
+**Qué es:** un valor **único e inofensivo** que agregás a la request **solo para vos**. Su único fin es **forzar una entrada de caché nueva** en cada intento, para ver tu reflejo **fresco** sin pisar la copia real que reciben las víctimas.
+
+**Por qué hace falta:** el input que querés envenenar es **unkeyed** → cambiarlo NO cambia la cache key → el caché te devuelve la **copia vieja** y no ves tu payload. La jugada es mover algo que **SÍ es keyed** (entra en la key) → el caché lo trata como **recurso distinto** → te da una respuesta **sin cachear** donde sí ves tu reflejo. Detalle → [[vulnerabilities/030-web-cache-poisoning/examples/007-unkeyed-query-string-cachebuster|007]].
+
+> 🟡 ==Resaltado== = el valor que **bumpeás** en cada intento (`1`→`2`→…); el resto es fijo.
+
+**a) Por query param** — el más rápido (el query casi siempre es keyed → nueva key al toque):
+> `GET /?`==`cb=1`==` HTTP/1.1`
+> `GET /?`==`c=b`==` HTTP/1.1`
+>
+> ⚠️ NO sirve si el **query entero es unkeyed** ([[vulnerabilities/030-web-cache-poisoning/examples/007-unkeyed-query-string-cachebuster|007]]) → ahí busteás por header o por parseo.
+
+**b) Por header keyed inofensivo** — cada valor único = entrada nueva:
+> `Accept-Encoding: gzip, deflate, `==`cachebuster1`==
+> `Accept: */*, text/`==`cachebuster1`==
+> `Cookie: cachebuster=`==`1`==
+> `Origin: https://`==`cachebuster1`==`.vulnerable-website.com`
+
+**c) Automático (Param Miner):** activá *Add static/dynamic cache buster* e *Include cache busters in headers* → mete el buster solo en cada request.
+
+**d) Por discrepancia de parseo** — sirve de buster **y** de entrega bajo una URL real: Apache `GET //` · Nginx `GET /%2F` · PHP `GET /index.php/xyz` · .NET `GET /(A(xyz)/`.
+
+> [!warning] El buster es TUYO
+> Lo usás **mientras probás**. Cuando el payload ya funciona, **lo quitás** y mandás contra la key real (`GET /`) para envenenar lo que **sí** piden las víctimas.
 
 ### 🔀 Discrepancias caché vs backend (parseo)
 Cuando el caché y el origen **interpretan distinto** la misma request, colás el payload sin que entre en la key:

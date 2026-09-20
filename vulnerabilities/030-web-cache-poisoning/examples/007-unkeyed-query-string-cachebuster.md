@@ -32,11 +32,15 @@ El **query string completo** queda **fuera** de la cache key (solo se keyea `hos
 
 ## Cache busters (para testear limpio)
 
+> Catálogo general (params + headers + parseo) → [[vulnerabilities/030-web-cache-poisoning/web-cache-poisoning#🧨 El cache buster (probar sin esperar ni ensuciar)|entry point]].
+> 🟡 ==Resaltado== = el valor que **bumpeás** en cada intento (`1`→`2`→…).
+> ⚠️ **En este lab el query NO sirve de buster** (`?cb=1`): el query **entero es unkeyed** → no cambia la key. Acá busteás por **header** o por **parseo del path**.
+
 **1) Headers keyed inofensivos** (cada valor único = entrada nueva):
-> `Accept-Encoding: gzip, deflate, `==`cachebuster`==
-> `Accept: */*, text/`==`cachebuster`==
+> `Accept-Encoding: gzip, deflate, `==`cachebuster1`==
+> `Accept: */*, text/`==`cachebuster1`==
 > `Cookie: cachebuster=`==`1`==
-> `Origin: https://`==`cachebuster`==`.vulnerable-website.com`
+> `Origin: https://`==`cachebuster1`==`.vulnerable-website.com`
 
 **2) Param Miner** → activá **"Add static/dynamic cache buster"** e **"Include cache busters in headers"** (mete el buster solo en cada request).
 
