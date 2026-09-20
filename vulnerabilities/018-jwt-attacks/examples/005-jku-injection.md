@@ -58,6 +58,45 @@ sequenceDiagram
 3. En el header del JWT: `"jku":"https://TU-EXPLOIT-SERVER/exploit"`, `"kid":"EL-KID-DE-TU-CLAVE"`, payload `"sub":"administrator"`.
 4. **Sign** con tu RSA (RS256) → enviá → `/admin` → borrar `carlos`.
 
+## 🔑 Cómo luce el JWK público (para reconocerlo en la desesperación)
+
+En JWT Editor: pestaña **Keys** → clic derecho en tu RSA → **Copy Public Key as JWK**. Lo que copiás luce así (un objeto JSON de una sola clave):
+
+```json
+{
+    "kty": "RSA",
+    "e": "AQAB",
+    "kid": "8f3d1b2a-4c5e-6f7a-8b9c-0d1e2f3a4b5c",
+    "n": "wJz8Hh...ESTE-CAMPO-ES-LARGUÍSIMO-cientos-de-chars-base64url...Qk9Y"
+}
+```
+
+> [!tip] ✅ Cómo sabés que es la PÚBLICA (y no la privada)
+> La pública tiene **solo estos campos**: `kty`, `e`, `kid`, `n` (a veces `alg`). Nada más.
+> - `n` = módulo (larguísimo). `e` = exponente, casi siempre `"AQAB"`.
+> - **Si ves un campo `"d"`, ES LA PRIVADA → NO la subas.** La privada trae además `d`, `p`, `q`, `dp`, `dq`, `qi`. Ese `d` es tu secreto: subirlo al exploit server es regalar tu clave.
+
+> [!danger] ⚠️ El error clásico
+> Copiar **Copy Key** (que incluye la privada con `d`) en vez de **Copy Public Key as JWK**. Si tu JSON del exploit server tiene `"d"`, estás sirviendo la privada. Debe tener solo `kty`/`e`/`kid`/`n`.
+
+Y así va **envuelto en el JWKS** que servís en el exploit server (fijate el `keys[]` que lo rodea):
+
+```json
+{
+    "keys": [
+        {
+            "kty": "RSA",
+            "e": "AQAB",
+            "kid": "8f3d1b2a-4c5e-6f7a-8b9c-0d1e2f3a4b5c",
+            "n": "wJz8Hh...MISMO-n-DE-ARRIBA...Qk9Y"
+        }
+    ]
+}
+```
+
+> [!note] 🔗 El `kid` es el hilo que une todo
+> El `kid` de este JWK (dentro de `keys[]`) tiene que ser **idéntico** al `kid` que ponés en el header del JWT. Es lo que hace que el server, entre todas las claves del `keys[]`, elija **la tuya**.
+
 ## Verificación
 - En el access log del exploit server ves el `GET` del server a tu `/jwks.json`, y el token valida.
 
