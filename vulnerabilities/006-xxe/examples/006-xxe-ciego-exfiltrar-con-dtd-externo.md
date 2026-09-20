@@ -49,6 +49,10 @@ Content-Type: application/xml
 ## Verificación
 Burp → **Collaborator** → **Poll now** → la request **HTTP** trae el archivo en `?x=…`.
 
+> [!warning] El error de parsing es NORMAL
+> La respuesta del target casi siempre devuelve un **error de parsing XML** (p. ej. "XML parsing error" o un 500). **No te preocupes:** el parser procesa las entidades del DTD externo **antes** de romperse con el resto del documento, así que la exfiltración **ya se disparó**. El canal OOB es lo que confirma el éxito, no la respuesta HTTP.
+> **Regla:** ignorá el cuerpo de la respuesta → mirá siempre el **Collaborator**.
+
 ## Detalles que se pasan por alto
 - **`&#x25;` obligatorio** (es `%`). Sin escaparlo, el DTD no parsea.
 - **El archivo NO debe tener saltos de línea** para exfil por HTTP: `/etc/hostname` (1 línea) va; **`/etc/passwd` rompe la URL** → pasá a error-based ([[vulnerabilities/006-xxe/examples/007-xxe-ciego-error-based-con-dtd-externo|007]]) o variante **FTP** (`ftp://`).
