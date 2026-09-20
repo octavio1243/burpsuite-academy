@@ -63,6 +63,10 @@ exam/postmortem/
 # ===== Red herrings / lista de último recurso (local, no versionar) =====
 exam/red-herrings.md
 
+# ===== JWT kid-traversal: JWTs forjados en masa (regenerables) =====
+# Carpeta de salida de forge_kid_traversal_jwts.py: cientos de tokens vivos, se regeneran
+vulnerabilities/018-jwt-attacks/scripts/out/
+
 # ===== sqlmap wrapper (salida de corridas y requests de Burp) =====
 # Carpeta de salida que genera sqlmap_docker_detect.py
 sqlmap-output/

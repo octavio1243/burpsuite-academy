@@ -19,6 +19,7 @@ tags:
 
 - 🧪 **Laboratorios** — 25 labs (Apprentice + Practitioner), orden oficial + foco de cada uno: [labs/README.md](labs/README.md)
 - 📄 **Cheat sheet** — vectores por contexto, event handlers, tags, polyglots, exfiltración: [cheat-sheet.md](cheat-sheet.md)
+- 🚧 **Bypass de filtros (por limitación)** — "me filtran X → qué probar" para llegar a `alert(1)`: [bypass-filters.md](bypass-filters.md)
 - 🕶️ **Ofuscación / bypass de filtros** (sin `()`, `\xNN`, sin keywords…): [[vulnerabilities/019-obfuscacion/xss-obfuscation|xss-obfuscation]]
 - 🖼️ **Entrega vía iframe** (DOM XSS por `hashchange`, etc.): [ejemplo-iframe.html](ejemplo-iframe.html)
 

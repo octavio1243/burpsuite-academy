@@ -51,6 +51,13 @@ sequenceDiagram
 3. payload: `"sub":"administrator"` → **Sign** (HS256) con esa Symmetric Key.
 4. Enviá → `/admin` → borrar `carlos`.
 
+> [!tip] 🤖 ¿No sabés cuántos `../` hacen falta? Automatizalo
+> Script → `vulnerabilities/018-jwt-attacks/scripts/forge_kid_traversal_jwts.py`. Sube carpetas solo hasta la [[vulnerabilities/010-path-transversal/wordlists/README|wordlist de path traversal]], apunta cada profundidad a `/dev/null` y firma HS256 con las dos claves candidatas (`AA==` y vacía). Genera un `.txt` con **todos** los JWT listos para Burp Intruder.
+> - `python forge_kid_traversal_jwts.py` → payload mínimo `sub=administrator`.
+> - **Pisar TU JWT** (conserva `exp`/`iss`/roles y solo cambia `sub`): pegá el token entero con `--jwt "<token>"`, **o** pegá solo el body con `--payload '{"sub":"wiener","exp":...}'` (o la variable `PAYLOAD_JSON` arriba del script).
+> - `--no-sub-override` usa el body **exacto** que pegaste, sin tocar `sub`.
+> - Salida en `scripts/out/` (gitignoreada). Se **regenera** cuando quieras; no la versionás.
+
 ## Verificación
 - El token firmado con la clave "nula" valida y entrás a `/admin`.
 
