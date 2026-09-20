@@ -13,7 +13,7 @@ tags:
 > Lab: [JWT authentication bypass via algorithm confusion](https://portswigger.net/web-security/jwt/algorithm-confusion/lab-jwt-authentication-bypass-via-algorithm-confusion) · Expert · Teoría → [[how-to-work/symmetric-vs-asymmetric|simétrico vs asimétrico]] · [[vulnerabilities/018-jwt-attacks/jwt-attacks|entry point]]
 
 ## Qué muestra
-El server firma con **RS256 (asimétrico)** pero **no fija el algoritmo** al verificar. Cambiás `alg` a **HS256** y firmás usando la **clave pública del server como secreto HMAC**.
+El server firma con **RS256 (asimétrico)** pero **no fija el algoritmo** al verificar. Cambiás `alg` a **HS256** y firmás usando la **clave pública del server como secreto HMAC**. La pública se baja de `/jwks.json` (o `/.well-known/jwks.json`).
 
 ## JWT (original → modificado)
 
@@ -34,7 +34,7 @@ sequenceDiagram
     autonumber
     participant At as Atacante
     participant S as Server con JWT
-    At->>S: GET /jwks.json
+    At->>S: GET /jwks.json  (o /.well-known/jwks.json)
     S-->>At: clave pública (JWK)
     Note over At: pública → PEM → Base64<br/>Symmetric Key k=Base64(PEM)
     Note over At: alg RS256 → HS256<br/>sub → administrator, Sign con esa clave
@@ -45,7 +45,7 @@ sequenceDiagram
 
 ## Por qué funciona
 - El server debería exigir el algoritmo esperado (RS256). Al aceptar HS256, **usa la clave pública como secreto**.
-- La pública **es conocida** (`/jwks.json`), así que vos podés calcular el mismo HMAC → firma válida.
+- La pública **es conocida** (`/jwks.json` o `/.well-known/jwks.json`), así que vos podés calcular el mismo HMAC → firma válida.
 
 ## Cómo explotarlo (paso a paso)
 1. Bajá la pública: `GET /jwks.json` (o `/.well-known/jwks.json`).

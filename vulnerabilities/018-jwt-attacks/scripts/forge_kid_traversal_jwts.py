@@ -44,7 +44,7 @@ PAYLOAD_JSON = r"""
 
 # Opcion B: pega tu JWT COMPLETO (header.payload.signature); se le extrae
 #           el body y se re-firma. Si pegaste PAYLOAD_JSON, este se ignora.
-JWT_ACTUAL = ""
+JWT_ACTUAL = "eyJraWQiOiJmNDQzMGY4Yi01YWVkLTQwMGMtYTBlOC02MGU1YTk4NjgzMDQiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJwb3J0c3dpZ2dlciIsImV4cCI6MTc4OTg5MjU0OCwic3ViIjoid2llbmVyIn0.a4QzmuSQG_C8PXNa9mP56y2uS3d8m6fDe2j3K4Zlt2E"
 # ==========================================================
 
 # Nombre de la wordlist y su ruta relativa dentro del repo
