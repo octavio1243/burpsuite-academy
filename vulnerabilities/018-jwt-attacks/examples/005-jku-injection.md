@@ -17,15 +17,15 @@ El server descarga la clave de verificación desde la **URL del header `jku`** s
 
 ## JWT (original → modificado)
 
-Las 3 partes decodificadas. <mark style="background:#a5d6a7;color:#111">🎯 objetivo</mark> = lo que querés · <mark style="background:#ffcc80;color:#111">⚙️ consecuencia</mark> = lo que cambia para que valide.
+Las 3 partes decodificadas. <mark style="background:#a5d6a7;color:#111">🎯 objetivo</mark> = lo que querés · <mark style="background:#ffcc80;color:#111">⚙️ consecuencia</mark> = lo que cambia para que valide · <mark style="background:#90caf9;color:#111">🔗 kid</mark> = **idéntico** en el header del JWT y en tu JWKS.
 
 | Parte | Original | Modificado |
 | --- | --- | --- |
-| **header** | { "kid": "…", "alg": "RS256" } | { "kid": "<tu-kid>", "alg": "RS256", <mark style="background:#ffcc80;color:#111">"jku": "https://TU-EXPLOIT-SERVER/exploit"</mark> } |
+| **header** | { "kid": "…", "alg": "RS256" } | { "kid": <mark style="background:#90caf9;color:#111">"&lt;tu-kid&gt;"</mark>, "alg": "RS256", <mark style="background:#ffcc80;color:#111">"jku": "https://TU-EXPLOIT-SERVER/exploit"</mark> } |
 | **payload** | { "sub": "wiener" } | { "sub": <mark style="background:#a5d6a7;color:#111">"administrator"</mark> } |
 | **signature** | RSA (clave privada del server) | <mark style="background:#ffcc80;color:#111">re-firmada con TU clave privada</mark> (el server baja tu JWKS del `jku`) |
 
-> **🎯 Objetivo:** `sub → administrator`. **⚙️ Consecuencia:** apuntar `jku` a tu JWKS y **re-firmar** con tu clave privada (el `kid` debe coincidir con el de tu clave).
+> **🎯 Objetivo:** `sub → administrator`. **⚙️ Consecuencia:** apuntar `jku` a tu JWKS y **re-firmar** con tu clave privada (el <mark style="background:#90caf9;color:#111">kid</mark> debe coincidir con el de tu clave).
 
 ## Diagrama
 
@@ -47,7 +47,7 @@ sequenceDiagram
 
 ## Por qué funciona
 - El server confía en que el `jku` apunte a un JWKS legítimo, pero **no valida el dominio** → lo mandás a tu server.
-- El `kid` del token elige tu clave dentro del `keys[]` que servís.
+- El <mark style="background:#90caf9;color:#111">kid</mark> del token elige tu clave dentro del `keys[]` que servís.
 
 ## Cómo explotarlo (paso a paso)
 1. **New RSA Key** en JWT Editor. Copiá su **JWK público**.
@@ -55,7 +55,7 @@ sequenceDiagram
    ```json
    { "keys": [ { PEGÁ_ACÁ_TU_JWK_PÚBLICO } ] }
    ```
-3. En el header del JWT: `"jku":"https://TU-EXPLOIT-SERVER/exploit"`, `"kid":"EL-KID-DE-TU-CLAVE"`, payload `"sub":"administrator"`.
+3. En el header del JWT: `"jku":"https://TU-EXPLOIT-SERVER/exploit"`, <mark style="background:#90caf9;color:#111">"kid":"EL-KID-DE-TU-CLAVE"</mark>, payload `"sub":"administrator"`.
 4. **Sign** con tu RSA (RS256) → enviá → `/admin` → borrar `carlos`.
 
 ## 🔑 Cómo luce el JWK público (para reconocerlo en la desesperación)
@@ -66,7 +66,7 @@ En JWT Editor: pestaña **Keys** → clic derecho en tu RSA → **Copy Public Ke
 {
     "kty": "RSA",
     "e": "AQAB",
-    "kid": "8f3d1b2a-4c5e-6f7a-8b9c-0d1e2f3a4b5c",
+    "kid": "e55f6fb2-bb1a-45e1-bedb-e97eb89cd04f",
     "n": "wJz8Hh...ESTE-CAMPO-ES-LARGUÍSIMO-cientos-de-chars-base64url...Qk9Y"
 }
 ```
@@ -87,7 +87,7 @@ Y así va **envuelto en el JWKS** que servís en el exploit server (fijate el `k
         {
             "kty": "RSA",
             "e": "AQAB",
-            "kid": "8f3d1b2a-4c5e-6f7a-8b9c-0d1e2f3a4b5c",
+            "kid": "e55f6fb2-bb1a-45e1-bedb-e97eb89cd04f",
             "n": "wJz8Hh...MISMO-n-DE-ARRIBA...Qk9Y"
         }
     ]
@@ -95,11 +95,11 @@ Y así va **envuelto en el JWKS** que servís en el exploit server (fijate el `k
 ```
 
 > [!note] 🔗 El `kid` es el hilo que une todo
-> El `kid` de este JWK (dentro de `keys[]`) tiene que ser **idéntico** al `kid` que ponés en el header del JWT. Es lo que hace que el server, entre todas las claves del `keys[]`, elija **la tuya**.
+> El <mark style="background:#90caf9;color:#111">kid</mark> de este JWK (dentro de `keys[]`) tiene que ser **idéntico** al <mark style="background:#90caf9;color:#111">kid</mark> que ponés en el header del JWT. Es lo que hace que el server, entre todas las claves del `keys[]`, elija **la tuya**.
 
 ## Verificación
 - En el access log del exploit server ves el `GET` del server a tu `/jwks.json`, y el token valida.
 
 ## Detalles que se pasan por alto
-- El `kid` del token y el `kid` de tu clave en el JWKS **deben coincidir**.
+- El <mark style="background:#90caf9;color:#111">kid</mark> del token y el <mark style="background:#90caf9;color:#111">kid</mark> de tu clave en el JWKS **deben coincidir**.
 - Único lab de JWT que necesita **exploit server** (los demás son de un solo actor).
