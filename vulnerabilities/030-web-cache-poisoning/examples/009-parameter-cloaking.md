@@ -25,6 +25,23 @@ Cuando el caché **excluye un parámetro** de la key, "escondés" (*cloak*) un *
 
 Rails parte el query en **3**: `keyed_param=abc` · `excluded_param=123` · ==`keyed_param=bad-stuff-here`== (**gana el último**). El caché solo keyea `keyed_param=abc`.
 
+## En el lab (request real)
+
+El param excluido de la key es `utm_content`. Detrás de él, con `;`, escondés un **segundo `callback`** que el backend usa para armar el JSONP de `geolocate.js`:
+
+```http
+GET /js/geolocate.js?callback=setCountryCookie&utm_content=foo;callback=arbitraryFunction HTTP/2
+Host: TU-LAB.web-security-academy.net
+```
+
+- El caché keyea `callback=setCountryCookie` y mete todo lo que sigue a `utm_content=` (incluido `;callback=arbitraryFunction`) como **valor del param excluido** → fuera de la key.
+- El backend ve el `;` como separador → toma el **segundo `callback`** (`arbitraryFunction`) y lo usa como nombre de la función en la respuesta.
+
+> **Lo que cambiás** es solo ese último valor:
+> `…;callback=`==<u>`arbitraryFunction`</u>==
+>
+> Reemplazá ==<u>`arbitraryFunction`</u>== por tu payload (`alert(1)` o `alert(document.cookie)`). La respuesta refleja ese nombre como la función invocada → se ejecuta en la home cacheada.
+
 ## Por qué funciona
 - El **caché** keyea `keyed_param=abc` y trata todo lo que va después de `excluded_param=` (incluido el `;keyed_param=bad-stuff-here`) como **valor del param excluido** → **no lo mete en la key**.
 - El **backend (Rails)** interpreta el `;` como **separador** → ve un **segundo `keyed_param`** y le da **precedencia** → usa `bad-stuff-here`.

@@ -22,21 +22,21 @@ created: 2026-09-20
 > [!danger] Son mis dos fallas de examen (Ex1: S1 cacheo sin confirmar + S3 XXE sin OOB). Si solo hago dos labs, son estos.
 
 - [ ] **1. XXE blind exfil con DTD externo malicioso** — [Exploiting blind XXE to exfiltrate data using a malicious external DTD](https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-exfiltration). **Hacerlo 2 veces.** Grabar: **el `.dtd` se aloja en el exploit server, el Collaborator solo recibe.** Verificar el `.dtd` crudo en el navegador antes de disparar. → [[vulnerabilities/006-xxe/xxe|entry point XXE]] · [[vulnerabilities/006-xxe/examples/005-xxe-ciego-callback-oob|005 · XXE ciego OOB]]
-- [ ] **2. WCP con cacheabilidad estricta** — [Web cache poisoning to exploit a DOM vulnerability via a cache with strict cacheability criteria](https://portswigger.net/web-security/web-cache-poisoning/exploiting-implementation-flaws/lab-web-cache-poisoning-exploit-dom-vulnerability-via-a-cache-with-strict-cacheability-criteria). Drill: envenenar, reenviar `GET /` con cache-buster **sin** el header malicioso y confirmar **`X-Cache: HIT`** con el poison antes de entregar. → [[vulnerabilities/030-web-cache-poisoning/web-cache-poisoning|entry point WCP]]
+- [ ] **2. WCP parameter cloaking** — [Parameter cloaking](https://portswigger.net/web-security/web-cache-poisoning/exploiting-implementation-flaws/lab-web-cache-poisoning-param-cloaking). **Practitioner (el más picante de los no-Expert).** El cache excluye un parámetro de la key; con `;` colás otro que el back-end sí parsea (`utm_content=x;callback=evil`). Drill: envenenar, reenviar con cache-buster y confirmar **`X-Cache: HIT`** con el poison antes de entregar (mi falla de S1). → [[vulnerabilities/030-web-cache-poisoning/web-cache-poisoning|entry point WCP]]
 
 ---
 
 ## 🅱️ Bloque B — JWT (los dos que quiero)
 
-> [!warning] Un JWT jodido es casi seguro. Uno con exploit server + el difícil de verdad.
+> [!warning] Un JWT jodido es casi seguro. Uno con exploit server (jku) + uno Practitioner sin exploit server (kid traversal). Nada de Expert.
 
 - [ ] **3. JWT jku header injection** — [JWT authentication bypass via jku header injection](https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-jku-header-injection). **El del exploit server.** Hospedar el JWK Set (`{"keys":[...]}`) ahí; `jku`=tu URL, `kid`=el de tu clave, `sub:administrator`, firmado con tu privada. **Trap: el `kid` del token tiene que coincidir con el `kid` del JWKS.** → [[vulnerabilities/018-jwt-attacks/examples/005-jku-injection|005 · jku injection]]
-- [ ] **4. JWT algorithm confusion sin clave expuesta** — [Algorithm confusion with no exposed key](https://portswigger.net/web-security/jwt/algorithm-confusion/lab-jwt-authentication-bypass-via-algorithm-confusion-with-no-exposed-key). **El difícil (Expert).** No usa exploit server: derivar la pública de **2 JWTs** con `sig2n`/`rsa_sign2n` (`portswigger/sig2n`, Docker), probar cada candidato, y repetir el RS256→HS256. **Heads-up Docker:** aplica mi lección del [[sqlmap-docker-ignore-stdin|sqlmap `--ignore-stdin`]] si se traba leyendo STDIN. → [[vulnerabilities/018-jwt-attacks/examples/008-algorithm-confusion-no-exposed-key|008 · alg confusion sin clave]]
+- [ ] **4. JWT kid header path traversal** — [JWT authentication bypass via kid header path traversal](https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-kid-header-path-traversal). **Practitioner.** El `kid` carga la clave desde el filesystem: apuntalo a un archivo de contenido predecible (p.ej. `/dev/null`, vacío) y firmá HS256 usando ese contenido como secreto. Pasos exactos en tu doc + el script. → [[vulnerabilities/018-jwt-attacks/examples/006-kid-path-traversal|006 · kid path traversal]] · `scripts/forge_kid_traversal_jwts.py`
 
 | Lab | Necesita | Trap |
 | --- | --- | --- |
 | jku (3) | **Exploit server** (hospeda JWKS) | `kid` del token = `kid` del JWKS |
-| alg confusion sin clave (4) | **Docker** (`sig2n`) | Correr con 2 tokens y probar cada candidato |
+| kid traversal (4) | **Nada extra** (JWT Editor) | Elegir archivo de contenido predecible y derivar el secreto de ahí |
 
 ---
 
@@ -60,7 +60,7 @@ created: 2026-09-20
 - [ ] **13. Path traversal, drill de filtros** — tres rápidos seguidos: `....//` ([stripped non-recursively](https://portswigger.net/web-security/file-path-traversal/lab-sequences-stripped-non-recursively)), `%252f` ([superfluous URL-decode](https://portswigger.net/web-security/file-path-traversal/lab-superfluous-url-decode)), null byte `%00.png`. → [[vulnerabilities/010-path-transversal/path-transversal|entry point traversal]]
 - [ ] **14. Host header sin reset** — [Routing-based SSRF](https://portswigger.net/web-security/host-header/exploiting/lab-host-header-routing-based-ssrf) + [Host validation bypass via connection state attack](https://portswigger.net/web-security/host-header/exploiting/lab-host-header-authentication-bypass). Lo que aparece cuando el password reset no pica. → [[vulnerabilities/016-host-header-injection/host-header|entry point host header]]
 - [ ] **15. DOM XSS** — [DOM XSS using web messages and a JavaScript URL](https://portswigger.net/web-security/dom-based/controlling-the-web-message-source/lab-dom-xss-using-web-messages-and-a-javascript-url). Mi variante iframe + `postMessage`. → [[vulnerabilities/025-dom-based/dom-based|entry point DOM]]
-- [ ] **16. DOM clobbering** (Expert) — cuando hay DOMPurify y no ejecuto JS directo. → [[vulnerabilities/025-dom-based/dom-based|entry point DOM]]
+- [ ] **16. WCP header sin cachear (clásico)** — [Web cache poisoning with an unkeyed header](https://portswigger.net/web-security/web-cache-poisoning/exploiting-design-flaws/lab-web-cache-poisoning-with-an-unkeyed-header). El de manual: `X-Forwarded-Host: tu-exploit-server` se refleja sin estar en la cache key; se cachea un `<script>` importado desde tu dominio. Confirmá **`X-Cache: HIT`** con el poison antes de entregar. → [[vulnerabilities/030-web-cache-poisoning/examples/002-xfh-script-import|002 · XFH script import]] · [[vulnerabilities/030-web-cache-poisoning/web-cache-poisoning|entry point WCP]]
 
 ---
 
